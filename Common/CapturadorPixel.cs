@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ModelTela = Model.Tela;
-using ServiceRecurso = Service.Recurso;
 
-namespace Service
+namespace Common
 {
     public class CapturadorPixel
     {
-
         public static ModelTela objModelTelaInicial;
 
         public static void armazenarCapturaComoTemplate(ModelTela objModelTela, string localizacao)

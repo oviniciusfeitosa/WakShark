@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace Service.Lib
+namespace Common.Lib
 {
     public sealed class Win32
     {

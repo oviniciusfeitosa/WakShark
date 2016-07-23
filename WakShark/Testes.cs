@@ -9,10 +9,10 @@ namespace WakBoy
     class Testes
     {
         /*
-          Color objColor = Color.FromArgb(255, 153, 0);
+          ColorHelper objColor = ColorHelper.FromArgb(255, 153, 0);
           var brightness = objColor.GetBrightness();
 
-          Color objColor2 = Color.FromArgb(204, 153, 0);
+          ColorHelper objColor2 = ColorHelper.FromArgb(204, 153, 0);
           var brightness2 = objColor2.GetBrightness();
 
           MessageBox.Show("brightness1:" + brightness.ToString() + "    \n brightness2:" + brightness2.ToString());
@@ -27,8 +27,8 @@ namespace WakBoy
           brightness2 > 0.5
           */
         /*
-        HSLColor objColor = Service.Lib.HSLColor.FromRGB(Color.FromArgb(255, 153, 0));
-        HSLColor objColor2 = Service.Lib.HSLColor.FromRGB(Color.FromArgb(204, 153, 0));
+        HSLColor objColor = Service.Lib.HSLColor.FromRGB(ColorHelper.FromArgb(255, 153, 0));
+        HSLColor objColor2 = Service.Lib.HSLColor.FromRGB(ColorHelper.FromArgb(204, 153, 0));
 
         MessageBox.Show(
             " ANTES"
@@ -37,13 +37,13 @@ namespace WakBoy
             + " \n HUE: " + objColor.Hue 
             + " \n Saturation: " + objColor.Saturation 
             + " \n Luminosity: " + objColor.Luminosity
-            + " \n RGB: " + Service.Common.Color.HexConverter(objColor.ToRGB())
+            + " \n RGB: " + Service.Common.ColorHelper.HexConverter(objColor.ToRGB())
             + " \n---------------------\n"
             + "Cor2 "
             + " \n HUE: " + objColor2.Hue
             + " \n Saturation: " + objColor2.Saturation
             + " \n Luminosity: " + objColor2.Luminosity
-            + " \n RGB: " + Service.Common.Color.HexConverter(objColor2.ToRGB())
+            + " \n RGB: " + Service.Common.ColorHelper.HexConverter(objColor2.ToRGB())
             + " \n---------------------\n"
         );
 
@@ -58,13 +58,13 @@ namespace WakBoy
            + " \n HUE: " + objColor.Hue
            + " \n Saturation: " + objColor.Saturation
            + " \n Luminosity: " + objColor.Luminosity
-           + " \n RGB: " + Service.Common.Color.HexConverter(objColor.ToRGB())
+           + " \n RGB: " + Service.Common.ColorHelper.HexConverter(objColor.ToRGB())
            + " \n---------------------\n"
            + "Cor2 "
            + " \n HUE: " + objColor2.Hue
            + " \n Saturation: " + objColor2.Saturation
            + " \n Luminosity: " + objColor2.Luminosity
-           + " \n RGB: " + Service.Common.Color.HexConverter(objColor2.ToRGB())
+           + " \n RGB: " + Service.Common.ColorHelper.HexConverter(objColor2.ToRGB())
            + " \n---------------------\n"
        );*/
 

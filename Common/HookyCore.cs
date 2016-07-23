@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WakBoy.Common
+namespace Common
 {
     class HookyCore
     {

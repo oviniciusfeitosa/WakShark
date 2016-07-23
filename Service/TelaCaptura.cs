@@ -27,7 +27,7 @@ namespace Service
         #endregion
 
         public Bitmap objBitmap;
-        public Service.Lib.LockBitmap objLockedBitmap;
+        public Common.Lib.LockBitmap objLockedBitmap;
         public int valorTransparencia = 0;
 
         public void capturarTela(String filePath)
@@ -65,23 +65,14 @@ namespace Service
             //Rectangle bounds = SystemInformation.VirtualScreen;
             //Rectangle bounds = Screen.PrimaryScreen.Bounds;
 
-            using (Bitmap objBitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format64bppArgb))
+            using (Bitmap objBitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb))
             {
                 using (Graphics g = Graphics.FromImage(objBitmap))
                 {
                     g.CopyFromScreen(0, 0, 0, 0, objBitmap.Size);
                 }
 
-                /* // Mover para um lugar mais correto
-                if (this.valorTransparencia > 0)
-                {
-                    using (Bitmap objBitmapMascarado = this.aplicarMascaraNegraImagem(objBitmap, this.valorTransparencia)) {
-                        return objBitmapMascarado.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format8bppIndexed);
-                        //return objBitmapMascarado.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format16bppArgb1555);
-                    }
-                } */
                 return objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format8bppIndexed);
-                //return objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format16bppArgb1555);
             }
         }
 

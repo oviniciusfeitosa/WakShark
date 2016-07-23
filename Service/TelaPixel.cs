@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Model;
 using System.Drawing;
-using Service.Lib;
+using Common.Lib;
 
 namespace Service
 {
@@ -28,7 +28,7 @@ namespace Service
         public string obterPixel(Model.Tela objModelTela)
         {
             Color objColor = TelaCaptura.obterInstancia().objLockedBitmap.GetPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
-            return Service.Common.Color.HexConverter(objColor);
+            return Common.ColorHelper.HexConverter(objColor);
         }
 
         // Percentual: Entre 0 e 1
@@ -36,7 +36,7 @@ namespace Service
         {
             Color objColor = TelaCaptura.obterInstancia().objLockedBitmap.GetPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
             objColor = ControlPaint.Light(objColor, percentual);
-            return Service.Common.Color.HexConverter(objColor);
+            return Common.ColorHelper.HexConverter(objColor);
         }
 
         // Percentual: Entre 0 e 1
@@ -45,7 +45,7 @@ namespace Service
             Color objColor = TelaCaptura.obterInstancia().objLockedBitmap.GetPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
             objColor = ControlPaint.Dark(objColor, percentual);
 
-            return Service.Common.Color.HexConverter(objColor);
+            return Common.ColorHelper.HexConverter(objColor);
         }
 
         public Color mudarClaridadeCor(Color objColor, float fatorCorrecao)
@@ -130,8 +130,8 @@ namespace Service
             Color objCorAtual = TelaCaptura.obterInstancia().objLockedBitmap.GetPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
             Color objCorCorreta = System.Drawing.ColorTranslator.FromHtml(pixelComparacao);
 
-            HSLColor objCorAtualHSL = Service.Lib.HSLColor.FromRGB(objCorAtual);
-            HSLColor objCorCorretaHSL = Service.Lib.HSLColor.FromRGB(objCorCorreta);
+            HSLColor objCorAtualHSL = HSLColor.FromRGB(objCorAtual);
+            HSLColor objCorCorretaHSL = HSLColor.FromRGB(objCorCorreta);
             
             float variacaoSaturacao = 0.09f;
             float variacaoLuminosidade = 0.09f;
@@ -143,8 +143,7 @@ namespace Service
             }
             return false;
         }
-
-
+        
         public bool isPixelEncontrado(int eixoHorizontal, int eixoVertical, string pixelComparacao)
         {
             if ( eixoHorizontal > 0 && eixoVertical > 0 ) {
@@ -184,7 +183,7 @@ namespace Service
                     }*/
 
 
-                    using (TelaCaptura.obterInstancia().objLockedBitmap = new Service.Lib.LockBitmap(objBitmap))
+                    using (TelaCaptura.obterInstancia().objLockedBitmap = new Common.Lib.LockBitmap(objBitmap))
                     {
                         TelaCaptura.obterInstancia().objLockedBitmap.LockBits();
 
@@ -210,6 +209,40 @@ namespace Service
             }
             return isPararProcura;
         }
+        
+        /*
+        public bool procurarImagemPorTemplate(string caminhoTemplateRecurso)
+        {
+            Service.TelaCaptura objServiceTelaCaptura = Service.TelaCaptura.obterInstancia();
+            //objServiceTelaCaptura.valorTransparencia = objServiceTelaCaptura.obterValorTransparenciaPorHorario();
+
+            if (!String.IsNullOrEmpty(textBoxTransparencia.Text)) objServiceTelaCaptura.valorTransparencia = Int32.Parse(textBoxTransparencia.Text);
+
+
+            Image<Emgu.CV.Structure.Gray, byte> objImagemOrigem = new Image<Emgu.CV.Structure.Gray, byte>(TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel()); // Image B
+
+            Bitmap objBitmapTemplate = new Bitmap(@"C:\\Users\\Thunder\\Dropbox\\Docs\\gAMES\\Wakfu\\trigo.png");
+            objBitmapTemplate = objServiceTelaCaptura.aplicarMascaraNegraImagem(objBitmapTemplate, objServiceTelaCaptura.valorTransparencia);
+            objBitmapTemplate = objServiceTelaCaptura.converterImagemPara8bitesPorPixel(objBitmapTemplate);
+            Image<Emgu.CV.Structure.Gray, byte> objTemplateBusca = new Image<Emgu.CV.Structure.Gray, byte>(objBitmapTemplate); // Image A
+
+            using (Image<Emgu.CV.Structure.Gray, float> result = objImagemOrigem.MatchTemplate(objTemplateBusca, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED))
+            {
+                double[] minValues, maxValues;
+                Point[] minLocations, maxLocations;
+                result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
+
+                // You can try different values of the threshold. I guess somewhere between 0.75 and 0.95 would be good.
+                if (maxValues[0] > 0.5)
+                {
+                    // This is a match. Do something with it, for example draw a rectangle around it.
+                    Win32.posicionarMouse(maxLocations[0].X, maxLocations[0].Y);
+                    Win32.clicarBotaoEsquerdo(maxLocations[0].X, maxLocations[0].Y);
+                    objImagemOrigem.Save("C:\\Users\\Public\\imagem_tela.bmp");
+                    objTemplateBusca.Save("C:\\Users\\Public\\imagem_template.bmp");
+                }
+            }
+        }*/
 
     }
 }

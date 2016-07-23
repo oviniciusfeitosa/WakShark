@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9D618B89-0CB1-46E8-A99F-37C9771CE8D9}</ProjectGuid>
+    <ProjectGuid>{038DDAEE-0D33-4FF4-80F9-582B27ED892B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Service</RootNamespace>
-    <AssemblyName>Service</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Common</RootNamespace>
+    <AssemblyName>Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Gma.System.MouseKeyHook">
-      <HintPath>..\packages\MouseKeyHook.5.4.0\lib\net40\Gma.System.MouseKeyHook.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -46,33 +42,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BatalhaAntiBOT.cs" />
     <Compile Include="CapturadorPixel.cs" />
-    <Compile Include="Coleta.cs" />
-    <Compile Include="ColetaTrigo.cs" />
-    <Compile Include="ColetaAntiBatalha.cs" />
-    <Compile Include="Common\Color.cs" />
+    <Compile Include="ColorHelper.cs" />
+    <Compile Include="HookyCore.cs" />
     <Compile Include="Lib\HSLColor.cs" />
     <Compile Include="Lib\LockBitmap.cs" />
     <Compile Include="Lib\Win32.cs" />
-    <Compile Include="Batalha.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Recurso.cs" />
-    <Compile Include="Tela.cs" />
-    <Compile Include="TelaCaptura.cs" />
-    <Compile Include="TelaPixel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{a70b2f22-6add-430b-b214-ba27ef139f21}</Project>
       <Name>Model</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

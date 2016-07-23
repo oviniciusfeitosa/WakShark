@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Lib
+namespace Common.Lib
 {
     public class HSLColor
     {
@@ -20,9 +20,9 @@ namespace Service.Lib
             Luminosity = L;
         }
 
-        public static HSLColor FromRGB(Color Clr)
+        public static HSLColor FromRGB(System.Drawing.Color objColor)
         {
-            return FromRGB(Clr.R, Clr.G, Clr.B);
+            return FromRGB(objColor.R, objColor.G, objColor.B);
         }
 
         public static HSLColor FromRGB(Byte R, Byte G, Byte B)

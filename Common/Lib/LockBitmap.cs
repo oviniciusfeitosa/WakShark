@@ -4,7 +4,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Xml.Schema;
 
-namespace Service.Lib
+namespace Common.Lib
 {
     public class LockBitmap : IDisposable
     {

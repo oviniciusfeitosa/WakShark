@@ -68,7 +68,6 @@
     <Compile Include="FormularioPrincipal.Designer.cs">
       <DependentUpon>FormularioPrincipal.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\HookyCore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Testes.cs" />
@@ -101,11 +100,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{038ddaee-0d33-4ff4-80f9-582b27ed892b}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{a70b2f22-6add-430b-b214-ba27ef139f21}</Project>
       <Name>Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Recurso\Service.csproj">
+    <ProjectReference Include="..\Service\Service.csproj">
       <Project>{9d618b89-0cb1-46e8-a99f-37c9771ce8d9}</Project>
       <Name>Service</Name>
     </ProjectReference>

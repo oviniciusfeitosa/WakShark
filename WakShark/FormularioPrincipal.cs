@@ -4,12 +4,12 @@ using System.Drawing;
 using System.Windows.Forms;
 using ModelTela = Model.Tela;
 using ServiceRecurso = Service.Recurso;
-using CapturadorPixel = Service.CapturadorPixel;
+using CapturadorPixel = Common.CapturadorPixel;
 using ServiceColeta = Service.Coleta;
 using Service;
 using Gma.System.MouseKeyHook;
 using System.Drawing.Imaging;
-using Service.Lib;
+using Common.Lib;
 using Emgu.CV;
 using Emgu.CV.Structure;
 
@@ -102,9 +102,9 @@ namespace WakBoy
             if (checkBoxMostraPixelMovimentoMouse.Checked == true)
             {
 
-                Color objColor = Service.Lib.Win32.GetPixelColor(MousePosition.X, MousePosition.Y);
+                Color objColor = Common.Lib.Win32.GetPixelColor(MousePosition.X, MousePosition.Y);
                 panelCorPixel.BackColor = objColor;
-                labelCor.Text = "Cor (hex): [ " + Service.Common.Color.HexConverter(objColor) + " ]";
+                labelCor.Text = "Cor (hex): [ " + Common.ColorHelper.HexConverter(objColor) + " ]";
                 labelEixoVerticalPixel.Text = "Eixo Vertical: [ " + MousePosition.Y + " ]";
                 labelEixoHorizontalPixel.Text = "Eixo Horizontal: [ " + MousePosition.X + " ]";
             }
@@ -127,14 +127,14 @@ namespace WakBoy
                     ModelTela objModelTela = new ModelTela();
                     objModelTela.eixoHorizontal = e.Location.X;
                     objModelTela.eixoVertical = e.Location.Y;
-                    objModelTela.pixel = Service.Common.Color.HexConverter(myColor);
+                    objModelTela.pixel = Common.ColorHelper.HexConverter(myColor);
 
                     panelCorPixel.BackColor = myColor;
                     labelCor.Text = "Cor (hex): [ " + (objModelTela.pixel) + " ]";
                     labelEixoVerticalPixel.Text = "Eixo Vertical: [ " + objModelTela.eixoVertical + " ]";
                     labelEixoHorizontalPixel.Text = "Eixo Horizontal: [ " + objModelTela.eixoHorizontal + " ]";
 
-                    HSLColor objCorAtualHSL = Service.Lib.HSLColor.FromRGB(myColor);
+                    HSLColor objCorAtualHSL = Common.Lib.HSLColor.FromRGB(myColor);
 
                     labelMatiz.Text = "Matiz: " + objCorAtualHSL.Hue;
                     labelSaturacao.Text = "Saturacao: " + objCorAtualHSL.Saturation;
@@ -181,41 +181,9 @@ namespace WakBoy
         }
         #endregion
 
-        #region Visuar Pixel
+        #region Visualizar Pixel
         private void checkBoxVisualizarPixel_CheckedChanged(object sender, EventArgs e)
         {
-            Service.TelaCaptura objServiceTelaCaptura = Service.TelaCaptura.obterInstancia();
-            //objServiceTelaCaptura.valorTransparencia = objServiceTelaCaptura.obterValorTransparenciaPorHorario();
-
-            if (!String.IsNullOrEmpty(textBoxTransparencia.Text)) objServiceTelaCaptura.valorTransparencia = Int32.Parse(textBoxTransparencia.Text);
-
-
-            Image<Emgu.CV.Structure.Gray, byte> objImagemOrigem = new Image<Emgu.CV.Structure.Gray, byte>(TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel()); // Image B
-
-            Bitmap objBitmapTemplate = new Bitmap(@"C:\\Users\\Thunder\\Dropbox\\Docs\\gAMES\\Wakfu\\trigo.png");
-            objBitmapTemplate = objServiceTelaCaptura.aplicarMascaraNegraImagem(objBitmapTemplate, objServiceTelaCaptura.valorTransparencia);
-            objBitmapTemplate = objServiceTelaCaptura.converterImagemPara8bitesPorPixel(objBitmapTemplate);
-            Image<Emgu.CV.Structure.Gray, byte> objTemplateBusca = new Image<Emgu.CV.Structure.Gray, byte>(objBitmapTemplate); // Image A
-            
-            using (Image<Emgu.CV.Structure.Gray, float> result = objImagemOrigem.MatchTemplate(objTemplateBusca, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED))
-            {
-                double[] minValues, maxValues;
-                Point[] minLocations, maxLocations;
-                result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
-
-                // You can try different values of the threshold. I guess somewhere between 0.75 and 0.95 would be good.
-                if (maxValues[0] > 0.5)
-                {
-                    // This is a match. Do something with it, for example draw a rectangle around it.
-                    Win32.posicionarMouse(maxLocations[0].X, maxLocations[0].Y);
-                    Win32.clicarBotaoEsquerdo(maxLocations[0].X, maxLocations[0].Y);
-                    objImagemOrigem.Save("C:\\Users\\Public\\imagem_tela.bmp");
-                    objTemplateBusca.Save("C:\\Users\\Public\\imagem_template.bmp");
-                }
-            }
-            /*
-
-
             //MessageBox.Show(Service.TelaCaptura.obterInstancia().obterValorTransparenciaPorHorario().ToString());
 
             CheckBox objComboBox = (CheckBox)sender;
@@ -240,7 +208,7 @@ namespace WakBoy
                 m_GlobalHook.MouseDownExt -= obterPixelPorClique;
                 m_GlobalHook.MouseMoveExt -= exibirPixelMovimentoMouse;
                 m_GlobalHook.Dispose();
-            }*/
+            }
         }
         #endregion
 
