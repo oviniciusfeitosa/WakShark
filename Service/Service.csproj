@@ -31,6 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Emgu.CV">
+      <HintPath>..\..\..\..\..\Desktop\OPENCV\My Advanced EMGU Program\My EMGU Program\bin\Debug\Emgu.CV.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.UI">
+      <HintPath>..\..\..\..\..\Desktop\OPENCV\My Advanced EMGU Program\My EMGU Program\bin\Debug\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.Util">
+      <HintPath>..\..\..\..\..\Desktop\OPENCV\My Advanced EMGU Program\My EMGU Program\bin\Debug\Emgu.Util.dll</HintPath>
+    </Reference>
     <Reference Include="Gma.System.MouseKeyHook">
       <HintPath>..\packages\MouseKeyHook.5.4.0\lib\net40\Gma.System.MouseKeyHook.dll</HintPath>
     </Reference>
@@ -50,7 +59,6 @@
     <Compile Include="Coleta.cs" />
     <Compile Include="Batalha.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Recurso.cs" />
     <Compile Include="TelaCaptura.cs" />
     <Compile Include="TelaPixel.cs" />
   </ItemGroup>

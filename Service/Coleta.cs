@@ -25,23 +25,9 @@ namespace Service
 
         public bool coletar(string caminhoTemplateRecurso)
         {
-            switch (caminhoTemplateRecurso)
-            {
-                case "Trigo":
-                    //bool isConsultaParada = Service.TelaPixel.obterInstancia().procurarPixel(ColetaTrigo.buscar, acaoColetar);
-                    break;
-                case "Cevada":
-                    break;
-                case "Aveia":
-                    break;
-                default:
-                    break;
-            }
-            return true;
+            return TelaPixel.obterInstancia().procurarImagemPorTemplateComAcao(caminhoTemplateRecurso, acaoColetar);
         }
-
         
-
         public static bool acaoColetar(Model.Tela objModelTela)
         {
             try
@@ -50,8 +36,8 @@ namespace Service
                 Win32.clicarBotaoDireito(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
                 Thread.Sleep(1000);
 
-                Win32.posicionarMouse(objModelTela.eixoHorizontal - 25, objModelTela.eixoVertical - 25);
-                Win32.clicarBotaoEsquerdo(objModelTela.eixoHorizontal - 25, objModelTela.eixoVertical - 25);
+                Win32.posicionarMouse(objModelTela.eixoHorizontal - 35, objModelTela.eixoVertical - 35);
+                Win32.clicarBotaoEsquerdo(objModelTela.eixoHorizontal - 35, objModelTela.eixoVertical - 35);
 
 
 

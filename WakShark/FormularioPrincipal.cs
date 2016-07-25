@@ -3,7 +3,6 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using ModelTela = Model.Tela;
-using ServiceRecurso = Service.Recurso;
 using CapturadorPixel = Common.CapturadorPixel;
 using ServiceColeta = Service.Coleta;
 using Service;
@@ -26,46 +25,47 @@ namespace WakBoy
 
         private void FormularioPrincipal_Load(object sender, EventArgs e)
         {
-            labelRecurso.Visible = false;
-            comboRecurso.Visible = false;
-            using (ServiceRecurso objRecurso = new ServiceRecurso())
+            string[] objDataSourceTipoBusca = new[] { "Coleta" };
+            comboBoxTipoBusca.DataSource = objDataSourceTipoBusca;
+        }
+
+        #region Iniciar Caça a Pixels
+
+        private void buttonProcurarTemplate_Click(object sender, EventArgs e)
+        {
+            if (openFileDialogImagemTemplate.ShowDialog() == DialogResult.OK)
             {
-                comboTipoRecurso.DataSource = objRecurso.obterTiposRecurso();
+                textBoxLocalizacaoImagemTemplate.Text = openFileDialogImagemTemplate.FileName;
             }
         }
 
-        #region Selecionar Combo Tipo de Recurso
-        private void comboTipoRecurso_SelectedValueChanged(object sender, EventArgs e)
+        private void checkBoxCacadorPixelsLigado_CheckedChanged(object sender, EventArgs e)
         {
-            ComboBox objComboBox = (ComboBox)sender;
-            string tipoRecursos = objComboBox.SelectedValue.ToString();
-            labelRecurso.Visible = false;
-            comboRecurso.Visible = false;
-            if (!String.IsNullOrEmpty(tipoRecursos) && tipoRecursos != "")
+            if (!String.IsNullOrEmpty(textBoxLocalizacaoImagemTemplate.Text) && !String.IsNullOrEmpty(comboBoxTipoBusca.SelectedValue.ToString()))
             {
-                labelRecurso.Visible = true;
-                comboRecurso.Visible = true;
-                using (ServiceRecurso objRecurso = new ServiceRecurso())
+                CheckBox objComboBox = (CheckBox)sender;
+            
+                if (objComboBox.Checked == true)
                 {
-                    comboRecurso.DataSource = objRecurso.obterRecursos(tipoRecursos);
-                }
-            }
-        }
-        #endregion
+                    objComboBox.Text = "Ligado";
 
-        #region Iniciar Capinação
-        private void checkBoxCapinacaoLigado_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox objComboBox = (CheckBox)sender;
-            objComboBox.Text = "Desligado";
-            if (objComboBox.Checked == true)
-            {
-                objComboBox.Text = "Ligado";
-                bool retorno = ServiceColeta.obterInstancia().coletar(comboRecurso.SelectedValue.ToString());
-                checkBoxCapinacaoLigado.Checked = false;
+                    Service.TelaCaptura.obterInstancia().isUtilizarMascaraLuminosidade = checkBoxMascaraLuminosidade.Checked;
+
+                    // Modificar esse trecho utilizado para teste, porque está sendo validado somente por 'coleta'. Quem sabe um switch não caia melhor?
+                    if (comboBoxTipoBusca.SelectedValue.ToString() == "Coleta") {
+                        bool retorno = ServiceColeta.obterInstancia().coletar(textBoxLocalizacaoImagemTemplate.Text);
+                    }
+                    checkBoxCacadorPixelsLigado.Checked = false;
+                }
                 objComboBox.Text = "Desligado";
             }
+            else
+            {
+                MessageBox.Show("Preencha os campos obrigatórios.");
+            }
+
         }
+
         #endregion
 
         #region Capturador de  Padrões de Pixels

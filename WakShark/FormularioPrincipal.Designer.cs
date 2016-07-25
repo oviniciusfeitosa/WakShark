@@ -32,13 +32,18 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormularioPrincipal));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.capinacao = new System.Windows.Forms.TabPage();
-            this.checkBoxCapinacaoLigado = new System.Windows.Forms.CheckBox();
-            this.labelTipoRecurso = new System.Windows.Forms.Label();
-            this.comboTipoRecurso = new System.Windows.Forms.ComboBox();
-            this.labelRecurso = new System.Windows.Forms.Label();
-            this.comboRecurso = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.labelObrigatorio = new System.Windows.Forms.Label();
+            this.buttonProcurarTemplate = new System.Windows.Forms.Button();
+            this.textBoxLocalizacaoImagemTemplate = new System.Windows.Forms.TextBox();
+            this.labelImagemTemplate = new System.Windows.Forms.Label();
+            this.comboBoxTipoBusca = new System.Windows.Forms.ComboBox();
+            this.labelTipoBusca = new System.Windows.Forms.Label();
+            this.checkBoxCacadorPixelsLigado = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.abaCapturadorPixels = new System.Windows.Forms.TabPage();
+            this.labelHorarioFranca = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.textBoxTransparencia = new System.Windows.Forms.TextBox();
             this.labelTransparencia = new System.Windows.Forms.Label();
             this.checkBoxVisualizarPixel = new System.Windows.Forms.CheckBox();
@@ -59,8 +64,8 @@
             this.checkBoxCapturadorLigado = new System.Windows.Forms.CheckBox();
             this.labelCor = new System.Windows.Forms.Label();
             this.timerHorarioFrances = new System.Windows.Forms.Timer(this.components);
-            this.label3 = new System.Windows.Forms.Label();
-            this.labelHorarioFranca = new System.Windows.Forms.Label();
+            this.openFileDialogImagemTemplate = new System.Windows.Forms.OpenFileDialog();
+            this.checkBoxMascaraLuminosidade = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.capinacao.SuspendLayout();
             this.abaCapturadorPixels.SuspendLayout();
@@ -73,72 +78,103 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(592, 305);
+            this.tabControl1.Size = new System.Drawing.Size(592, 312);
             this.tabControl1.TabIndex = 1;
             // 
             // capinacao
             // 
-            this.capinacao.Controls.Add(this.checkBoxCapinacaoLigado);
-            this.capinacao.Controls.Add(this.labelTipoRecurso);
-            this.capinacao.Controls.Add(this.comboTipoRecurso);
-            this.capinacao.Controls.Add(this.labelRecurso);
-            this.capinacao.Controls.Add(this.comboRecurso);
+            this.capinacao.Controls.Add(this.checkBoxMascaraLuminosidade);
+            this.capinacao.Controls.Add(this.label4);
+            this.capinacao.Controls.Add(this.labelObrigatorio);
+            this.capinacao.Controls.Add(this.buttonProcurarTemplate);
+            this.capinacao.Controls.Add(this.textBoxLocalizacaoImagemTemplate);
+            this.capinacao.Controls.Add(this.labelImagemTemplate);
+            this.capinacao.Controls.Add(this.comboBoxTipoBusca);
+            this.capinacao.Controls.Add(this.labelTipoBusca);
+            this.capinacao.Controls.Add(this.checkBoxCacadorPixelsLigado);
             this.capinacao.Controls.Add(this.label1);
             this.capinacao.Location = new System.Drawing.Point(4, 22);
             this.capinacao.Name = "capinacao";
             this.capinacao.Padding = new System.Windows.Forms.Padding(3);
-            this.capinacao.Size = new System.Drawing.Size(498, 282);
+            this.capinacao.Size = new System.Drawing.Size(584, 286);
             this.capinacao.TabIndex = 0;
-            this.capinacao.Text = "Capinacao";
+            this.capinacao.Text = "Caçador de Pixels";
             this.capinacao.UseVisualStyleBackColor = true;
             // 
-            // checkBoxCapinacaoLigado
+            // label4
             // 
-            this.checkBoxCapinacaoLigado.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBoxCapinacaoLigado.AutoSize = true;
-            this.checkBoxCapinacaoLigado.Location = new System.Drawing.Point(6, 259);
-            this.checkBoxCapinacaoLigado.Name = "checkBoxCapinacaoLigado";
-            this.checkBoxCapinacaoLigado.Size = new System.Drawing.Size(49, 23);
-            this.checkBoxCapinacaoLigado.TabIndex = 7;
-            this.checkBoxCapinacaoLigado.Text = "Ligado";
-            this.checkBoxCapinacaoLigado.UseVisualStyleBackColor = true;
-            this.checkBoxCapinacaoLigado.CheckedChanged += new System.EventHandler(this.checkBoxCapinacaoLigado_CheckedChanged);
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.Red;
+            this.label4.Location = new System.Drawing.Point(107, 51);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(11, 13);
+            this.label4.TabIndex = 14;
+            this.label4.Text = "*";
             // 
-            // labelTipoRecurso
+            // labelObrigatorio
             // 
-            this.labelTipoRecurso.AutoSize = true;
-            this.labelTipoRecurso.Location = new System.Drawing.Point(42, 21);
-            this.labelTipoRecurso.Name = "labelTipoRecurso";
-            this.labelTipoRecurso.Size = new System.Drawing.Size(92, 13);
-            this.labelTipoRecurso.TabIndex = 6;
-            this.labelTipoRecurso.Text = "Tipo de Recurso: ";
+            this.labelObrigatorio.AutoSize = true;
+            this.labelObrigatorio.ForeColor = System.Drawing.Color.Red;
+            this.labelObrigatorio.Location = new System.Drawing.Point(81, 20);
+            this.labelObrigatorio.Name = "labelObrigatorio";
+            this.labelObrigatorio.Size = new System.Drawing.Size(11, 13);
+            this.labelObrigatorio.TabIndex = 13;
+            this.labelObrigatorio.Text = "*";
             // 
-            // comboTipoRecurso
+            // buttonProcurarTemplate
             // 
-            this.comboTipoRecurso.FormattingEnabled = true;
-            this.comboTipoRecurso.Location = new System.Drawing.Point(140, 18);
-            this.comboTipoRecurso.Name = "comboTipoRecurso";
-            this.comboTipoRecurso.Size = new System.Drawing.Size(121, 21);
-            this.comboTipoRecurso.TabIndex = 5;
-            this.comboTipoRecurso.SelectedValueChanged += new System.EventHandler(this.comboTipoRecurso_SelectedValueChanged);
+            this.buttonProcurarTemplate.Location = new System.Drawing.Point(462, 49);
+            this.buttonProcurarTemplate.Name = "buttonProcurarTemplate";
+            this.buttonProcurarTemplate.Size = new System.Drawing.Size(75, 23);
+            this.buttonProcurarTemplate.TabIndex = 12;
+            this.buttonProcurarTemplate.Text = "Procurar";
+            this.buttonProcurarTemplate.UseVisualStyleBackColor = true;
+            this.buttonProcurarTemplate.Click += new System.EventHandler(this.buttonProcurarTemplate_Click);
             // 
-            // labelRecurso
+            // textBoxLocalizacaoImagemTemplate
             // 
-            this.labelRecurso.AutoSize = true;
-            this.labelRecurso.Location = new System.Drawing.Point(81, 48);
-            this.labelRecurso.Name = "labelRecurso";
-            this.labelRecurso.Size = new System.Drawing.Size(53, 13);
-            this.labelRecurso.TabIndex = 4;
-            this.labelRecurso.Text = "Recurso: ";
+            this.textBoxLocalizacaoImagemTemplate.Location = new System.Drawing.Point(123, 51);
+            this.textBoxLocalizacaoImagemTemplate.Name = "textBoxLocalizacaoImagemTemplate";
+            this.textBoxLocalizacaoImagemTemplate.Size = new System.Drawing.Size(324, 20);
+            this.textBoxLocalizacaoImagemTemplate.TabIndex = 11;
             // 
-            // comboRecurso
+            // labelImagemTemplate
             // 
-            this.comboRecurso.DisplayMember = "trigo";
-            this.comboRecurso.FormattingEnabled = true;
-            this.comboRecurso.Location = new System.Drawing.Point(140, 45);
-            this.comboRecurso.Name = "comboRecurso";
-            this.comboRecurso.Size = new System.Drawing.Size(121, 21);
-            this.comboRecurso.TabIndex = 3;
+            this.labelImagemTemplate.AutoSize = true;
+            this.labelImagemTemplate.Location = new System.Drawing.Point(20, 51);
+            this.labelImagemTemplate.Name = "labelImagemTemplate";
+            this.labelImagemTemplate.Size = new System.Drawing.Size(94, 13);
+            this.labelImagemTemplate.TabIndex = 10;
+            this.labelImagemTemplate.Text = "Imagem a buscar: ";
+            // 
+            // comboBoxTipoBusca
+            // 
+            this.comboBoxTipoBusca.FormattingEnabled = true;
+            this.comboBoxTipoBusca.Location = new System.Drawing.Point(123, 20);
+            this.comboBoxTipoBusca.Name = "comboBoxTipoBusca";
+            this.comboBoxTipoBusca.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxTipoBusca.TabIndex = 9;
+            // 
+            // labelTipoBusca
+            // 
+            this.labelTipoBusca.AutoSize = true;
+            this.labelTipoBusca.Location = new System.Drawing.Point(20, 20);
+            this.labelTipoBusca.Name = "labelTipoBusca";
+            this.labelTipoBusca.Size = new System.Drawing.Size(64, 13);
+            this.labelTipoBusca.TabIndex = 8;
+            this.labelTipoBusca.Text = "Tipo Busca:";
+            // 
+            // checkBoxCacadorPixelsLigado
+            // 
+            this.checkBoxCacadorPixelsLigado.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBoxCacadorPixelsLigado.AutoSize = true;
+            this.checkBoxCacadorPixelsLigado.Location = new System.Drawing.Point(6, 260);
+            this.checkBoxCacadorPixelsLigado.Name = "checkBoxCacadorPixelsLigado";
+            this.checkBoxCacadorPixelsLigado.Size = new System.Drawing.Size(49, 23);
+            this.checkBoxCacadorPixelsLigado.TabIndex = 7;
+            this.checkBoxCacadorPixelsLigado.Text = "Ligado";
+            this.checkBoxCacadorPixelsLigado.UseVisualStyleBackColor = true;
+            this.checkBoxCacadorPixelsLigado.CheckedChanged += new System.EventHandler(this.checkBoxCacadorPixelsLigado_CheckedChanged);
             // 
             // label1
             // 
@@ -175,10 +211,29 @@
             this.abaCapturadorPixels.Location = new System.Drawing.Point(4, 22);
             this.abaCapturadorPixels.Name = "abaCapturadorPixels";
             this.abaCapturadorPixels.Padding = new System.Windows.Forms.Padding(3);
-            this.abaCapturadorPixels.Size = new System.Drawing.Size(584, 279);
+            this.abaCapturadorPixels.Size = new System.Drawing.Size(584, 286);
             this.abaCapturadorPixels.TabIndex = 1;
             this.abaCapturadorPixels.Text = "Capturador de Pixels";
             this.abaCapturadorPixels.UseVisualStyleBackColor = true;
+            // 
+            // labelHorarioFranca
+            // 
+            this.labelHorarioFranca.AutoSize = true;
+            this.labelHorarioFranca.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelHorarioFranca.Location = new System.Drawing.Point(514, 228);
+            this.labelHorarioFranca.Name = "labelHorarioFranca";
+            this.labelHorarioFranca.Size = new System.Drawing.Size(51, 15);
+            this.labelHorarioFranca.TabIndex = 21;
+            this.labelHorarioFranca.Text = "00:00:00";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(395, 228);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(113, 13);
+            this.label3.TabIndex = 20;
+            this.label3.Text = "Horário Atual (França):";
             // 
             // textBoxTransparencia
             // 
@@ -365,24 +420,22 @@
             this.timerHorarioFrances.Enabled = true;
             this.timerHorarioFrances.Tick += new System.EventHandler(this.timerHorarioFrances_Tick);
             // 
-            // label3
+            // openFileDialogImagemTemplate
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(395, 228);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(113, 13);
-            this.label3.TabIndex = 20;
-            this.label3.Text = "Horário Atual (França):";
+            this.openFileDialogImagemTemplate.FileName = "openFileDialogImagemTemplate";
             // 
-            // labelHorarioFranca
+            // checkBoxMascaraLuminosidade
             // 
-            this.labelHorarioFranca.AutoSize = true;
-            this.labelHorarioFranca.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelHorarioFranca.Location = new System.Drawing.Point(514, 228);
-            this.labelHorarioFranca.Name = "labelHorarioFranca";
-            this.labelHorarioFranca.Size = new System.Drawing.Size(51, 15);
-            this.labelHorarioFranca.TabIndex = 21;
-            this.labelHorarioFranca.Text = "00:00:00";
+            this.checkBoxMascaraLuminosidade.AutoSize = true;
+            this.checkBoxMascaraLuminosidade.Checked = true;
+            this.checkBoxMascaraLuminosidade.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxMascaraLuminosidade.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxMascaraLuminosidade.Location = new System.Drawing.Point(23, 86);
+            this.checkBoxMascaraLuminosidade.Name = "checkBoxMascaraLuminosidade";
+            this.checkBoxMascaraLuminosidade.Size = new System.Drawing.Size(232, 17);
+            this.checkBoxMascaraLuminosidade.TabIndex = 15;
+            this.checkBoxMascaraLuminosidade.Text = "Utilizar máscara de luminosidade por horário";
+            this.checkBoxMascaraLuminosidade.UseVisualStyleBackColor = true;
             // 
             // FormularioPrincipal
             // 
@@ -412,11 +465,7 @@
         private System.Windows.Forms.TabPage capinacao;
         private System.Windows.Forms.TabPage abaCapturadorPixels;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label labelRecurso;
-        private System.Windows.Forms.ComboBox comboRecurso;
-        private System.Windows.Forms.Label labelTipoRecurso;
-        private System.Windows.Forms.ComboBox comboTipoRecurso;
-        private System.Windows.Forms.CheckBox checkBoxCapinacaoLigado;
+        private System.Windows.Forms.CheckBox checkBoxCacadorPixelsLigado;
         private System.Windows.Forms.Label labelCor;
         private System.Windows.Forms.CheckBox checkBoxCapturadorLigado;
         private System.Windows.Forms.Panel panelCorPixel;
@@ -439,6 +488,15 @@
         private System.Windows.Forms.Label labelHorarioFranca;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Timer timerHorarioFrances;
+        private System.Windows.Forms.ComboBox comboBoxTipoBusca;
+        private System.Windows.Forms.Label labelTipoBusca;
+        private System.Windows.Forms.Label labelImagemTemplate;
+        private System.Windows.Forms.Button buttonProcurarTemplate;
+        private System.Windows.Forms.TextBox textBoxLocalizacaoImagemTemplate;
+        private System.Windows.Forms.OpenFileDialog openFileDialogImagemTemplate;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelObrigatorio;
+        private System.Windows.Forms.CheckBox checkBoxMascaraLuminosidade;
     }
 }
 

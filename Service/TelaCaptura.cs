@@ -29,6 +29,7 @@ namespace Service
         public Bitmap objBitmap;
         public Common.Lib.LockBitmap objLockedBitmap;
         public int valorTransparencia = 0;
+        public bool isUtilizarMascaraLuminosidade = false;
 
         public void capturarTela(String filePath)
         {

@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Model;
 using System.Drawing;
 using Common.Lib;
+using Emgu.CV;
 
 namespace Service
 {
@@ -161,7 +162,7 @@ namespace Service
 
 
         // objFuncaoValidacao > Função por delegação, que recebe um método delegável(delegate), com 1 parâmetro do tipo ModelTela e retorna um boolean, como resultado;
-        public bool procurarPixel(Func<Model.Tela, bool> objMetodoBusca, Func<Model.Tela, bool> objMetodoAcao)
+        public bool procurarPadroesPixels(Func<Model.Tela, bool> objMetodoBusca, Func<Model.Tela, bool> objMetodoAcao)
         {
             bool isPararProcura = false;
             try
@@ -210,39 +211,45 @@ namespace Service
             return isPararProcura;
         }
         
-        /*
-        public bool procurarImagemPorTemplate(string caminhoTemplateRecurso)
+        public Model.Tela procurarImagemPorTemplate(string caminhoTemplateRecurso)
         {
             Service.TelaCaptura objServiceTelaCaptura = Service.TelaCaptura.obterInstancia();
-            //objServiceTelaCaptura.valorTransparencia = objServiceTelaCaptura.obterValorTransparenciaPorHorario();
+            Image<Emgu.CV.Structure.Gray, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Gray, byte>(TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel()); // Image B
 
-            if (!String.IsNullOrEmpty(textBoxTransparencia.Text)) objServiceTelaCaptura.valorTransparencia = Int32.Parse(textBoxTransparencia.Text);
+            Bitmap objBitmapTemplate = new Bitmap(caminhoTemplateRecurso);
 
+            if(objServiceTelaCaptura.isUtilizarMascaraLuminosidade)
+            {
+                objServiceTelaCaptura.valorTransparencia = objServiceTelaCaptura.obterValorTransparenciaPorHorario();
+                objBitmapTemplate = objServiceTelaCaptura.aplicarMascaraNegraImagem(objBitmapTemplate, objServiceTelaCaptura.valorTransparencia);
+            }
 
-            Image<Emgu.CV.Structure.Gray, byte> objImagemOrigem = new Image<Emgu.CV.Structure.Gray, byte>(TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel()); // Image B
-
-            Bitmap objBitmapTemplate = new Bitmap(@"C:\\Users\\Thunder\\Dropbox\\Docs\\gAMES\\Wakfu\\trigo.png");
-            objBitmapTemplate = objServiceTelaCaptura.aplicarMascaraNegraImagem(objBitmapTemplate, objServiceTelaCaptura.valorTransparencia);
             objBitmapTemplate = objServiceTelaCaptura.converterImagemPara8bitesPorPixel(objBitmapTemplate);
-            Image<Emgu.CV.Structure.Gray, byte> objTemplateBusca = new Image<Emgu.CV.Structure.Gray, byte>(objBitmapTemplate); // Image A
-
-            using (Image<Emgu.CV.Structure.Gray, float> result = objImagemOrigem.MatchTemplate(objTemplateBusca, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED))
+            Image<Emgu.CV.Structure.Gray, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Gray, byte>(objBitmapTemplate); // Image A
+            Model.Tela objModelTela = new Model.Tela();
+            using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED))
             {
                 double[] minValues, maxValues;
                 Point[] minLocations, maxLocations;
                 result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
 
-                // You can try different values of the threshold. I guess somewhere between 0.75 and 0.95 would be good.
-                if (maxValues[0] > 0.5)
+                if (maxValues[0] > 0.5d)
                 {
-                    // This is a match. Do something with it, for example draw a rectangle around it.
-                    Win32.posicionarMouse(maxLocations[0].X, maxLocations[0].Y);
-                    Win32.clicarBotaoEsquerdo(maxLocations[0].X, maxLocations[0].Y);
-                    objImagemOrigem.Save("C:\\Users\\Public\\imagem_tela.bmp");
-                    objTemplateBusca.Save("C:\\Users\\Public\\imagem_template.bmp");
+                    objModelTela.eixoHorizontal = maxLocations[0].X;
+                    objModelTela.eixoVertical = maxLocations[0].Y;
                 }
             }
-        }*/
+            objImagemTelaAtual.Dispose();
+            objBitmapTemplate.Dispose();
 
+            return objModelTela;
+        }
+
+        public bool procurarImagemPorTemplateComAcao(string caminhoTemplateRecurso, Func<Model.Tela, bool> objMetodoAcao)
+        {
+            Model.Tela objModelTela = this.procurarImagemPorTemplate(caminhoTemplateRecurso);
+            if (objModelTela.eixoHorizontal > 0 && objModelTela.eixoVertical > 0) return objMetodoAcao(objModelTela);
+            return false;
+        }
     }
 }
