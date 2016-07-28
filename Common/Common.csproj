@@ -46,8 +46,8 @@
   <ItemGroup>
     <Compile Include="CapturadorPixel.cs" />
     <Compile Include="ColorHelper.cs" />
-    <Compile Include="HookyCore.cs" />
     <Compile Include="Lib\HSLColor.cs" />
+    <Compile Include="Lib\KeyboardHook.cs" />
     <Compile Include="Lib\LockBitmap.cs" />
     <Compile Include="Lib\Win32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

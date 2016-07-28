@@ -25,20 +25,25 @@ namespace Service
         }
         #endregion
 
-        public enum enumTiposBatalha
+        public enum EnumTiposBatalha
         {
             AntiBOT,
             Normal
         };
 
-        public bool validarBatalha(enumTiposBatalha objEnumTiposBatalha)
+        public bool iniciar(EnumTiposBatalha objEnumTipoBatalha)
         {
-            switch (objEnumTiposBatalha)
+            switch (objEnumTipoBatalha)
             {
-                case enumTiposBatalha.AntiBOT:
-                    //return ServiceTela.obterInstancia().procurarPixel(BatalhaAntiBOT.buscarIconeInicioBatalha, BatalhaAntiBOT.acaoIniciarBatalha);
+                case EnumTiposBatalha.AntiBOT:
+                    Dictionary<BatalhaAntiBOT.numeroMarcacao, List<Model.Tela>> dicionarioDeMarcadores = Service.TelaPixel.obterInstancia().procurarPadroesPixels<
+                        BatalhaAntiBOT.numeroMarcacao,
+                        Dictionary<BatalhaAntiBOT.numeroMarcacao, List<Model.Tela>>
+                        >(BatalhaAntiBOT.identificarMarcacoes, BatalhaAntiBOT.armazenarMarcacoes);
+
+
                     break;
-                case enumTiposBatalha.Normal:
+                case EnumTiposBatalha.Normal:
                     // Faça Algo
                     break;
                 default:

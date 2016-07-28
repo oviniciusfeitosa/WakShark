@@ -8,6 +8,8 @@ using Model;
 using System.Drawing;
 using Common.Lib;
 using Emgu.CV;
+using Emgu.CV.Structure;
+using Emgu.CV.CvEnum;
 
 namespace Service
 {
@@ -29,6 +31,12 @@ namespace Service
         public string obterPixel(Model.Tela objModelTela)
         {
             Color objColor = TelaCaptura.obterInstancia().objLockedBitmap.GetPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
+            return Common.ColorHelper.HexConverter(objColor);
+        }
+
+        public string obterPixel(int eixoHorizontal, int eixoVertical)
+        {
+            Color objColor = TelaCaptura.obterInstancia().objLockedBitmap.GetPixel(eixoHorizontal, eixoVertical);
             return Common.ColorHelper.HexConverter(objColor);
         }
 
@@ -148,30 +156,34 @@ namespace Service
         public bool isPixelEncontrado(int eixoHorizontal, int eixoVertical, string pixelComparacao)
         {
             if ( eixoHorizontal > 0 && eixoVertical > 0 ) {
-                Model.Tela objModelTela = new Model.Tela();
-                objModelTela.eixoHorizontal = eixoHorizontal;
-                objModelTela.eixoVertical = eixoVertical;
-            
-                if (this.obterPixel(objModelTela) == pixelComparacao) return true;
-                if (this.isPixelVariavel(objModelTela, pixelComparacao)) return true;
-                if (this.compararHSL(objModelTela, pixelComparacao)) return true;
+                if (this.obterPixel(eixoHorizontal, eixoVertical) == pixelComparacao) return true;
+                //if (this.isPixelVariavel(objModelTela, pixelComparacao)) return true;
+                //if (this.compararHSL(objModelTela, pixelComparacao)) return true;
             }
             return false;
             
         }
 
-
-        // objFuncaoValidacao > Função por delegação, que recebe um método delegável(delegate), com 1 parâmetro do tipo ModelTela e retorna um boolean, como resultado;
-        public bool procurarPadroesPixels(Func<Model.Tela, bool> objMetodoBusca, Func<Model.Tela, bool> objMetodoAcao)
+        /// <summary>
+        /// Método responsável por procurar padrões de pixels e executar ações.
+        /// </summary>
+        /// <typeparam name="TRetornoBusca">Parâmetro do Tipo Anônimo utilizado como tipo de retorno no método delegável "objMetodoBusca".</typeparam>
+        /// <typeparam name="TParametroAcaoResultado">Parâmetro do Tipo Anônimo utilizado na assinatura do método delegável "objMetodoAcao".</typeparam>
+        /// <param name="objMetodoBusca">Função por delegação, que recebe um método delegável(delegate), com o primeiro parâmetro do tipo ModelTela e retorna um boolean como resultado.</param>
+        /// <param name="objMetodoAcao">Função por delegação, que recebe um método delegável(delegate), com o primeiro parâmetro um Tipo Anônimo e retorna um boolean como resultado.</param>
+        /// <returns></returns>
+        public TParametroAcaoResultado procurarPadroesPixels<TRetornoBusca, TParametroAcaoResultado>(
+            Func<Model.Tela, TRetornoBusca> objMetodoBusca, 
+            Func<Model.Tela, TRetornoBusca, TParametroAcaoResultado, TParametroAcaoResultado> objMetodoAcao
+            )
         {
-            bool isPararProcura = false;
+            TParametroAcaoResultado objTTipoAcaoBusca = default(TParametroAcaoResultado);
             try
             {
-
                 Model.Tela objModelTela = new Model.Tela();
                 String horarioAtual = System.DateTime.Now.ToString("dd/mm/yyyy HH:mm:ss");
-                using (Bitmap objBitmap = TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel())
-                {
+                Bitmap objBitmap = TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel();
+                
                     /*using (Graphics objGraphicsScreenshot = Graphics.FromImage(objBitmap)) 
                     { 
                         // Tira uma printScreen do canto superior esquerdo até o canto inferior direito.
@@ -188,33 +200,45 @@ namespace Service
                     {
                         TelaCaptura.obterInstancia().objLockedBitmap.LockBits();
 
+                        TRetornoBusca objRetornoBusca = default(TRetornoBusca);
                         for (int totalPixels = 0; totalPixels < TelaCaptura.obterInstancia().objLockedBitmap.Height * TelaCaptura.obterInstancia().objLockedBitmap.Width; totalPixels++)
                         {
                             objModelTela.eixoHorizontal = totalPixels % TelaCaptura.obterInstancia().objLockedBitmap.Width;
                             objModelTela.eixoVertical = totalPixels / TelaCaptura.obterInstancia().objLockedBitmap.Width;
 
-                            isPararProcura = objMetodoBusca(objModelTela);
-                            if (isPararProcura) break;
+                            objRetornoBusca = objMetodoBusca(objModelTela);
+                            if (objRetornoBusca != null)
+                            {
+                                objTTipoAcaoBusca = objMetodoAcao(objModelTela, objRetornoBusca, objTTipoAcaoBusca);
+                            }
                         }
                         //MessageBox.Show("Iniciado em: " + horarioAtual + "\n Concluído em: " + System.DateTime.Now.ToString("dd/mm/yyyy HH:mm:ss"));
-                        if (isPararProcura) objMetodoAcao(objModelTela);
 
                         TelaCaptura.obterInstancia().objLockedBitmap.UnlockBits();
                     }
-                }
+                
 
             }
             catch (Exception objException)
             {
                 throw new Exception(objException.ToString());
             }
-            return isPararProcura;
+            return objTTipoAcaoBusca;
         }
         
         public Model.Tela procurarImagemPorTemplate(string caminhoTemplateRecurso)
         {
             Service.TelaCaptura objServiceTelaCaptura = Service.TelaCaptura.obterInstancia();
             Image<Emgu.CV.Structure.Gray, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Gray, byte>(TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel()); // Image B
+            // Adição de filtro para que seja capturada 
+            /*
+             * Image<Gray, float> sobel = objImagemTelaAtual.Sobel(0, 1, 1).Add(objImagemTelaAtual.Sobel(1, 0, 1)).AbsDiff(new Gray(0.0));
+            sobel.Save("C:\\Users\\Public\\templat.bmp");
+            */
+            /*
+            objImagemTelaAtual = (objImagemTelaAtual.Erode(1).Sobel(1, 0, 1)).Convert<Gray, Byte>();
+            objImagemTelaAtual.Save("C:\\Users\\Public\\template1.bmp");
+            */
 
             Bitmap objBitmapTemplate = new Bitmap(caminhoTemplateRecurso);
 
@@ -225,20 +249,28 @@ namespace Service
             }
 
             objBitmapTemplate = objServiceTelaCaptura.converterImagemPara8bitesPorPixel(objBitmapTemplate);
+
+
             Image<Emgu.CV.Structure.Gray, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Gray, byte>(objBitmapTemplate); // Image A
+            /*
+            objImagemTemplate = (objImagemTemplate.Erode(1).Sobel(1, 0, 1)).Convert<Gray, Byte>();
+            objImagemTemplate.Save("C:\\Users\\Public\\template3.bmp");
+            */
+
             Model.Tela objModelTela = new Model.Tela();
-            using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED))
+            using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCORR_NORMED))
             {
                 double[] minValues, maxValues;
                 Point[] minLocations, maxLocations;
                 result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
-
+                
                 if (maxValues[0] > 0.5d)
                 {
                     objModelTela.eixoHorizontal = maxLocations[0].X;
                     objModelTela.eixoVertical = maxLocations[0].Y;
                 }
             }
+
             objImagemTelaAtual.Dispose();
             objBitmapTemplate.Dispose();
 
@@ -251,5 +283,8 @@ namespace Service
             if (objModelTela.eixoHorizontal > 0 && objModelTela.eixoVertical > 0) return objMetodoAcao(objModelTela);
             return false;
         }
+
+
+        
     }
 }

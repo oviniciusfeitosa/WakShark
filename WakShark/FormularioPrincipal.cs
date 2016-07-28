@@ -11,13 +11,15 @@ using System.Drawing.Imaging;
 using Common.Lib;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace WakBoy
 {
     public partial class FormularioPrincipal : Form, IDisposable
     {
         private IKeyboardMouseEvents m_GlobalHook;
-
+        private KeyboardHook hook = new KeyboardHook();
         public FormularioPrincipal()
         {
             InitializeComponent();
@@ -27,6 +29,20 @@ namespace WakBoy
         {
             string[] objDataSourceTipoBusca = new[] { "Coleta" };
             comboBoxTipoBusca.DataSource = objDataSourceTipoBusca;
+
+            hook.KeyPressed += new EventHandler<KeyPressedEventArgs>(gatilhoTeclaPressionadaGlobalmente);
+            // register the control + alt + F12 combination as hot key.
+            // hook.RegisterHotKey(Common.Lib.ModifierKeys.Control | ModifierKeys.Alt, Keys.F12);
+            hook.RegisterHotKey(Common.Lib.ModifierKeys.Shift, Keys.F4);
+            
+            //System.Diagnostics.Debug.WriteLine("taskA Status: {0}", taskA.Status);
+        }
+
+        void gatilhoTeclaPressionadaGlobalmente(object sender, KeyPressedEventArgs e)
+        {
+            if (this.checkBoxCacadorPixelsLigado.Checked == true) this.checkBoxCacadorPixelsLigado.Checked = false;
+            else this.checkBoxCacadorPixelsLigado.Checked = true;
+            //this.checkBoxCacadorPixelsLigado_CheckedChanged(this.checkBoxCapturadorLigado, EventArgs.Empty);
         }
 
         #region Iniciar Caça a Pixels
@@ -41,23 +57,34 @@ namespace WakBoy
 
         private void checkBoxCacadorPixelsLigado_CheckedChanged(object sender, EventArgs e)
         {
+            
             if (!String.IsNullOrEmpty(textBoxLocalizacaoImagemTemplate.Text) && !String.IsNullOrEmpty(comboBoxTipoBusca.SelectedValue.ToString()))
             {
-                CheckBox objComboBox = (CheckBox)sender;
-            
-                if (objComboBox.Checked == true)
+                CheckBox objCheckBox = (CheckBox)sender;
+                this.checkBoxCacadorPixelsLigado.Checked = objCheckBox.Checked;
+                if (objCheckBox.Checked == true)
                 {
-                    objComboBox.Text = "Ligado";
+                    this.checkBoxCacadorPixelsLigado.BackColor = Color.Green;
 
                     Service.TelaCaptura.obterInstancia().isUtilizarMascaraLuminosidade = checkBoxMascaraLuminosidade.Checked;
 
                     // Modificar esse trecho utilizado para teste, porque está sendo validado somente por 'coleta'. Quem sabe um switch não caia melhor?
                     if (comboBoxTipoBusca.SelectedValue.ToString() == "Coleta") {
-                        bool retorno = ServiceColeta.obterInstancia().coletar(textBoxLocalizacaoImagemTemplate.Text);
+
+                        // Responsável por permitir que o loop consiga ser encerrado utilizando as hotkeys ou clique no botão.
+                        Task.Factory.StartNew(() =>
+                        {
+                            while (this.checkBoxCacadorPixelsLigado.Checked)
+                            {
+                                bool retorno = ServiceColeta.obterInstancia().coletar(textBoxLocalizacaoImagemTemplate.Text);
+                            }
+                        });
                     }
-                    checkBoxCacadorPixelsLigado.Checked = false;
                 }
-                objComboBox.Text = "Desligado";
+                else
+                {
+                    this.checkBoxCacadorPixelsLigado.BackColor = Color.Gray;
+                }
             }
             else
             {
@@ -184,8 +211,10 @@ namespace WakBoy
         #region Visualizar Pixel
         private void checkBoxVisualizarPixel_CheckedChanged(object sender, EventArgs e)
         {
-            //MessageBox.Show(Service.TelaCaptura.obterInstancia().obterValorTransparenciaPorHorario().ToString());
 
+            Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
+            //MessageBox.Show(Service.TelaCaptura.obterInstancia().obterValorTransparenciaPorHorario().ToString());
+            /*
             CheckBox objComboBox = (CheckBox)sender;
             objComboBox.BackColor = Color.Transparent;
             objComboBox.ForeColor = Color.DimGray;
@@ -208,7 +237,7 @@ namespace WakBoy
                 m_GlobalHook.MouseDownExt -= obterPixelPorClique;
                 m_GlobalHook.MouseMoveExt -= exibirPixelMovimentoMouse;
                 m_GlobalHook.Dispose();
-            }
+            }*/
         }
         #endregion
 

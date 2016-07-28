@@ -34,15 +34,15 @@ namespace Service
             {
                 Win32.posicionarMouse(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
                 Win32.clicarBotaoDireito(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
+
                 Thread.Sleep(1000);
 
                 Win32.posicionarMouse(objModelTela.eixoHorizontal - 35, objModelTela.eixoVertical - 35);
                 Win32.clicarBotaoEsquerdo(objModelTela.eixoHorizontal - 35, objModelTela.eixoVertical - 35);
 
-
-
+                Thread.Sleep(6000);
+                
                 /**
-                 * Thread.Sleep(5000);
                  * 
                  * 
                  * ColetaAntiBatalha
@@ -50,15 +50,10 @@ namespace Service
                  * APÓS CLICAR DEVE SER VARRIDA NOVAMENTE A TELA OU MESMO UTILIZAR O MESMO QUE É UTILIZADO NO "MOUSE MOVE"
                  * PARA CONSEGUIR OBTER SE ALGUNS PIXELS PARA ESQUERDA OU DIREITA, EXISTEM AS "SETINHAS" QUE TEM QUANDO ALGUM MONSTRO ESTÁ POR PERTO.
                  * 
-                 * CASO EXISTA A SETINHA:
-                 * 
-                 * - CLICAR COM O BOTÃO ESQUERDO ( PARA QUE MUDE PARA A COLHEITA AO INVÉS DA LUTA, QUE SEMPRE VEM PRIMEIRO ).
-                 * - EXECUTAR ROTINA PADRÃO PARA CLICAR E AGUARDAR.
-                 * 
                  * [ OBS ] > VERIFICAR QUANTO TEMPO É USADO PARA FINALIZAR A ATIVIDADE.
                  */
-                MessageBox.Show("Achou");
-                //Batalha.obterInstancia().validarBatalha(Batalha.enumTiposBatalha.AntiBOT);
+                //MessageBox.Show("Achou");
+                //Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
                 return true;
             }
             catch (System.Exception objException)

@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormularioPrincipal));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.capinacao = new System.Windows.Forms.TabPage();
+            this.checkBoxMascaraLuminosidade = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.labelObrigatorio = new System.Windows.Forms.Label();
             this.buttonProcurarTemplate = new System.Windows.Forms.Button();
@@ -65,7 +66,6 @@
             this.labelCor = new System.Windows.Forms.Label();
             this.timerHorarioFrances = new System.Windows.Forms.Timer(this.components);
             this.openFileDialogImagemTemplate = new System.Windows.Forms.OpenFileDialog();
-            this.checkBoxMascaraLuminosidade = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.capinacao.SuspendLayout();
             this.abaCapturadorPixels.SuspendLayout();
@@ -100,6 +100,19 @@
             this.capinacao.TabIndex = 0;
             this.capinacao.Text = "Caçador de Pixels";
             this.capinacao.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxMascaraLuminosidade
+            // 
+            this.checkBoxMascaraLuminosidade.AutoSize = true;
+            this.checkBoxMascaraLuminosidade.Checked = true;
+            this.checkBoxMascaraLuminosidade.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxMascaraLuminosidade.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxMascaraLuminosidade.Location = new System.Drawing.Point(23, 86);
+            this.checkBoxMascaraLuminosidade.Name = "checkBoxMascaraLuminosidade";
+            this.checkBoxMascaraLuminosidade.Size = new System.Drawing.Size(232, 17);
+            this.checkBoxMascaraLuminosidade.TabIndex = 15;
+            this.checkBoxMascaraLuminosidade.Text = "Utilizar máscara de luminosidade por horário";
+            this.checkBoxMascaraLuminosidade.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -170,20 +183,20 @@
             this.checkBoxCacadorPixelsLigado.AutoSize = true;
             this.checkBoxCacadorPixelsLigado.Location = new System.Drawing.Point(6, 260);
             this.checkBoxCacadorPixelsLigado.Name = "checkBoxCacadorPixelsLigado";
-            this.checkBoxCacadorPixelsLigado.Size = new System.Drawing.Size(49, 23);
+            this.checkBoxCacadorPixelsLigado.Size = new System.Drawing.Size(45, 23);
             this.checkBoxCacadorPixelsLigado.TabIndex = 7;
-            this.checkBoxCacadorPixelsLigado.Text = "Ligado";
+            this.checkBoxCacadorPixelsLigado.Text = "Iniciar";
             this.checkBoxCacadorPixelsLigado.UseVisualStyleBackColor = true;
             this.checkBoxCacadorPixelsLigado.CheckedChanged += new System.EventHandler(this.checkBoxCacadorPixelsLigado_CheckedChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(153, 266);
+            this.label1.Location = new System.Drawing.Point(81, 265);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(202, 13);
+            this.label1.Size = new System.Drawing.Size(261, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Pressione \"F4\" para INICIAR ou PARAR.";
+            this.label1.Text = "( ou pressione \"SHIFT + F4\" para INICIAR / PARAR )";
             // 
             // abaCapturadorPixels
             // 
@@ -423,19 +436,6 @@
             // openFileDialogImagemTemplate
             // 
             this.openFileDialogImagemTemplate.FileName = "openFileDialogImagemTemplate";
-            // 
-            // checkBoxMascaraLuminosidade
-            // 
-            this.checkBoxMascaraLuminosidade.AutoSize = true;
-            this.checkBoxMascaraLuminosidade.Checked = true;
-            this.checkBoxMascaraLuminosidade.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxMascaraLuminosidade.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxMascaraLuminosidade.Location = new System.Drawing.Point(23, 86);
-            this.checkBoxMascaraLuminosidade.Name = "checkBoxMascaraLuminosidade";
-            this.checkBoxMascaraLuminosidade.Size = new System.Drawing.Size(232, 17);
-            this.checkBoxMascaraLuminosidade.TabIndex = 15;
-            this.checkBoxMascaraLuminosidade.Text = "Utilizar máscara de luminosidade por horário";
-            this.checkBoxMascaraLuminosidade.UseVisualStyleBackColor = true;
             // 
             // FormularioPrincipal
             // 
