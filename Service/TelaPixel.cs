@@ -27,23 +27,25 @@ namespace Service
             return TelaPixel.objTelaPixel;
         }
         #endregion
-        
+
+        public VFBitmapLocker objVFBitmapLocker;
+
         public string obterPixel(Model.Tela objModelTela)
         {
-            Color objColor = TelaCaptura.obterInstancia().objLockedBitmap.GetPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
+            Color objColor = this.objVFBitmapLocker.getPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
             return Common.ColorHelper.HexConverter(objColor);
         }
 
         public string obterPixel(int eixoHorizontal, int eixoVertical)
         {
-            Color objColor = TelaCaptura.obterInstancia().objLockedBitmap.GetPixel(eixoHorizontal, eixoVertical);
+            Color objColor = this.objVFBitmapLocker.getPixel(eixoHorizontal, eixoVertical);
             return Common.ColorHelper.HexConverter(objColor);
         }
 
         // Percentual: Entre 0 e 1
         public string obterPixelClaro(Model.Tela objModelTela, float percentual)
         {
-            Color objColor = TelaCaptura.obterInstancia().objLockedBitmap.GetPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
+            Color objColor = this.objVFBitmapLocker.getPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
             objColor = ControlPaint.Light(objColor, percentual);
             return Common.ColorHelper.HexConverter(objColor);
         }
@@ -51,7 +53,7 @@ namespace Service
         // Percentual: Entre 0 e 1
         public string obterPixelEscuro(Model.Tela objModelTela, float percentual)
         {
-            Color objColor = TelaCaptura.obterInstancia().objLockedBitmap.GetPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
+            Color objColor = this.objVFBitmapLocker.getPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
             objColor = ControlPaint.Dark(objColor, percentual);
 
             return Common.ColorHelper.HexConverter(objColor);
@@ -120,7 +122,7 @@ namespace Service
         // seria isPixelVariavel + compararHSL
         public bool isPixelVariavel(Model.Tela objModelTela, string pixelComparacao)
         {
-            Color objColorAtual = TelaCaptura.obterInstancia().objLockedBitmap.GetPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
+            Color objColorAtual = this.objVFBitmapLocker.getPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
             Color objCorCorreta = System.Drawing.ColorTranslator.FromHtml(pixelComparacao);
             byte variacaoPixel = 22;
             if (
@@ -136,7 +138,7 @@ namespace Service
 
         public bool compararHSL(Model.Tela objModelTela, string pixelComparacao)
         {
-            Color objCorAtual = TelaCaptura.obterInstancia().objLockedBitmap.GetPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
+            Color objCorAtual = this.objVFBitmapLocker.getPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
             Color objCorCorreta = System.Drawing.ColorTranslator.FromHtml(pixelComparacao);
 
             HSLColor objCorAtualHSL = HSLColor.FromRGB(objCorAtual);
@@ -183,40 +185,36 @@ namespace Service
                 Model.Tela objModelTela = new Model.Tela();
                 String horarioAtual = System.DateTime.Now.ToString("dd/mm/yyyy HH:mm:ss");
                 Bitmap objBitmap = TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel();
-                
-                    /*using (Graphics objGraphicsScreenshot = Graphics.FromImage(objBitmap)) 
-                    { 
-                        // Tira uma printScreen do canto superior esquerdo até o canto inferior direito.
-                        objGraphicsScreenshot.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
-                                                    Screen.PrimaryScreen.Bounds.Y,
-                                                    0,
-                                                    0,
-                                                    Screen.PrimaryScreen.Bounds.Size,
-                                                    CopyPixelOperation.SourceCopy);
-                    }*/
+
+                /*using (Graphics objGraphicsScreenshot = Graphics.FromImage(objBitmap)) 
+                { 
+                    // Tira uma printScreen do canto superior esquerdo até o canto inferior direito.
+                    objGraphicsScreenshot.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                                                Screen.PrimaryScreen.Bounds.Y,
+                                                0,
+                                                0,
+                                                Screen.PrimaryScreen.Bounds.Size,
+                                                CopyPixelOperation.SourceCopy);
+                }*/
 
 
-                    using (TelaCaptura.obterInstancia().objLockedBitmap = new Common.Lib.LockBitmap(objBitmap))
+                using (this.objVFBitmapLocker = new Common.Lib.VFBitmapLocker(objBitmap))
+                { 
+                    TRetornoBusca objRetornoBusca = default(TRetornoBusca);
+                    for (int totalPixels = 0; totalPixels < this.objVFBitmapLocker.height * this.objVFBitmapLocker.width; totalPixels++)
                     {
-                        TelaCaptura.obterInstancia().objLockedBitmap.LockBits();
-
-                        TRetornoBusca objRetornoBusca = default(TRetornoBusca);
-                        for (int totalPixels = 0; totalPixels < TelaCaptura.obterInstancia().objLockedBitmap.Height * TelaCaptura.obterInstancia().objLockedBitmap.Width; totalPixels++)
+                        objModelTela.eixoHorizontal = totalPixels % this.objVFBitmapLocker.width;
+                        objModelTela.eixoVertical = totalPixels / this.objVFBitmapLocker.width;
+                        
+                        objRetornoBusca = objMetodoBusca(objModelTela);
+                        if (objRetornoBusca != null)
                         {
-                            objModelTela.eixoHorizontal = totalPixels % TelaCaptura.obterInstancia().objLockedBitmap.Width;
-                            objModelTela.eixoVertical = totalPixels / TelaCaptura.obterInstancia().objLockedBitmap.Width;
-
-                            objRetornoBusca = objMetodoBusca(objModelTela);
-                            if (objRetornoBusca != null)
-                            {
-                                objTTipoAcaoBusca = objMetodoAcao(objModelTela, objRetornoBusca, objTTipoAcaoBusca);
-                            }
+                            objTTipoAcaoBusca = objMetodoAcao(objModelTela, objRetornoBusca, objTTipoAcaoBusca);
                         }
-                        //MessageBox.Show("Iniciado em: " + horarioAtual + "\n Concluído em: " + System.DateTime.Now.ToString("dd/mm/yyyy HH:mm:ss"));
-
-                        TelaCaptura.obterInstancia().objLockedBitmap.UnlockBits();
                     }
-                
+                MessageBox.Show("Iniciado em: " + horarioAtual + "\n Concluído em: " + System.DateTime.Now.ToString("dd/mm/yyyy HH:mm:ss"));
+
+                }
 
             }
             catch (Exception objException)
@@ -229,17 +227,6 @@ namespace Service
         public Model.Tela procurarImagemPorTemplate(string caminhoTemplateRecurso)
         {
             Service.TelaCaptura objServiceTelaCaptura = Service.TelaCaptura.obterInstancia();
-            Image<Emgu.CV.Structure.Gray, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Gray, byte>(TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel()); // Image B
-            // Adição de filtro para que seja capturada 
-            /*
-             * Image<Gray, float> sobel = objImagemTelaAtual.Sobel(0, 1, 1).Add(objImagemTelaAtual.Sobel(1, 0, 1)).AbsDiff(new Gray(0.0));
-            sobel.Save("C:\\Users\\Public\\templat.bmp");
-            */
-            /*
-            objImagemTelaAtual = (objImagemTelaAtual.Erode(1).Sobel(1, 0, 1)).Convert<Gray, Byte>();
-            objImagemTelaAtual.Save("C:\\Users\\Public\\template1.bmp");
-            */
-
             Bitmap objBitmapTemplate = new Bitmap(caminhoTemplateRecurso);
 
             if(objServiceTelaCaptura.isUtilizarMascaraLuminosidade)
@@ -250,12 +237,8 @@ namespace Service
 
             objBitmapTemplate = objServiceTelaCaptura.converterImagemPara8bitesPorPixel(objBitmapTemplate);
 
-
+            Image<Emgu.CV.Structure.Gray, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Gray, byte>(TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel()); // Image B
             Image<Emgu.CV.Structure.Gray, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Gray, byte>(objBitmapTemplate); // Image A
-            /*
-            objImagemTemplate = (objImagemTemplate.Erode(1).Sobel(1, 0, 1)).Convert<Gray, Byte>();
-            objImagemTemplate.Save("C:\\Users\\Public\\template3.bmp");
-            */
 
             Model.Tela objModelTela = new Model.Tela();
             using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCORR_NORMED))
@@ -270,7 +253,7 @@ namespace Service
                     objModelTela.eixoVertical = maxLocations[0].Y;
                 }
             }
-
+            
             objImagemTelaAtual.Dispose();
             objBitmapTemplate.Dispose();
 
@@ -284,7 +267,50 @@ namespace Service
             return false;
         }
 
+        public Model.Tela buscaAvancadaPorTemplate(string caminhoTemplateRecurso)
+        {
+            Service.TelaCaptura objServiceTelaCaptura = Service.TelaCaptura.obterInstancia();
+            Bitmap objBitmapTemplate = new Bitmap(caminhoTemplateRecurso);
 
-        
+            if (objServiceTelaCaptura.isUtilizarMascaraLuminosidade)
+            {
+                objServiceTelaCaptura.valorTransparencia = objServiceTelaCaptura.obterValorTransparenciaPorHorario();
+                objBitmapTemplate = objServiceTelaCaptura.aplicarMascaraNegraImagem(objBitmapTemplate, objServiceTelaCaptura.valorTransparencia);
+            }
+
+            objBitmapTemplate = objServiceTelaCaptura.converterImagemPara8bitesPorPixel(objBitmapTemplate);
+
+            Image<Emgu.CV.Structure.Gray, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Gray, byte>(TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel()); // Image B
+            Image<Emgu.CV.Structure.Gray, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Gray, byte>(objBitmapTemplate); // Image A
+
+            objImagemTelaAtual = objImagemTelaAtual.ThresholdBinary(new Gray(135), new Gray(255));
+            objImagemTelaAtual._Not();
+            //objImagemTelaAtual.Erode(1);
+            objImagemTemplate = objImagemTemplate.ThresholdBinary(new Gray(115), new Gray(255));
+            objImagemTemplate._Not();
+
+            Model.Tela objModelTela = new Model.Tela();
+            using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF))
+            {
+                double[] minValues, maxValues;
+                Point[] minLocations, maxLocations;
+                result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
+
+                if (maxValues[0] > 0.5d)
+                {
+                    objModelTela.eixoHorizontal = maxLocations[0].X + (objBitmapTemplate.Width / 2);
+                    objModelTela.eixoVertical = maxLocations[0].Y + (objBitmapTemplate.Height / 2);
+                }
+            }
+
+            //objImagemTelaAtual.ToBitmap().Save("C:\\Users\\Public\\teste1.bmp");
+            //objImagemTemplate.ToBitmap().Save("C:\\Users\\Public\\teste2_depois.bmp");
+
+            objImagemTelaAtual.Dispose();
+            objBitmapTemplate.Dispose();
+
+            return objModelTela;
+        }
+
     }
 }
