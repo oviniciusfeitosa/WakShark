@@ -10,6 +10,7 @@ using Common.Lib;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.CvEnum;
+using System.Threading;
 
 namespace Service
 {
@@ -267,45 +268,78 @@ namespace Service
             return false;
         }
 
-        public Model.Tela buscaAvancadaPorTemplate(string caminhoTemplateRecurso)
+        public Model.Tela buscarImagemPorTemplate(string caminhoTemplateRecurso)
+        {
+            return buscarImagemPorTemplate(caminhoTemplateRecurso, TelaCaptura.EnumRegiaoTela.TELA_CHEIA);
+        }
+
+
+        public Model.Tela buscarImagemPorTemplate(string caminhoTemplateRecurso, TelaCaptura.EnumRegiaoTela objRegiaoTela)
         {
             Service.TelaCaptura objServiceTelaCaptura = Service.TelaCaptura.obterInstancia();
             Bitmap objBitmapTemplate = new Bitmap(caminhoTemplateRecurso);
 
             if (objServiceTelaCaptura.isUtilizarMascaraLuminosidade)
             {
-                objServiceTelaCaptura.valorTransparencia = objServiceTelaCaptura.obterValorTransparenciaPorHorario();
-                objBitmapTemplate = objServiceTelaCaptura.aplicarMascaraNegraImagem(objBitmapTemplate, objServiceTelaCaptura.valorTransparencia);
+                objBitmapTemplate = objServiceTelaCaptura.aplicarMascaraNegraImagem(objBitmapTemplate);
             }
 
             objBitmapTemplate = objServiceTelaCaptura.converterImagemPara8bitesPorPixel(objBitmapTemplate);
 
-            Image<Emgu.CV.Structure.Gray, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Gray, byte>(TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel()); // Image B
+            Image<Emgu.CV.Structure.Gray, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Gray, byte>(TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(objRegiaoTela)); // Image B
             Image<Emgu.CV.Structure.Gray, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Gray, byte>(objBitmapTemplate); // Image A
 
             objImagemTelaAtual = objImagemTelaAtual.ThresholdBinary(new Gray(135), new Gray(255));
             objImagemTelaAtual._Not();
             //objImagemTelaAtual.Erode(1);
-            objImagemTemplate = objImagemTemplate.ThresholdBinary(new Gray(115), new Gray(255));
+            //objImagemTemplate = objImagemTemplate.ThresholdBinary(new Gray(115), new Gray(255));
+            objImagemTemplate = objImagemTemplate.ThresholdBinary(new Gray(145), new Gray(255));
             objImagemTemplate._Not();
 
             Model.Tela objModelTela = new Model.Tela();
-            using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF))
+
+            using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED))
             {
                 double[] minValues, maxValues;
                 Point[] minLocations, maxLocations;
                 result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
 
-                if (maxValues[0] > 0.5d)
-                {
+                if (maxValues[0] > 0.4d)
+                { 
                     objModelTela.eixoHorizontal = maxLocations[0].X + (objBitmapTemplate.Width / 2);
                     objModelTela.eixoVertical = maxLocations[0].Y + (objBitmapTemplate.Height / 2);
+                    /*
+                     * @todo remover esse trecho comentado. Foi apenas um teste.
+                    Win32.posicionarMouse(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
+                    Win32.clicarBotaoEsquerdo(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
+                    Thread.Sleep(2000);
+                    */
                 }
             }
 
+            /*using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED))
+            {
+                float[,,] matches = result.Data;
+                for (int y = 0; y < matches.GetLength(0); y++)
+                {
+                    for (int x = 0; x < matches.GetLength(1); x++)
+                    {
+                        double matchScore = matches[y, x, 0];
+
+                        if (matchScore > 0.6d)
+                        {
+                            Model.Tela objModelTela = new Model.Tela();
+
+                            objModelTela.eixoHorizontal = x + (objBitmapTemplate.Width / 2);
+                            objModelTela.eixoVertical = y + (objBitmapTemplate.Height / 2);
+                            objListaModelTela.Add(objModelTela);
+                        }
+                    }
+                }
+            }*/
+
             //objImagemTelaAtual.ToBitmap().Save("C:\\Users\\Public\\teste1.bmp");
             //objImagemTemplate.ToBitmap().Save("C:\\Users\\Public\\teste2_depois.bmp");
-
             objImagemTelaAtual.Dispose();
             objBitmapTemplate.Dispose();
 

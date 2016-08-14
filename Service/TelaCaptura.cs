@@ -31,6 +31,13 @@ namespace Service
         public int valorTransparencia = 0;
         public bool isUtilizarMascaraLuminosidade = false;
 
+        public enum EnumRegiaoTela
+        {
+            TELA_CHEIA,
+            LADO_ESQUERDO,
+            LADO_DIREITO
+        }
+
         public void capturarTela(String filePath)
         {
             try
@@ -62,15 +69,36 @@ namespace Service
 
         public Bitmap obterImagemTelaComo8bitesPorPixel()
         {
+            return obterImagemTelaComo8bitesPorPixel(EnumRegiaoTela.TELA_CHEIA);
+        }
+
+        public Bitmap obterImagemTelaComo8bitesPorPixel(EnumRegiaoTela objEnumRegiaoTela)
+        {
             Size bounds = SystemInformation.PrimaryMonitorSize;
             //Rectangle bounds = SystemInformation.VirtualScreen;
             //Rectangle bounds = Screen.PrimaryScreen.Bounds;
 
             using (Bitmap objBitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb))
             {
-                using (Graphics g = Graphics.FromImage(objBitmap))
+                using (Graphics objGraphics = Graphics.FromImage(objBitmap))
                 {
-                    g.CopyFromScreen(0, 0, 0, 0, objBitmap.Size);
+                    Size objSize = objBitmap.Size;
+
+                    // @todo: substitutir o objBitmap.size.width para a propriedade que recuperar a altura e largura da tela do wakfu
+                    // Porque atualmente só é valido quando o jogo está em tela cheia.
+                    switch (objEnumRegiaoTela)
+                    {
+                        case EnumRegiaoTela.LADO_ESQUERDO:
+                            objGraphics.CopyFromScreen(0, 0, (int)(objBitmap.Width / 2.09), 0 , objSize);
+                            break;
+                        case EnumRegiaoTela.LADO_DIREITO:
+                            objGraphics.CopyFromScreen((int)(objBitmap.Width / 2), 0, (int)(objBitmap.Width / 2), 0, objSize);
+                            break;
+                        case EnumRegiaoTela.TELA_CHEIA:
+                        default:
+                            objGraphics.CopyFromScreen(0, 0, 0, 0, objBitmap.Size);
+                            break;
+                    }
                 }
 
                 return objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format8bppIndexed);
@@ -153,5 +181,10 @@ namespace Service
             return objImagemOriginal;
         }
 
+        public Bitmap aplicarMascaraNegraImagem(Bitmap objImagemOriginal)
+        {
+            this.valorTransparencia = this.obterValorTransparenciaPorHorario();
+            return aplicarMascaraNegraImagem(objImagemOriginal, this.valorTransparencia);
+        }
     }
 }

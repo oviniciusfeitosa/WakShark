@@ -36,11 +36,29 @@ namespace Service
             switch (objEnumTipoBatalha)
             {
                 case EnumTiposBatalha.AntiBOT:
-                    Dictionary<BatalhaAntiBOT.numeroMarcacao, List<Model.Tela>> dicionarioDeMarcadores = Service.TelaPixel.obterInstancia().procurarPadroesPixels<
-                        BatalhaAntiBOT.numeroMarcacao,
-                        Dictionary<BatalhaAntiBOT.numeroMarcacao, List<Model.Tela>>
-                        >(BatalhaAntiBOT.identificarMarcacoes, BatalhaAntiBOT.armazenarMarcacoes);
-
+                    /*
+                    ModelTela objModelTela = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_1.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
+                    ModelTela objModelTela2 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_2.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
+                    ModelTela objModelTela3 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_3.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
+                    ModelTela objModelTela4 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_4.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
+                    ModelTela objModelTela5 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_5.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
+                    ModelTela objModelTela6 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_6.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
+                    ModelTela objModelTela7 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_7.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
+                    ModelTela objModelTela8 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_8.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
+                    */
+                    ModelTela objModelTela = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_1.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela2 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_2.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela3 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_3.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela4 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_4.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela5 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_5.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela6 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_6.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela7 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_7.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela8 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_8.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    
+                    /// PAREI AQUI:
+                    /// - EXTRAIR IMAGENS JÁ PROCESSADAS DOS NÚMEROS PARA NÃO PRECISAR PROCESSAR NOVAMENTE
+                    /// - O NÚMERO 3 DAS IMAGENS NÃO ESTÁ LEGAL, TALVEZ FAZENDO O PROCESSO ACIMA É RECONHECIDO CORRETAMENTE
+                    /// - OBS: O MÉTOOD USADO DE COMPARADAÇÃO EM 'BUSCARIMAGEMPORTEMPLATE' AGORA SIM ESTÁ FUNCIONANDO CORRETAMENTE.
 
                     break;
                 case EnumTiposBatalha.Normal:

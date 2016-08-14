@@ -35,7 +35,7 @@ namespace Service
                 Win32.posicionarMouse(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
                 Win32.clicarBotaoDireito(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
 
-                Thread.Sleep(1000);
+                Thread.Sleep(1100);
 
                 Win32.posicionarMouse(objModelTela.eixoHorizontal - 35, objModelTela.eixoVertical - 35);
                 Win32.clicarBotaoEsquerdo(objModelTela.eixoHorizontal - 35, objModelTela.eixoVertical - 35);
