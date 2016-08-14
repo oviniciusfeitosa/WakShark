@@ -211,8 +211,10 @@ namespace WakBoy
         #region Visualizar Pixel
         private void checkBoxVisualizarPixel_CheckedChanged(object sender, EventArgs e)
         {
+            Bitmap teste = TelaCaptura.obterInstancia().obterImagemApplicacao("Java");
+            
 
-            Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
+            //Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
             //MessageBox.Show(Service.TelaCaptura.obterInstancia().obterValorTransparenciaPorHorario().ToString());
             /*
             CheckBox objComboBox = (CheckBox)sender;

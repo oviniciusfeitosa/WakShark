@@ -338,8 +338,8 @@ namespace Service
                 }
             }*/
 
-            //objImagemTelaAtual.ToBitmap().Save("C:\\Users\\Public\\teste1.bmp");
-            //objImagemTemplate.ToBitmap().Save("C:\\Users\\Public\\teste2_depois.bmp");
+            objImagemTelaAtual.ToBitmap().Save("C:\\Users\\Public\\teste1.bmp");
+            objImagemTemplate.ToBitmap().Save("C:\\Users\\Public\\teste2_depois.bmp");
             objImagemTelaAtual.Dispose();
             objBitmapTemplate.Dispose();
 

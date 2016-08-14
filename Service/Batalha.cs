@@ -54,12 +54,16 @@ namespace Service
                     ModelTela objModelTela6 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_6.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
                     ModelTela objModelTela7 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_7.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
                     ModelTela objModelTela8 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_8.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    
+
                     /// PAREI AQUI:
                     /// - EXTRAIR IMAGENS JÁ PROCESSADAS DOS NÚMEROS PARA NÃO PRECISAR PROCESSAR NOVAMENTE
                     /// - O NÚMERO 3 DAS IMAGENS NÃO ESTÁ LEGAL, TALVEZ FAZENDO O PROCESSO ACIMA É RECONHECIDO CORRETAMENTE
                     /// - OBS: O MÉTOOD USADO DE COMPARADAÇÃO EM 'BUSCARIMAGEMPORTEMPLATE' AGORA SIM ESTÁ FUNCIONANDO CORRETAMENTE.
-
+                    /*
+                    var teste = System.Diagnostics.Process.GetProcessesByName()
+                    Common.Lib.Win32.clicarBotaoEsquerdo(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
+                    IntPtr objHandle = GetDC(IntPtr.Zero);
+                    */
                     break;
                 case EnumTiposBatalha.Normal:
                     // Faça Algo

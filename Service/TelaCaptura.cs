@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Common.Lib;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -8,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Common.Lib.Win32;
 
 namespace Service
 {
@@ -67,6 +70,29 @@ namespace Service
             }
         }
 
+        public Bitmap obterImagemTela()
+        {
+            Size bounds = SystemInformation.PrimaryMonitorSize;
+
+            using (Bitmap objBitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb))
+            {
+                using (Graphics g = Graphics.FromImage(objBitmap))
+                {
+                    g.CopyFromScreen(0, 0, 0, 0, objBitmap.Size);
+                }
+
+                // Mover para um lugar mais correto
+                if (this.valorTransparencia > 0)
+                {
+                    using (Bitmap objBitmapMascarado = this.aplicarMascaraNegraImagem(objBitmap, this.valorTransparencia))
+                    {
+                        return objBitmapMascarado.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format32bppArgb);
+                    }
+                }
+                return objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format32bppArgb);
+            }
+        }
+
         public Bitmap obterImagemTelaComo8bitesPorPixel()
         {
             return obterImagemTelaComo8bitesPorPixel(EnumRegiaoTela.TELA_CHEIA);
@@ -109,28 +135,28 @@ namespace Service
         {
             return objBitmap.Clone(new Rectangle(0, 0, objBitmap.Width, objBitmap.Height), PixelFormat.Format8bppIndexed);
         }
-
-        public Bitmap obterImagemTela()
+        
+        public Bitmap obterImagemApplicacao(string nomeProcesso)
         {
-            Size bounds = SystemInformation.PrimaryMonitorSize;
+            var listProcessos = Process.GetProcessesByName(nomeProcesso)[0];
 
-            using (Bitmap objBitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb))
-            {
-                using (Graphics g = Graphics.FromImage(objBitmap))
-                {
-                    g.CopyFromScreen(0, 0, 0, 0, objBitmap.Size);
-                }
+            IntPtr hwnd = listProcessos.MainWindowHandle;
 
-                // Mover para um lugar mais correto
-                if (this.valorTransparencia > 0)
-                {
-                    using (Bitmap objBitmapMascarado = this.aplicarMascaraNegraImagem(objBitmap, this.valorTransparencia))
-                    {
-                        return objBitmapMascarado.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format32bppArgb);
-                    }
-                }
-                return objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format32bppArgb);
-            }
+            RECT rc;
+            GetWindowRect(hwnd, out rc);
+
+            Bitmap bmp = new Bitmap(rc.Width, rc.Height, PixelFormat.Format32bppArgb);
+            Graphics gfxBmp = Graphics.FromImage(bmp);
+            IntPtr hdcBitmap = gfxBmp.GetHdc();
+
+            PrintWindow(hwnd, hdcBitmap, 0);
+
+            gfxBmp.ReleaseHdc(hdcBitmap);
+            gfxBmp.Dispose();
+
+            //bmp.Save("C:\\Users\\Public\\a.bmp");
+
+            return bmp;
         }
 
         public int obterValorTransparenciaPorHorario()
