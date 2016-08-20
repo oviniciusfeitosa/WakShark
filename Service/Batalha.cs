@@ -46,14 +46,14 @@ namespace Service
                     ModelTela objModelTela7 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_7.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
                     ModelTela objModelTela8 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_8.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
                     */
-                    ModelTela objModelTela = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_1.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    ModelTela objModelTela2 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_2.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    ModelTela objModelTela3 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_3.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    ModelTela objModelTela4 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_4.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    ModelTela objModelTela5 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_5.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    ModelTela objModelTela6 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_6.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    ModelTela objModelTela7 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_7.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    ModelTela objModelTela8 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_8.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero1.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela2 = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero2.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela3 = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero3.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela4 = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero4.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela5 = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero5.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela6 = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero6.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela7 = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero7.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    ModelTela objModelTela8 = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero8.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
 
                     /// PAREI AQUI:
                     /// - EXTRAIR IMAGENS JÁ PROCESSADAS DOS NÚMEROS PARA NÃO PRECISAR PROCESSAR NOVAMENTE

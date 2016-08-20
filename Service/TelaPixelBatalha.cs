@@ -11,13 +11,26 @@ namespace Service
 {
     class TelaPixelBatalha
     {
-        
+
+        #region Singleton
+        private static TelaPixelBatalha objTelaPixelBatalha;
+
+        public static TelaPixelBatalha obterInstancia()
+        {
+            if (TelaPixelBatalha.objTelaPixelBatalha == null)
+            {
+                TelaPixelBatalha.objTelaPixelBatalha = new TelaPixelBatalha();
+            }
+            return TelaPixelBatalha.objTelaPixelBatalha;
+        }
+        #endregion
 
         public Model.Tela buscarNumeroPorTemplate(string caminhoTemplateNumero, TelaCaptura.EnumRegiaoTela objRegiaoTela)
         {
             Service.TelaCaptura objServiceTelaCaptura = Service.TelaCaptura.obterInstancia();
-            Bitmap objBitmapTemplate = new Bitmap(caminhoTemplateNumero);
-            Image<Emgu.CV.Structure.Gray, byte> objImagemTemplate = this.converterTemplateParaCinza(objBitmapTemplate);
+            Image<Emgu.CV.Structure.Gray, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Gray, byte>(caminhoTemplateNumero);
+            //Bitmap objBitmapTemplate = new Bitmap();
+            //Image<Emgu.CV.Structure.Gray, byte> objImagemTemplate = this.converterTemplateParaCinza(objBitmapTemplate);
             Image<Emgu.CV.Structure.Gray, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Gray, byte>(TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(objRegiaoTela)); // Image B
 
             objImagemTelaAtual = objImagemTelaAtual.ThresholdBinary(new Gray(135), new Gray(255));
@@ -34,8 +47,8 @@ namespace Service
                 double valorMaximo = maxValues[0];
                 if (valorMaximo > 0.5d)
                 {
-                    objModelTela.eixoHorizontal = maxLocations[0].X + (objBitmapTemplate.Width / 2);
-                    objModelTela.eixoVertical = maxLocations[0].Y + (objBitmapTemplate.Height / 2);
+                    objModelTela.eixoHorizontal = maxLocations[0].X + (objImagemTemplate.Width / 2);
+                    objModelTela.eixoVertical = maxLocations[0].Y + (objImagemTemplate.Height / 2);
                 }
             }
 
@@ -43,7 +56,7 @@ namespace Service
             //caminhoTemplateRecurso.Replace("./", "");
             //objImagemTemplate.ToBitmap().Save("C:\\Users\\Public\\" + caminhoTemplateRecurso + ".bmp");
             objImagemTelaAtual.Dispose();
-            objBitmapTemplate.Dispose();
+            objImagemTemplate.Dispose();
 
             return objModelTela;
         }

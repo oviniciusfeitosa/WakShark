@@ -267,13 +267,5 @@ namespace Service
             if (objModelTela.eixoHorizontal > 0 && objModelTela.eixoVertical > 0) return objMetodoAcao(objModelTela);
             return false;
         }
-
-        public Model.Tela buscarImagemPorTemplate(string caminhoTemplateRecurso)
-        {
-            return buscarImagemPorTemplate(caminhoTemplateRecurso, TelaCaptura.EnumRegiaoTela.TELA_CHEIA);
-        }
-
-
-
     }
 }
