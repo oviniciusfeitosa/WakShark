@@ -30,18 +30,17 @@ namespace Service
         
         public static bool acaoColetar(Model.Tela objModelTela)
         {
-            
             try
             {
-                TelaCaptura tc = new TelaCaptura();
-                System.Drawing.Bitmap tmpBmp = tc.obterImagemTela();
-                System.Drawing.Color bmpCor = tmpBmp.GetPixel(700, 100);
-                if (bmpCor.R == 0 && bmpCor.G == 0 && bmpCor.B == 0)
+                /*
+                 * @TODO: Comentei esse trecho do código, porque nem sempre o posicionamento do pixel será "700,100". 
+                 * Uma maneira mais eficaz é verificando se ao lado da barra de hp já está aparecendo o ícone de batalha (duas espadas).
+                if (Service.TelaPixel.obterInstancia().obterPixel(700, 100) == "#000000")
                 {
                     BatalhaAntiBOT.acaoIniciarBatalha(objModelTela);
                     Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
                 }
-
+                */
 
                 Win32.posicionarMouse(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
                 Win32.clicarBotaoDireito(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
@@ -54,14 +53,6 @@ namespace Service
                 Thread.Sleep(6000);
                 
                 /**
-                 * 
-                 * 
-                 * ColetaAntiBatalha
-                 * 
-                 * APÓS CLICAR DEVE SER VARRIDA NOVAMENTE A TELA OU MESMO UTILIZAR O MESMO QUE É UTILIZADO NO "MOUSE MOVE"
-                 * PARA CONSEGUIR OBTER SE ALGUNS PIXELS PARA ESQUERDA OU DIREITA, EXISTEM AS "SETINHAS" QUE TEM QUANDO ALGUM MONSTRO ESTÁ POR PERTO.
-                 * 
-                 * [ OBS ] > VERIFICAR QUANTO TEMPO É USADO PARA FINALIZAR A ATIVIDADE.
                  */
                 //MessageBox.Show("Achou");
                 //Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);

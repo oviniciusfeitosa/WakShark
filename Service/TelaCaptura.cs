@@ -30,17 +30,28 @@ namespace Service
         #endregion
 
         public Bitmap objBitmap;
+
+        public EnumRegiaoTela regiaoTelaAtual = EnumRegiaoTela.VAZIO;
+
+        // @todo : mover para classe ImagemCaptura dentro de Common
         public Common.Lib.LockBitmap objLockedBitmap;
+
+        // @todo : mover para classe ImagemCaptura dentro de Common
         public int valorTransparencia = 0;
+
+        // @todo : mover para classe ImagemCaptura dentro de Common
         public bool isUtilizarMascaraLuminosidade = false;
 
+        // @todo : mover para classe ImagemCaptura dentro de Common
         public enum EnumRegiaoTela
         {
             TELA_CHEIA,
             LADO_ESQUERDO,
-            LADO_DIREITO
+            LADO_DIREITO,
+            VAZIO
         }
 
+        // @todo : mover para classe ImagemCaptura dentro de Common
         public void capturarTela(String filePath)
         {
             try
@@ -70,6 +81,7 @@ namespace Service
             }
         }
 
+        // @todo : mover para classe ImagemCaptura dentro de Common
         public Bitmap obterImagemTela()
         {
             Size bounds = SystemInformation.PrimaryMonitorSize;
@@ -93,24 +105,31 @@ namespace Service
             }
         }
 
+        // @todo : mover para classe ImagemCaptura dentro de Common
         public Bitmap obterImagemTelaComo8bitesPorPixel()
         {
-            return obterImagemTelaComo8bitesPorPixel(EnumRegiaoTela.TELA_CHEIA, 0f);
+            return obterImagemTelaComo8bitesPorPixel(EnumRegiaoTela.TELA_CHEIA, false);
         }
 
+        // @todo : mover para classe ImagemCaptura dentro de Common
         public Bitmap obterImagemTelaComo8bitesPorPixel(EnumRegiaoTela objEnumRegiaoTela)
         {
-            return obterImagemTelaComo8bitesPorPixel(objEnumRegiaoTela, 0f);
+            return obterImagemTelaComo8bitesPorPixel(objEnumRegiaoTela, false);
         }
 
-        public Bitmap obterImagemTelaComo8bitesPorPixel(EnumRegiaoTela objEnumRegiaoTela, float anguloRotacao)
+        // @todo : mover para classe ImagemCaptura dentro de Common
+        public Bitmap obterImagemTelaComo8bitesPorPixel(EnumRegiaoTela objEnumRegiaoTela, bool isGerarNovaInstancia)
         {
-            Size bounds = SystemInformation.PrimaryMonitorSize;
-            //Rectangle bounds = SystemInformation.VirtualScreen;
-            //Rectangle bounds = Screen.PrimaryScreen.Bounds;
-
-            using (Bitmap objBitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb))
+            if (this.regiaoTelaAtual != objEnumRegiaoTela || isGerarNovaInstancia == true)
             {
+                Size bounds = SystemInformation.PrimaryMonitorSize;
+                //Rectangle bounds = SystemInformation.VirtualScreen;
+                //Rectangle bounds = Screen.PrimaryScreen.Bounds;
+
+                this.regiaoTelaAtual = objEnumRegiaoTela;
+
+                this.objBitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb);
+
                 using (Graphics objGraphics = Graphics.FromImage(objBitmap))
                 {
                     Size objSize = objBitmap.Size;
@@ -120,7 +139,7 @@ namespace Service
                     switch (objEnumRegiaoTela)
                     {
                         case EnumRegiaoTela.LADO_ESQUERDO:
-                            objGraphics.CopyFromScreen(0, 0, (int)(objBitmap.Width / 2.09), 0 , objSize);
+                            objGraphics.CopyFromScreen(0, 0, (int)(objBitmap.Width / 2.09), 0, objSize);
                             break;
                         case EnumRegiaoTela.LADO_DIREITO:
                             objGraphics.CopyFromScreen((int)(objBitmap.Width / 2), 0, (int)(objBitmap.Width / 2), 0, objSize);
@@ -131,18 +150,19 @@ namespace Service
                             break;
                     }
                 }
-                Bitmap novaImagem = objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format8bppIndexed);
-                
-                if (anguloRotacao > 0f) return this.rotacionarImagem(objBitmap, anguloRotacao);
-                return novaImagem;
+                this.objBitmap = objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format8bppIndexed);
             }
+
+            return this.objBitmap;
         }
 
+        // @todo : mover para classe ImagemCaptura dentro de Common
         public Bitmap converterImagemPara8bitesPorPixel(Bitmap objBitmap)
         {
             return objBitmap.Clone(new Rectangle(0, 0, objBitmap.Width, objBitmap.Height), PixelFormat.Format8bppIndexed);
         }
-        
+
+        // @todo : mover para classe ImagemCaptura dentro de Common
         public Bitmap obterImagemApplicacao(string nomeProcesso)
         {
             var listProcessos = Process.GetProcessesByName(nomeProcesso)[0];
@@ -166,26 +186,28 @@ namespace Service
             return bmp;
         }
 
+        // @todo : mover para classe ImagemTransparencia dentro de Common
         public int obterValorTransparenciaPorHorario()
         {
             // "Romance Standard Time" (GMT+01:00) Brussels, Copenhagen, Madrid, Paris
             DateTime horarioaAtual = DateTime.Now;
             TimeZoneInfo tempoDeZonaFranca = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
             DateTime horarioConvertido = TimeZoneInfo.ConvertTime(horarioaAtual, TimeZoneInfo.Local, tempoDeZonaFranca);
-            
+
             int horaAtual = Int32.Parse(horarioConvertido.ToString("HH"));
             int valorMaximoTransparencia = 160;
 
             int[] variacoesTransparenciaPorHorario = new int[24];
             for (int hora = 0; hora < 24; hora++)
             {
-                if (hora >= 12 ) variacoesTransparenciaPorHorario[ hora ] = (valorMaximoTransparencia / 12) * ( hora - 12 );
-                else variacoesTransparenciaPorHorario[ hora ] = (valorMaximoTransparencia / 12) * (hora);
+                if (hora >= 12) variacoesTransparenciaPorHorario[hora] = (valorMaximoTransparencia / 12) * (hora - 12);
+                else variacoesTransparenciaPorHorario[hora] = (valorMaximoTransparencia / 12) * (hora);
             };
 
             return variacoesTransparenciaPorHorario[horaAtual];
         }
 
+        // @todo : mover para classe ImagemMascaraNegra dentro de Common
         public Bitmap aplicarMascaraNegraImagemIndexada(Bitmap objImagemOriginal, int valorTransparencia)
         {
             Bitmap newImage = new Bitmap(objImagemOriginal.Width, objImagemOriginal.Height,
@@ -201,6 +223,7 @@ namespace Service
             return newImage;
         }
 
+        // @todo : mover para classe ImagemMascaraNegra dentro de Common
         public Bitmap aplicarMascaraNegraImagem(Bitmap objImagemOriginal, int valorTransparencia)
         {
             objImagemOriginal.SetResolution(objImagemOriginal.HorizontalResolution,
@@ -214,13 +237,13 @@ namespace Service
             return objImagemOriginal;
         }
 
-
-        public static Bitmap ResizeImage(Bitmap image, int width, int height)
+        // @todo : mover para classe Imagem dentro de Common
+        public Bitmap redimencionarImagem(Bitmap objImagem, int largura, int altura)
         {
-            var destRect = new Rectangle(0, 0, width, height);
-            var destImage = new Bitmap(width, height);
+            var destRect = new Rectangle(0, 0, largura, altura);
+            var destImage = new Bitmap(largura, altura);
 
-            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+            destImage.SetResolution(objImagem.HorizontalResolution, objImagem.VerticalResolution);
 
             using (var graphics = Graphics.FromImage(destImage))
             {
@@ -233,63 +256,32 @@ namespace Service
                 using (var wrapMode = new ImageAttributes())
                 {
                     wrapMode.SetWrapMode(System.Drawing.Drawing2D.WrapMode.TileFlipXY);
-                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                    graphics.DrawImage(objImagem, destRect, 0, 0, objImagem.Width, objImagem.Height, GraphicsUnit.Pixel, wrapMode);
                 }
             }
 
             return destImage;
         }
 
-        public static Bitmap RotateImage(Bitmap img, float rotationAngle)
+        public Bitmap rotacionarImagem(Bitmap objImagem, float rotationAngle)
         {
-            //create an empty Bitmap image
-            Bitmap bmp = new Bitmap(img.Width, img.Height);
+            Bitmap objBitmap = new Bitmap(objImagem.Width, objImagem.Height);
 
-            //turn the Bitmap into a Graphics object
-            Graphics gfx = Graphics.FromImage(bmp);
+            Graphics objGraphics = Graphics.FromImage(objBitmap);
+            objGraphics.Clear(Color.White);
+            objGraphics.TranslateTransform((float)objBitmap.Width / 2, (float)objBitmap.Height / 2);
+            objGraphics.RotateTransform(rotationAngle);
+            objGraphics.TranslateTransform(-(float)objBitmap.Width / 2, -(float)objBitmap.Height / 2);
+            objGraphics.DrawImage(objImagem, new Point(0, 0));
+            objGraphics.Dispose();
 
-            //now we set the rotation point to the center of our image
-            gfx.TranslateTransform((float)bmp.Width / 2, (float)bmp.Height / 2);
-
-            //now rotate the image
-            gfx.RotateTransform(rotationAngle);
-
-            gfx.TranslateTransform(-(float)bmp.Width / 2, -(float)bmp.Height / 2);
-
-            //set the InterpolationMode to HighQualityBicubic so to ensure a high
-            //quality image once it is transformed to the specified size
-            gfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-
-            //now draw our new image onto the graphics object
-            gfx.DrawImage(img, new Point(0, 0));
-
-            //dispose of our Graphics object
-            gfx.Dispose();
-
-            //return the image
-            return bmp;
+            return objBitmap;
         }
 
         public Bitmap aplicarMascaraNegraImagem(Bitmap objImagemOriginal)
         {
             this.valorTransparencia = this.obterValorTransparenciaPorHorario();
             return aplicarMascaraNegraImagem(objImagemOriginal, this.valorTransparencia);
-        }
-
-        public Bitmap rotacionarImagem(Bitmap objBitmap, float angulo)
-        {
-            using (Bitmap rotatedImage = new Bitmap(objBitmap.Width, objBitmap.Height))
-            {
-                using (Graphics objGraphics = Graphics.FromImage(rotatedImage))
-                {
-                    objGraphics.TranslateTransform(objBitmap.Width / 2, objBitmap.Height / 2); //set the rotation point as the center into the matrix
-                    objGraphics.RotateTransform(angulo); //rotate
-                    objGraphics.TranslateTransform(-objBitmap.Width / 2, -objBitmap.Height / 2); //restore rotation point into the matrix
-                    objGraphics.DrawImage(objBitmap, new Point(0, 0)); //draw the image on the new bitmap
-                }
-                rotatedImage.Save("C:\\Users\\Public\\asdasdasdasdasdasdasd.png");
-                return rotatedImage;
-            }
         }
     }
 }

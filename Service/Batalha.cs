@@ -36,33 +36,23 @@ namespace Service
             switch (objEnumTipoBatalha)
             {
                 case EnumTiposBatalha.AntiBOT:
-                    /*
-                    ModelTela objModelTela = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_1.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
-                    ModelTela objModelTela2 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_2.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
-                    ModelTela objModelTela3 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_3.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
-                    ModelTela objModelTela4 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_4.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
-                    ModelTela objModelTela5 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_5.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
-                    ModelTela objModelTela6 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_6.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
-                    ModelTela objModelTela7 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_7.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
-                    ModelTela objModelTela8 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_8.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
-                    */
                     try {
-                        System.Threading.Thread.Sleep(3000);
-                        Bitmap bmp = TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel();
+                        //System.Threading.Thread.Sleep(3000);
+                        Bitmap bmp = TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(TelaCaptura.EnumRegiaoTela.TELA_CHEIA, false);
                         Bitmap bmpClone = bmp.Clone(new Rectangle(0, 0, bmp.Width, bmp.Height), PixelFormat.Format32bppArgb);
-                        Bitmap bmpCloneOrig = bmp.Clone(new Rectangle(0, 0, bmp.Width, bmp.Height), PixelFormat.Format32bppArgb);
-                        bmpClone = TelaCaptura.ResizeImage(bmpClone, bmpClone.Width / 2, bmpClone.Height);
-                        bmpClone = TelaCaptura.RotateImage(bmpClone, 315);
+                        
+                        bmpClone = TelaCaptura.obterInstancia().redimencionarImagem(bmpClone, bmpClone.Width / 2, bmpClone.Height);
+                        bmpClone = TelaCaptura.obterInstancia().rotacionarImagem(bmpClone, 315);
 
                         Dictionary<int, ModelTela> ModelTelas = new Dictionary<int, ModelTela>();
-                        ModelTelas.Add(1, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero1.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
-                        ModelTelas.Add(2, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero2.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
-                        ModelTelas.Add(3, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero3.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
-                        ModelTelas.Add(4, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero4.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
-                        ModelTelas.Add(5, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero5.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
-                        ModelTelas.Add(6, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero6.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
-                        ModelTelas.Add(7, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero7.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
-                        ModelTelas.Add(8, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero8.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
+                        ModelTelas.Add(1, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero1.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
+                        ModelTelas.Add(2, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero2.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
+                        ModelTelas.Add(3, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero3.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
+                        ModelTelas.Add(4, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero4.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
+                        ModelTelas.Add(5, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero5.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
+                        ModelTelas.Add(6, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero6.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
+                        ModelTelas.Add(7, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero7.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
+                        ModelTelas.Add(8, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero8.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
                         Application.DoEvents();
 
 
@@ -72,7 +62,6 @@ namespace Service
                             if (m.eixoHorizontal > 0)
                             {
                                 NumerosEncontrados.Add(m);
-
                             }
                         }
 
@@ -90,12 +79,12 @@ namespace Service
                                 }
                             }
                         }
-                        bmpClone.Save(@"C:\temp\Resultado.bmp");
+                        bmpClone.Save(@"C:\\Users\\Public\\Resultado.bmp");
                         Application.DoEvents();
                     }
-                    catch (Exception e)
+                    catch (Exception objException)
                     {
-
+                        MessageBox.Show(objException.Message);
                     }
 
                     /// PAREI AQUI:

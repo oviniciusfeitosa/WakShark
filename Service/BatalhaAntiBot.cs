@@ -66,10 +66,7 @@ namespace Service
             (
                 Model.Tela objModelTela, 
                 BatalhaAntiBOT.numeroMarcacao  enumNumeroMarcacao, 
-                Dictionary<
-                    BatalhaAntiBOT.numeroMarcacao, 
-                    List<Model.Tela>
-                > objDicionarioMarcacoes
+                Dictionary< BatalhaAntiBOT.numeroMarcacao, List<Model.Tela> > objDicionarioMarcacoes
             )
         {
             if (objDicionarioMarcacoes == null) objDicionarioMarcacoes = new Dictionary<BatalhaAntiBOT.numeroMarcacao, List<Model.Tela>>();
