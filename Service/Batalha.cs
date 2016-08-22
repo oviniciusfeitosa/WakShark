@@ -41,8 +41,8 @@ namespace Service
                         Bitmap bmp = TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(TelaCaptura.EnumRegiaoTela.TELA_CHEIA, false);
                         Bitmap bmpClone = bmp.Clone(new Rectangle(0, 0, bmp.Width, bmp.Height), PixelFormat.Format32bppArgb);
                         
-                        bmpClone = TelaCaptura.obterInstancia().redimencionarImagem(bmpClone, bmpClone.Width / 2, bmpClone.Height);
-                        bmpClone = TelaCaptura.obterInstancia().rotacionarImagem(bmpClone, 315);
+                        //bmpClone = TelaCaptura.obterInstancia().redimencionarImagem(bmpClone, bmpClone.Width / 2, bmpClone.Height);
+                        //bmpClone = TelaCaptura.obterInstancia().rotacionarImagem(bmpClone, 315);
 
                         Dictionary<int, ModelTela> ModelTelas = new Dictionary<int, ModelTela>();
                         ModelTelas.Add(1, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero1.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
@@ -55,28 +55,11 @@ namespace Service
                         ModelTelas.Add(8, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero8.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
                         Application.DoEvents();
 
-
-                        List<ModelTela> NumerosEncontrados = new List<ModelTela>();
-                        foreach (ModelTela m in ModelTelas.Values)
+                        for(int indice = 1; indice < 9; indice++)
                         {
-                            if (m.eixoHorizontal > 0)
+                            if (ModelTelas[indice].eixoHorizontal > 0)
                             {
-                                NumerosEncontrados.Add(m);
-                            }
-                        }
-
-                        foreach (ModelTela m in NumerosEncontrados)
-                        {
-                            int offsetX = m.eixoHorizontal;
-                            int offsetY = m.eixoVertical;
-
-                            for (int i = offsetX; i < offsetX + 20; i++)
-                            {
-                                for (int j = offsetY; j < offsetY + 20; j++)
-                                {
-                                    if (j <= bmpClone.Height && i <= bmpClone.Width)
-                                        bmpClone.SetPixel(i, j, Color.FromArgb(255, 255 - m.pixelColor.R, 255 - m.pixelColor.G, 255 - m.pixelColor.B));
-                                }
+                                bmpClone.SetPixel(ModelTelas[indice].eixoHorizontal, ModelTelas[indice].eixoVertical, Color.FromArgb(255, 255, 255, 255));
                             }
                         }
                         bmpClone.Save(@"C:\\Users\\Public\\Resultado.bmp");
