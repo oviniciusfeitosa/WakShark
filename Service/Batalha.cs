@@ -46,14 +46,57 @@ namespace Service
                     ModelTela objModelTela7 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_7.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
                     ModelTela objModelTela8 = Service.TelaPixel.obterInstancia().buscarImagemPorTemplate("./bot_numero_8.png", TelaCaptura.EnumRegiaoTela.LADO_ESQUERDO);
                     */
-                    ModelTela objModelTela = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero1.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    ModelTela objModelTela2 = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero2.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    ModelTela objModelTela3 = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero3.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    ModelTela objModelTela4 = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero4.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    ModelTela objModelTela5 = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero5.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    ModelTela objModelTela6 = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero6.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    ModelTela objModelTela7 = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero7.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
-                    ModelTela objModelTela8 = Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplate("./numero8.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO);
+                    try {
+                        System.Threading.Thread.Sleep(3000);
+                        Bitmap bmp = TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel();
+                        Bitmap bmpClone = bmp.Clone(new Rectangle(0, 0, bmp.Width, bmp.Height), PixelFormat.Format32bppArgb);
+                        Bitmap bmpCloneOrig = bmp.Clone(new Rectangle(0, 0, bmp.Width, bmp.Height), PixelFormat.Format32bppArgb);
+                        bmpClone = TelaCaptura.ResizeImage(bmpClone, bmpClone.Width / 2, bmpClone.Height);
+                        bmpClone = TelaCaptura.RotateImage(bmpClone, 315);
+
+                        Dictionary<int, ModelTela> ModelTelas = new Dictionary<int, ModelTela>();
+                        ModelTelas.Add(1, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero1.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
+                        ModelTelas.Add(2, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero2.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
+                        ModelTelas.Add(3, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero3.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
+                        ModelTelas.Add(4, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero4.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
+                        ModelTelas.Add(5, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero5.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
+                        ModelTelas.Add(6, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero6.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
+                        ModelTelas.Add(7, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero7.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
+                        ModelTelas.Add(8, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero8.png", TelaCaptura.EnumRegiaoTela.TELA_CHEIA));
+                        Application.DoEvents();
+
+
+                        List<ModelTela> NumerosEncontrados = new List<ModelTela>();
+                        foreach (ModelTela m in ModelTelas.Values)
+                        {
+                            if (m.eixoHorizontal > 0)
+                            {
+                                NumerosEncontrados.Add(m);
+
+                            }
+                        }
+
+                        foreach (ModelTela m in NumerosEncontrados)
+                        {
+                            int offsetX = m.eixoHorizontal;
+                            int offsetY = m.eixoVertical;
+
+                            for (int i = offsetX; i < offsetX + 20; i++)
+                            {
+                                for (int j = offsetY; j < offsetY + 20; j++)
+                                {
+                                    if (j <= bmpClone.Height && i <= bmpClone.Width)
+                                        bmpClone.SetPixel(i, j, Color.FromArgb(255, 255 - m.pixelColor.R, 255 - m.pixelColor.G, 255 - m.pixelColor.B));
+                                }
+                            }
+                        }
+                        bmpClone.Save(@"C:\temp\Resultado.bmp");
+                        Application.DoEvents();
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
 
                     /// PAREI AQUI:
                     /// - EXTRAIR IMAGENS JÁ PROCESSADAS DOS NÚMEROS PARA NÃO PRECISAR PROCESSAR NOVAMENTE

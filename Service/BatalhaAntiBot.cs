@@ -42,6 +42,10 @@ namespace Service
         public static bool acaoIniciarBatalha(Model.Tela objModelTela)
         {
             // Faça algo.
+            System.Threading.Thread.Sleep(1000);
+
+            System.Windows.Forms.SendKeys.SendWait(" ");
+            System.Threading.Thread.Sleep(1000);
             return true;
         }
 

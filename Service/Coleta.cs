@@ -30,15 +30,26 @@ namespace Service
         
         public static bool acaoColetar(Model.Tela objModelTela)
         {
+            
             try
             {
+                TelaCaptura tc = new TelaCaptura();
+                System.Drawing.Bitmap tmpBmp = tc.obterImagemTela();
+                System.Drawing.Color bmpCor = tmpBmp.GetPixel(700, 100);
+                if (bmpCor.R == 0 && bmpCor.G == 0 && bmpCor.B == 0)
+                {
+                    BatalhaAntiBOT.acaoIniciarBatalha(objModelTela);
+                    Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
+                }
+
+
                 Win32.posicionarMouse(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
                 Win32.clicarBotaoDireito(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
 
                 Thread.Sleep(1100);
 
-                Win32.posicionarMouse(objModelTela.eixoHorizontal - 35, objModelTela.eixoVertical - 35);
-                Win32.clicarBotaoEsquerdo(objModelTela.eixoHorizontal - 35, objModelTela.eixoVertical - 35);
+                Win32.posicionarMouse(objModelTela.eixoHorizontal + 35, objModelTela.eixoVertical - 35);
+                Win32.clicarBotaoEsquerdo(objModelTela.eixoHorizontal + 35, objModelTela.eixoVertical - 35);
 
                 Thread.Sleep(6000);
                 
