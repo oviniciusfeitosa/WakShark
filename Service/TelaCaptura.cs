@@ -95,10 +95,15 @@ namespace Service
 
         public Bitmap obterImagemTelaComo8bitesPorPixel()
         {
-            return obterImagemTelaComo8bitesPorPixel(EnumRegiaoTela.TELA_CHEIA);
+            return obterImagemTelaComo8bitesPorPixel(EnumRegiaoTela.TELA_CHEIA, 0f);
         }
 
         public Bitmap obterImagemTelaComo8bitesPorPixel(EnumRegiaoTela objEnumRegiaoTela)
+        {
+            return obterImagemTelaComo8bitesPorPixel(objEnumRegiaoTela, 0f);
+        }
+
+        public Bitmap obterImagemTelaComo8bitesPorPixel(EnumRegiaoTela objEnumRegiaoTela, float anguloRotacao)
         {
             Size bounds = SystemInformation.PrimaryMonitorSize;
             //Rectangle bounds = SystemInformation.VirtualScreen;
@@ -111,7 +116,7 @@ namespace Service
                     Size objSize = objBitmap.Size;
 
                     // @todo: substitutir o objBitmap.size.width para a propriedade que recuperar a altura e largura da tela do wakfu
-                    // Porque atualmente só é valido quando o jogo está em tela cheia.
+                    //        Porque atualmente só é valido quando o jogo está em tela cheia.
                     switch (objEnumRegiaoTela)
                     {
                         case EnumRegiaoTela.LADO_ESQUERDO:
@@ -126,8 +131,10 @@ namespace Service
                             break;
                     }
                 }
-
-                return objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format8bppIndexed);
+                Bitmap novaImagem = objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format8bppIndexed);
+                
+                if (anguloRotacao > 0f) return this.rotacionarImagem(objBitmap, anguloRotacao);
+                return novaImagem;
             }
         }
 
@@ -211,6 +218,22 @@ namespace Service
         {
             this.valorTransparencia = this.obterValorTransparenciaPorHorario();
             return aplicarMascaraNegraImagem(objImagemOriginal, this.valorTransparencia);
+        }
+
+        public Bitmap rotacionarImagem(Bitmap objBitmap, float angulo)
+        {
+            using (Bitmap rotatedImage = new Bitmap(objBitmap.Width, objBitmap.Height))
+            {
+                using (Graphics objGraphics = Graphics.FromImage(rotatedImage))
+                {
+                    objGraphics.TranslateTransform(objBitmap.Width / 2, objBitmap.Height / 2); //set the rotation point as the center into the matrix
+                    objGraphics.RotateTransform(angulo); //rotate
+                    objGraphics.TranslateTransform(-objBitmap.Width / 2, -objBitmap.Height / 2); //restore rotation point into the matrix
+                    objGraphics.DrawImage(objBitmap, new Point(0, 0)); //draw the image on the new bitmap
+                }
+                rotatedImage.Save("C:\\Users\\Public\\asdasdasdasdasdasdasd.png");
+                return rotatedImage;
+            }
         }
     }
 }
