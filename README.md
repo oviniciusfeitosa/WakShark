@@ -13,9 +13,9 @@ Atualmente o WakShark utiliza o OpenCV através do wrapper EMGU para C#.
 
 [ English - EN ]
 With WakShark you can:
-- Making recognition of images with actions
+- Do image recognition with actions
 - Search / Display / Store Pixels
-- Search / Display / Store Pixels Standards
+- Search / Display / Store Pixels Patterns
 - Convert images to 8 bits per pixel
 - Get ScreenShots
 - Apply light shade feature according to the current time (GMT -1)
