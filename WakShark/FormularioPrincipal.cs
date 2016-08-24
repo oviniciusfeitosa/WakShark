@@ -20,7 +20,7 @@ namespace WakBoy
     public partial class FormularioPrincipal : Form, IDisposable
     {
         private IKeyboardMouseEvents m_GlobalHook;
-        private KeyboardHook hook = new KeyboardHook();
+        private KeyboardHook hook;
         public FormularioPrincipal()
         {
             InitializeComponent();
@@ -30,7 +30,7 @@ namespace WakBoy
         {
             string[] objDataSourceTipoBusca = new[] { "Coleta" };
             comboBoxTipoBusca.DataSource = objDataSourceTipoBusca;
-
+			hook = new KeyboardHook ();
             hook.KeyPressed += new EventHandler<KeyPressedEventArgs>(gatilhoTeclaPressionadaGlobalmente);
             // register the control + alt + F12 combination as hot key.
             // hook.RegisterHotKey(Common.Lib.ModifierKeys.Control | ModifierKeys.Alt, Keys.F12);
@@ -77,7 +77,7 @@ namespace WakBoy
                         {
                             while (this.checkBoxCacadorPixelsLigado.Checked)
                             {
-                                bool retorno = ServiceColeta.obterInstancia().coletar(textBoxLocalizacaoImagemTemplate.Text);
+                                ServiceColeta.obterInstancia().coletar(textBoxLocalizacaoImagemTemplate.Text);
                             }
                         });
                     }
