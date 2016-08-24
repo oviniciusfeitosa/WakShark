@@ -5,6 +5,7 @@ using Gma.System.MouseKeyHook;
 using System.Windows.Forms;
 using System.Threading;
 using Common.Lib;
+using Common;
 
 namespace Service
 {
@@ -25,7 +26,7 @@ namespace Service
 
         public bool coletar(string caminhoTemplateRecurso)
         {
-            return TelaPixel.obterInstancia().procurarImagemPorTemplateComAcao(caminhoTemplateRecurso, acaoColetar);
+            return ImagemBusca.obterInstancia().procurarImagemPorTemplateComAcao(caminhoTemplateRecurso, acaoColetar);
         }
         
         public static bool acaoColetar(Model.Tela objModelTela)

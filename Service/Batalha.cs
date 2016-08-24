@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ModelTela = Model.Tela;
+using Common;
 
 namespace Service
 {
@@ -37,22 +38,25 @@ namespace Service
             {
                 case EnumTiposBatalha.AntiBOT:
                     try {
+
+                        // INÍCIO -  Trecho de teste
                         //System.Threading.Thread.Sleep(3000);
-                        Bitmap bmp = TelaCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(TelaCaptura.EnumRegiaoTela.TELA_CHEIA, false);
+                        Bitmap bmp = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem.COMPLETO, false);
                         Bitmap bmpClone = bmp.Clone(new Rectangle(0, 0, bmp.Width, bmp.Height), PixelFormat.Format32bppArgb);
                         
                         //bmpClone = TelaCaptura.obterInstancia().redimencionarImagem(bmpClone, bmpClone.Width / 2, bmpClone.Height);
                         //bmpClone = TelaCaptura.obterInstancia().rotacionarImagem(bmpClone, 315);
 
                         Dictionary<int, ModelTela> ModelTelas = new Dictionary<int, ModelTela>();
-                        ModelTelas.Add(1, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero1.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
-                        ModelTelas.Add(2, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero2.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
-                        ModelTelas.Add(3, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero3.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
-                        ModelTelas.Add(4, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero4.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
-                        ModelTelas.Add(5, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero5.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
-                        ModelTelas.Add(6, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero6.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
-                        ModelTelas.Add(7, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero7.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
-                        ModelTelas.Add(8, Service.TelaPixelBatalha.obterInstancia().buscarNumeroPorTemplateRotacionado("./numero8.png", TelaCaptura.EnumRegiaoTela.LADO_DIREITO));
+                        BatalhaAntiBOT objBatalhaAntiBOT = BatalhaAntiBOT.obterInstancia();
+                        ModelTelas.Add(1, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero1.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(2, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero2.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(3, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero3.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(4, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero4.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(5, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero5.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(6, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero6.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(7, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero7.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(8, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero8.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
                         Application.DoEvents();
 
                         for(int indice = 1; indice < 9; indice++)
@@ -64,6 +68,7 @@ namespace Service
                         }
                         bmpClone.Save(@"C:\\Users\\Public\\Resultado.bmp");
                         Application.DoEvents();
+                        // FIM -  Trecho de teste
                     }
                     catch (Exception objException)
                     {
@@ -88,6 +93,14 @@ namespace Service
             }
             return true;
         }
-        
+
+        public PointF obterPontoRotacionado(float angle, Point pt)
+        {
+            var a = angle * System.Math.PI / 180.0;
+            float cosa = (float)Math.Cos(a);
+            float sina = (float)Math.Sin(a);
+            return new PointF((pt.X * cosa - pt.Y * sina), (pt.X * sina + pt.Y * cosa));
+        }
+
     }
 }

@@ -33,6 +33,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Emgu.CV">
+      <HintPath>..\..\..\..\..\Desktop\OPENCV\My Advanced EMGU Program\My EMGU Program\bin\Debug\Emgu.CV.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.UI">
+      <HintPath>..\..\..\..\..\Desktop\OPENCV\My Advanced EMGU Program\My EMGU Program\bin\Debug\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.Util">
+      <HintPath>..\..\..\..\..\Desktop\OPENCV\My Advanced EMGU Program\My EMGU Program\bin\Debug\Emgu.Util.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -47,6 +56,11 @@
   <ItemGroup>
     <Compile Include="CapturadorPixel.cs" />
     <Compile Include="ColorHelper.cs" />
+    <Compile Include="Imagem.cs" />
+    <Compile Include="ImagemBusca.cs" />
+    <Compile Include="ImagemCaptura.cs" />
+    <Compile Include="ImagemMascaraNegra.cs" />
+    <Compile Include="ImagemTransparencia.cs" />
     <Compile Include="Lib\HSLColor.cs" />
     <Compile Include="Lib\KeyboardHook.cs" />
     <Compile Include="Lib\LockBitmap.cs" />

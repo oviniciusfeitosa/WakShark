@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using ModelTela = Model.Tela;
 using CapturadorPixel = Common.CapturadorPixel;
+using Common;
 using ServiceColeta = Service.Coleta;
 using Service;
 using Gma.System.MouseKeyHook;
@@ -66,7 +67,7 @@ namespace WakBoy
                 {
                     this.checkBoxCacadorPixelsLigado.BackColor = Color.Green;
 
-                    Service.TelaCaptura.obterInstancia().isUtilizarMascaraLuminosidade = checkBoxMascaraLuminosidade.Checked;
+                    ImagemCaptura.obterInstancia().isUtilizarMascaraLuminosidade = checkBoxMascaraLuminosidade.Checked;
 
                     // Modificar esse trecho utilizado para teste, porque está sendo validado somente por 'coleta'. Quem sabe um switch não caia melhor?
                     if (comboBoxTipoBusca.SelectedValue.ToString() == "Coleta") {
@@ -143,8 +144,7 @@ namespace WakBoy
         {
             try
             {
-                Service.TelaCaptura objServiceTelaCaptura = Service.TelaCaptura.obterInstancia();
-                using (Bitmap objBitmap = objServiceTelaCaptura.obterImagemTelaComo8bitesPorPixel())
+                using (Bitmap objBitmap = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel())
                 {
                     /*using (Service.Lib.LockBitmap objLockedBitmap = new Service.Lib.LockBitmap(objBitmap))
                     {
@@ -194,13 +194,11 @@ namespace WakBoy
         #region Tirar Screenshot
         private void botaoScreenshot_Click(object sender, EventArgs e)
         {
+            if (!String.IsNullOrEmpty(textBoxTransparencia.Text)) ImagemTransparencia.obterInstancia().valorTransparencia = Int32.Parse(textBoxTransparencia.Text);
 
-            Service.TelaCaptura objServiceTelaCaptura = Service.TelaCaptura.obterInstancia();
-            if (!String.IsNullOrEmpty(textBoxTransparencia.Text)) objServiceTelaCaptura.valorTransparencia = Int32.Parse(textBoxTransparencia.Text);
+            ImagemTransparencia.obterInstancia().definirValorTransparenciaPorHorario();
 
-            objServiceTelaCaptura.valorTransparencia = objServiceTelaCaptura.obterValorTransparenciaPorHorario();
-
-            using (Image<Gray, byte> source = new Image<Gray, byte>(objServiceTelaCaptura.obterImagemTelaComo8bitesPorPixel()))
+            using (Image<Gray, byte> source = new Image<Gray, byte>(ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel()))
             {
                 source.Save(@textBoxLocalizacaoScreenshot.Text);
                 MessageBox.Show("PrintScreen realizado com sucesso!");
