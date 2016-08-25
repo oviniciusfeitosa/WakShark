@@ -225,7 +225,7 @@ namespace Common
                 objBitmapTemplate = ImagemMascaraNegra.obterInstancia().aplicarMascaraNegraImagem(objBitmapTemplate);
             }
 
-            objBitmapTemplate = Imagem.obterInstancia().converterImagemPara8bitesPorPixel(objBitmapTemplate);
+            objBitmapTemplate = ImagemTransformacao.obterInstancia().converterImagemPara8bitesPorPixel(objBitmapTemplate);
 
             Image<Emgu.CV.Structure.Gray, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Gray, byte>(objImagemCaptura.obterImagemTelaComo8bitesPorPixel()); // Image B
             Image<Emgu.CV.Structure.Gray, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Gray, byte>(objBitmapTemplate); // Image A

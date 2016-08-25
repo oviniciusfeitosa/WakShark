@@ -60,7 +60,6 @@
     <Compile Include="Coleta.cs" />
     <Compile Include="Batalha.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TelaPixel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

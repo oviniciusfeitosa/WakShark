@@ -60,6 +60,7 @@
     <Compile Include="ImagemBusca.cs" />
     <Compile Include="ImagemCaptura.cs" />
     <Compile Include="ImagemMascaraNegra.cs" />
+    <Compile Include="ImagemTransformacao.cs" />
     <Compile Include="ImagemTransparencia.cs" />
     <Compile Include="Lib\HSLColor.cs" />
     <Compile Include="Lib\KeyboardHook.cs" />
