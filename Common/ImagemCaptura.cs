@@ -105,26 +105,26 @@ namespace Common
 
                 this.regiaoTelaAtual = objEnumRegiaoTela;
 
-                this.objBitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb);
+                Bitmap objBitmapTemporaria = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb);
 
-                using (Graphics objGraphics = Graphics.FromImage(objBitmap))
+                using (Graphics objGraphics = Graphics.FromImage(objBitmapTemporaria))
                 {
-                    Size objSize = objBitmap.Size;
+                    Size objSize = objBitmapTemporaria.Size;
                     switch (objEnumRegiaoTela)
                     {
                         case Imagem.EnumRegiaoImagem.LADO_ESQUERDO:
-                            objGraphics.CopyFromScreen(0, 0, (int)(objBitmap.Width / 2.09), 0, objSize);
+                            objGraphics.CopyFromScreen(0, 0, (int)(objBitmapTemporaria.Width / 2.09), 0, objSize);
                             break;
                         case Imagem.EnumRegiaoImagem.LADO_DIREITO:
-                            objGraphics.CopyFromScreen((int)(objBitmap.Width / 2), 0, (int)(objBitmap.Width / 2), 0, objSize);
+                            objGraphics.CopyFromScreen((int)(objBitmapTemporaria.Width / 2), 0, (int)(objBitmapTemporaria.Width / 2), 0, objSize);
                             break;
                         case Imagem.EnumRegiaoImagem.COMPLETO:
                         default:
-                            objGraphics.CopyFromScreen(0, 0, 0, 0, objBitmap.Size);
+                            objGraphics.CopyFromScreen(0, 0, 0, 0, objBitmapTemporaria.Size);
                             break;
                     }
                 }
-                this.objBitmap = objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format8bppIndexed);
+                this.objBitmap = objBitmapTemporaria.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format8bppIndexed);
             }
 
             return this.objBitmap;

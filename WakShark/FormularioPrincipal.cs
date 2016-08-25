@@ -209,7 +209,11 @@ namespace WakBoy
         #region Visualizar Pixel
         private void checkBoxVisualizarPixel_CheckedChanged(object sender, EventArgs e)
         {
-            Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
+
+            var Imagem = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(Common.Imagem.EnumRegiaoImagem.COMPLETO, true);
+            ImagemTransformacao.obterInstancia().cortarImagem(Imagem, Common.Imagem.EnumRegiaoImagem.LADO_DIREITO).Save("C:\\Users\\Public\\teste.png", ImageFormat.Png);
+
+            //Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
             //MessageBox.Show(Service.TelaCaptura.obterInstancia().obterValorTransparenciaPorHorario().ToString());
             /*
             CheckBox objComboBox = (CheckBox)sender;

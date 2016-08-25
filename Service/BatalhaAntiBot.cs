@@ -1,12 +1,7 @@
 ﻿using Common;
 using Emgu.CV;
 using Emgu.CV.Structure;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -58,7 +53,7 @@ namespace Service
         public Model.Tela buscarNumeroPorTemplateRotacionado(string caminhoTemplateNumero, Imagem.EnumRegiaoImagem objRegiaoImagem)
         {
             Bitmap template8bits = (Bitmap)Bitmap.FromFile(caminhoTemplateNumero);
-            Imagem objImagem = Imagem.obterInstancia();
+            ImagemTransformacao objImagem = ImagemTransformacao.obterInstancia();
             template8bits = objImagem.redimencionarImagem(template8bits, template8bits.Width / 2, template8bits.Height);
             template8bits = objImagem.rotacionarImagem(template8bits, 315);
             Image<Emgu.CV.Structure.Gray, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Gray, byte>(template8bits);

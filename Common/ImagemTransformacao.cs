@@ -1,18 +1,10 @@
-﻿using Common.Lib;
-using Emgu.CV;
+﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static Common.Lib.Win32;
+using System.IO;
 
 namespace Common
 {
@@ -90,6 +82,68 @@ namespace Common
             objImagemTemplate._Not();
 
             return objImagemTemplate;
+        }
+
+        /***
+         * @todo corrigir funcionamento desse método para que pegue o lado esquerdo, ou direito ou tela cheia.
+         */
+        public Image cortarImagem(Bitmap objBitmap, Imagem.EnumRegiaoImagem objEnumRegiaoTela)
+        {
+
+            int eixoHorizontalOrigem = 0;
+            int eixoHorizontalDestino = 0;
+            switch (objEnumRegiaoTela)
+            {
+                case Imagem.EnumRegiaoImagem.LADO_ESQUERDO:
+                    eixoHorizontalDestino = (int)(objBitmap.Width / 2);
+                    break;
+                case Imagem.EnumRegiaoImagem.LADO_DIREITO:
+                    eixoHorizontalOrigem = (int)(objBitmap.Width / 2);
+                    eixoHorizontalDestino = (int)(objBitmap.Width / 2);
+                    break;
+                case Imagem.EnumRegiaoImagem.COMPLETO:
+                default:
+                    break;
+            }
+            //objGraphics.CopyFromScreen(, objSize);
+            return this.CropImage(objBitmap, objBitmap.Height, objBitmap.Width, eixoHorizontalDestino, objBitmap.Height);
+        }
+
+        public Image CropImage(System.Drawing.Image Image, int Height, int Width)
+        {
+            return CropImage(Image, Height, Width, 0, 0);
+        }
+
+        public Image CropImage(Image Image, int Height, int Width, int StartAtX, int StartAtY)
+        {
+            MemoryStream objMemoryStream = null;
+            try
+            {
+                if (Image.Height < Height) Height = Image.Height;
+                if (Image.Width < Width) Width = Image.Width;
+
+                Bitmap bmPhoto = new Bitmap(Width, Height, PixelFormat.Format32bppRgb);
+                //bmPhoto.SetResolution(72, 72);
+
+                Graphics grPhoto = Graphics.FromImage(bmPhoto);
+                grPhoto.SmoothingMode = SmoothingMode.AntiAlias;
+                grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                grPhoto.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                grPhoto.DrawImage(Image, new Rectangle(0, 0, Width, Height), StartAtX, StartAtY, Width, Height, GraphicsUnit.Pixel);
+
+                objMemoryStream = new MemoryStream();
+                bmPhoto.Save(objMemoryStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+                Image.Dispose();
+                bmPhoto.Dispose();
+                grPhoto.Dispose();
+
+                return Image.FromStream(objMemoryStream);
+            }
+            catch (Exception objException)
+            {
+                throw new Exception("Falha ao recortar imagem : " + objException.Message);
+            }
         }
     }
 }
