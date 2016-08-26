@@ -47,11 +47,11 @@ namespace Service
                         //bmpClone = TelaCaptura.obterInstancia().redimencionarImagem(bmpClone, bmpClone.Width / 2, bmpClone.Height);
                         //bmpClone = TelaCaptura.obterInstancia().rotacionarImagem(bmpClone, 315);
 
-                        Dictionary<int, ModelTela> ModelTelas = new Dictionary<int, ModelTela>();
+                        Dictionary<int, Point> ModelTelas = new Dictionary<int, Point>();
                         BatalhaAntiBOT objBatalhaAntiBOT = BatalhaAntiBOT.obterInstancia();
+                        ModelTelas.Add(3, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero3.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
                         ModelTelas.Add(1, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero1.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
                         ModelTelas.Add(2, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero2.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(3, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero3.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
                         ModelTelas.Add(4, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero4.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
                         ModelTelas.Add(5, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero5.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
                         ModelTelas.Add(6, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero6.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
@@ -61,13 +61,25 @@ namespace Service
 
                         for(int indice = 1; indice < 9; indice++)
                         {
-                            if (ModelTelas[indice].eixoHorizontal > 0)
+                            if (ModelTelas[indice].X > 0)
                             {
-                                bmpClone.SetPixel(ModelTelas[indice].eixoHorizontal, ModelTelas[indice].eixoVertical, Color.FromArgb(255, 255, 255, 255));
+                                Point localizacao = ImagemTransformacao.obterInstancia().obterPontoRotacionado(315f, ModelTelas[indice]);
+                                for (int i = localizacao.X; i < localizacao.X + 20; i++)
+                                {
+                                    for (int j = localizacao.Y; j < localizacao.Y + 20; j++)
+                                    {
+                                        if (j <= bmpClone.Height && i <= bmpClone.Width)
+                                            bmpClone.SetPixel(i, j, Color.Red);
+                                    }
+                                }
                             }
                         }
+                        
+
                         bmpClone.Save(@"C:\\Users\\Public\\Resultado.bmp");
                         Application.DoEvents();
+
+                        MessageBox.Show("Alo mundo!");
                         // FIM -  Trecho de teste
                     }
                     catch (Exception objException)
@@ -94,13 +106,7 @@ namespace Service
             return true;
         }
 
-        public PointF obterPontoRotacionado(float angle, Point pt)
-        {
-            var a = angle * System.Math.PI / 180.0;
-            float cosa = (float)Math.Cos(a);
-            float sina = (float)Math.Sin(a);
-            return new PointF((pt.X * cosa - pt.Y * sina), (pt.X * sina + pt.Y * cosa));
-        }
+        
 
     }
 }

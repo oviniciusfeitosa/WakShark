@@ -87,26 +87,38 @@ namespace Common
         /***
          * @todo corrigir funcionamento desse método para que pegue o lado esquerdo, ou direito ou tela cheia.
          */
-        public Image cortarImagem(Bitmap objBitmap, Imagem.EnumRegiaoImagem objEnumRegiaoTela)
+        public Bitmap extrairRegiaoImagem(Bitmap objBitmap, Imagem.EnumRegiaoImagem objEnumRegiaoTela)
         {
 
-            int eixoHorizontalOrigem = 0;
-            int eixoHorizontalDestino = 0;
-            switch (objEnumRegiaoTela)
-            {
-                case Imagem.EnumRegiaoImagem.LADO_ESQUERDO:
-                    eixoHorizontalDestino = (int)(objBitmap.Width / 2);
-                    break;
-                case Imagem.EnumRegiaoImagem.LADO_DIREITO:
-                    eixoHorizontalOrigem = (int)(objBitmap.Width / 2);
-                    eixoHorizontalDestino = (int)(objBitmap.Width / 2);
-                    break;
-                case Imagem.EnumRegiaoImagem.COMPLETO:
-                default:
-                    break;
+            objBitmap.SetResolution(objBitmap.HorizontalResolution, objBitmap.VerticalResolution);
+            Bitmap obj8bpp = objBitmap.Clone(new Rectangle(0, 0, objBitmap.Width, objBitmap.Height), PixelFormat.Format32bppRgb);
+
+            using (Graphics objGraphics = Graphics.FromImage(obj8bpp)) {
+
+                objGraphics.DrawImageUnscaled(obj8bpp, 0, 0);
+                Brush brush = new SolidBrush(Color.FromArgb(255, Color.White));
+                int posicaoHorizontalInicial = 0;
+                int posicaoHorizontalFinal = 0;
+                int posicaoVerticalInicial = 0;
+                int posicaoVerticalFinal = obj8bpp.Height;
+
+                switch (objEnumRegiaoTela)
+                {
+                    case Imagem.EnumRegiaoImagem.LADO_ESQUERDO:
+                        posicaoHorizontalInicial = (int)(obj8bpp.Width / 2);
+                        posicaoHorizontalFinal = obj8bpp.Width;
+                        break;
+                    case Imagem.EnumRegiaoImagem.LADO_DIREITO:
+                        posicaoHorizontalInicial = 0;
+                        posicaoHorizontalFinal = (int)(obj8bpp.Width / 2); 
+                        break;
+                    // @todo Adicionar Enumeradores para outras posições.
+                }
+
+                objGraphics.FillRectangle(brush, new Rectangle(posicaoHorizontalInicial, posicaoVerticalInicial, posicaoHorizontalFinal, posicaoVerticalFinal));
+                brush.Dispose();
+                return obj8bpp;
             }
-            //objGraphics.CopyFromScreen(, objSize);
-            return this.CropImage(objBitmap, objBitmap.Height, objBitmap.Width, eixoHorizontalDestino, objBitmap.Height);
         }
 
         public Image CropImage(System.Drawing.Image Image, int Height, int Width)
@@ -144,6 +156,14 @@ namespace Common
             {
                 throw new Exception("Falha ao recortar imagem : " + objException.Message);
             }
+        }
+
+        public Point obterPontoRotacionado(float angle, Point pt)
+        {
+            var a = angle * System.Math.PI / 180.0;
+            float cosa = (float)Math.Cos(a);
+            float sina = (float)Math.Sin(a);
+            return new Point((int)(pt.X * cosa - pt.Y * sina) * 2, (int)(pt.X * sina + pt.Y * cosa));
         }
     }
 }

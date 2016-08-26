@@ -50,30 +50,32 @@ namespace Service
             return true;
         }
 
-        public Model.Tela buscarNumeroPorTemplateRotacionado(string caminhoTemplateNumero, Imagem.EnumRegiaoImagem objRegiaoImagem)
+        public Point buscarNumeroPorTemplateRotacionado(string caminhoTemplateNumero, Imagem.EnumRegiaoImagem objRegiaoImagem)
         {
             Bitmap template8bits = (Bitmap)Bitmap.FromFile(caminhoTemplateNumero);
-            ImagemTransformacao objImagem = ImagemTransformacao.obterInstancia();
-            template8bits = objImagem.redimencionarImagem(template8bits, template8bits.Width / 2, template8bits.Height);
-            template8bits = objImagem.rotacionarImagem(template8bits, 315);
+            ImagemTransformacao objImagemTransformacao = ImagemTransformacao.obterInstancia();
+            //System.Threading.Thread.Sleep(3000);
+            //template8bits = objImagem.redimencionarImagem(template8bits, template8bits.Width / 2, template8bits.Height);
+            //template8bits = objImagem.rotacionarImagem(template8bits, 315f);
             Image<Emgu.CV.Structure.Gray, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Gray, byte>(template8bits);
 
-            Bitmap tela = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(objRegiaoImagem);
+            Bitmap tela = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel();
             tela.Save(@"C:\\Users\\Public\\telaOriginal.bmp");
 
             float anguloRotacao = 315f;
 
-            tela = objImagem.redimencionarImagem(tela, tela.Width / 2, tela.Height);
-            tela = objImagem.rotacionarImagem(tela, anguloRotacao); //Deveria ser 45 graus, mas como rotacionei 45 no sentido anti-horario, entao ficou como 315 graus
+            tela = objImagemTransformacao.redimencionarImagem(tela, tela.Width / 2, tela.Height);
+            tela = objImagemTransformacao.rotacionarImagem(tela, anguloRotacao); //Deveria ser 45 graus, mas como rotacionei 45 no sentido anti-horario, entao ficou como 315 graus
+            tela = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(tela, objRegiaoImagem);
             tela.Save(@"C:\\Users\\Public\\telaRotacionada.bmp");
 
             Image<Emgu.CV.Structure.Gray, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Gray, byte>(tela); // Image B
 
-            objImagemTelaAtual = objImagemTelaAtual.ThresholdBinary(new Gray(135), new Gray(255));
-            objImagemTelaAtual._Not();
+            //objImagemTelaAtual = objImagemTelaAtual.ThresholdBinary(new Gray(135), new Gray(255));
+            //objImagemTelaAtual._Not();
             //objImagemTelaAtual.Erode(1);
 
-            Model.Tela objModelTela = new Model.Tela();
+            Point objPoint = new Point();
             objImagemTelaAtual.ToBitmap().Save(@"C:\\Users\\Public\\objImagemTelaAtual.bmp");
             objImagemTemplate.ToBitmap().Save(@"C:\\Users\\Public\\objImagemTemplate.bmp");
 
@@ -83,20 +85,13 @@ namespace Service
                 Point[] minLocations, maxLocations;
                 result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
                 double valorMaximo = maxValues[0];
-                int cnt = 0;
 
                 foreach (Point p in maxLocations)
                 {
-                    objImagemTelaAtual.Copy(new Rectangle(p.X, p.Y, objImagemTemplate.Width, objImagemTemplate.Height)).Save(@"C:\\Users\\Public\\match_" + caminhoTemplateNumero.Substring(caminhoTemplateNumero.IndexOf("numero")).Replace(".bmp", "") + ".bmp");
-                    cnt++;
-                }
-
-                if (valorMaximo > 0.5d)
-                {
-                    PointF localizacao = Batalha.obterInstancia().obterPontoRotacionado(anguloRotacao, maxLocations[0]);
-
-                    objModelTela.eixoHorizontal = (int)localizacao.X;//  + (objImagemTemplate.Width / 2);
-                    objModelTela.eixoVertical = (int)localizacao.Y;//  + (objImagemTemplate.Height / 2);
+                    if (valorMaximo > 0.5d)
+                    {
+                        objImagemTelaAtual.Copy(new Rectangle(p.X, p.Y, objImagemTemplate.Width, objImagemTemplate.Height)).Save(@"C:\\Users\\Public\\match_" + caminhoTemplateNumero.Substring(caminhoTemplateNumero.IndexOf("numero")).Replace(".bmp", "") + ".bmp");
+                    }
                 }
             }
 
@@ -108,7 +103,7 @@ namespace Service
             tela.Dispose();
             template8bits.Dispose();
 
-            return objModelTela;
+            return objPoint;
         }
     }
 }
