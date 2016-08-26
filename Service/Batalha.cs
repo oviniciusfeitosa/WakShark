@@ -49,34 +49,34 @@ namespace Service
 
                         Dictionary<int, Point> ModelTelas = new Dictionary<int, Point>();
                         BatalhaAntiBOT objBatalhaAntiBOT = BatalhaAntiBOT.obterInstancia();
-                        ModelTelas.Add(3, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero3.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(1, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero1.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(2, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero2.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(4, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero4.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(5, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero5.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(6, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero6.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(7, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero7.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(8, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado("./numero8.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(1, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero1.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(2, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero2.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(3, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero3.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(4, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero4.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(5, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero5.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(6, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero6.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(7, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero7.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        ModelTelas.Add(8, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero8.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
                         Application.DoEvents();
 
-                        for(int indice = 1; indice < 9; indice++)
-                        {
-                            if (ModelTelas[indice].X > 0)
-                            {
-                                Point localizacao = ImagemTransformacao.obterInstancia().obterPontoRotacionado(315f, ModelTelas[indice]);
-                                for (int i = localizacao.X; i < localizacao.X + 20; i++)
-                                {
-                                    for (int j = localizacao.Y; j < localizacao.Y + 20; j++)
-                                    {
-                                        if (j <= bmpClone.Height && i <= bmpClone.Width)
-                                            bmpClone.SetPixel(i, j, Color.Red);
-                                    }
-                                }
-                            }
-                        }
+                        //for(int indice = 1; indice < 9; indice++)
+                        //{
+                        //    if (ModelTelas[indice].X > 0)
+                        //    {
+                        //        Point localizacao = ImagemTransformacao.obterInstancia().obterPontoRotacionado(315f, ModelTelas[indice]);
+                        //        for (int i = localizacao.X; i < localizacao.X + 20; i++)
+                        //        {
+                        //            for (int j = localizacao.Y; j < localizacao.Y + 20; j++)
+                        //            {
+                        //                if (j <= bmpClone.Height && i <= bmpClone.Width)
+                        //                    bmpClone.SetPixel(i, j, Color.Red);
+                        //            }
+                        //        }
+                        //    }
+                        //}
                         
 
-                        bmpClone.Save(@"C:\\Users\\Public\\Resultado.bmp");
+                        //bmpClone.Save(@"C:\\Users\\Public\\Resultado.bmp");
                         Application.DoEvents();
 
                         MessageBox.Show("Alo mundo!");

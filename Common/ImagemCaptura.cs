@@ -109,6 +109,7 @@ namespace Common
 
                 using (Graphics objGraphics = Graphics.FromImage(objBitmapTemporaria))
                 {
+
                     Size objSize = objBitmapTemporaria.Size;
                     switch (objEnumRegiaoTela)
                     {
