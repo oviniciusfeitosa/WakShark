@@ -52,16 +52,19 @@ namespace Service
             return true;
         }
 
-        public Point buscarNumeroPorTemplateRotacionado(string caminhoTemplateNumero, Imagem.EnumRegiaoImagem objRegiaoImagem)
+        public Model.Match buscarNumeroPorTemplateRotacionado(string caminhoTemplateNumero, Imagem.EnumRegiaoImagem objRegiaoImagem)
         {
             Bitmap template8bits = (Bitmap)Bitmap.FromFile(caminhoTemplateNumero);
             ImagemTransformacao objImagemTransformacao = ImagemTransformacao.obterInstancia();
+
+            //template8bits = objImagemTransformacao.converterImagemPara8bitesPorPixel(template8bits);
            // System.Threading.Thread.Sleep(3000);
             //template8bits = objImagem.redimencionarImagem(template8bits, template8bits.Width / 2, template8bits.Height);
             //template8bits = objImagem.rotacionarImagem(template8bits, 315f);
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Rgb, byte>(template8bits);
-
-            Bitmap tela = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel();
+            
+            //Bitmap tela = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel();
+            Bitmap tela = ImagemCaptura.obterInstancia().obterImagemTela();
             tela.Save(@"C:\\Users\\Public\\telaOriginal.bmp");
 
             float anguloRotacao = 315f;
@@ -70,14 +73,14 @@ namespace Service
             tela = objImagemTransformacao.rotacionarImagem(tela, anguloRotacao); //Deveria ser 45 graus, mas como rotacionei 45 no sentido anti-horario, entao ficou como 315 graus
             tela = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(tela, objRegiaoImagem);
             tela.Save(@"C:\\Users\\Public\\telaRotacionada.bmp");
-
+            
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Rgb, byte>(tela); // Image B
 
             //objImagemTelaAtual = objImagemTelaAtual.ThresholdBinary(new Gray(135), new Gray(255));
             //objImagemTelaAtual._Not();
             //objImagemTelaAtual.Erode(1);
 
-            Point objPoint = new Point();
+            Model.Match matchRetorno = new Model.Match();
             objImagemTelaAtual.ToBitmap().Save(@"C:\\Users\\Public\\objImagemTelaAtual.bmp");
             objImagemTemplate.ToBitmap().Save(@"C:\\Users\\Public\\objImagemTemplate.bmp");
 
@@ -96,10 +99,15 @@ namespace Service
                 for (int i = 0; i < maxLocations.Length; i++)
                 {
 
-                    if (maxValues[i] > 0.5d)
+                    if (maxValues[i] > 0.699d)
                     {
-                        objPoint.X = maxLocations[i].X;
-                        objPoint.Y = maxLocations[i].Y;
+                        matchRetorno.Location = ImagemTransformacao.obterInstancia().RotatePoint(maxLocations[i], new Point(objImagemTelaAtual.Width / 2, objImagemTelaAtual.Height /2), 315d);
+                        
+                        matchRetorno.Semelhanca = maxValues[i];
+                        if (caminhoTemplateNumero.Contains("numero"))
+                        {
+                            matchRetorno.Numero = int.Parse(caminhoTemplateNumero.Substring(caminhoTemplateNumero.IndexOf("numero") + 6, 1));
+                        }
                         objImagemTelaAtual.Copy(new Rectangle(maxLocations[i].X, maxLocations[i].Y, objImagemTemplate.Width, objImagemTemplate.Height)).Save(@"C:\\Users\\Public\\match_" + caminhoTemplateNumero.Substring(caminhoTemplateNumero.IndexOf("numero")).Replace(".bmp", "") + maxValues[cnt].ToString() + ".bmp");
                         for (int x = maxLocations[i].X; x < maxLocations[i].X + template8bits.Width - 1; x++)
                         {
@@ -135,7 +143,7 @@ namespace Service
                     cnt++;
                 }
 
-                imgResultado.Save(@"C:\users\public\imgResultado_" + caminhoTemplateNumero.Substring(caminhoTemplateNumero.IndexOf("numero")).Replace(".bmp","") + "_.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
+                imgResultado.Save(@"C:\users\public\imgResultado_" + caminhoTemplateNumero.Substring(caminhoTemplateNumero.IndexOf("numero") + 6).Replace(".bmp","") + "_.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
                 double valorMaximo = maxValues[0];
                 
 
@@ -168,7 +176,7 @@ namespace Service
             tela.Dispose();
             template8bits.Dispose();
 
-            return objPoint;
+            return matchRetorno;
         }
     }
 

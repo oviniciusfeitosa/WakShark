@@ -43,21 +43,103 @@ namespace Service
                         //System.Threading.Thread.Sleep(3000);
                         Bitmap bmp = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem.COMPLETO, false);
                         Bitmap bmpClone = bmp.Clone(new Rectangle(0, 0, bmp.Width, bmp.Height), PixelFormat.Format32bppArgb);
-                        
+
                         //bmpClone = TelaCaptura.obterInstancia().redimencionarImagem(bmpClone, bmpClone.Width / 2, bmpClone.Height);
                         //bmpClone = TelaCaptura.obterInstancia().rotacionarImagem(bmpClone, 315);
 
-                        Dictionary<int, Point> ModelTelas = new Dictionary<int, Point>();
                         BatalhaAntiBOT objBatalhaAntiBOT = BatalhaAntiBOT.obterInstancia();
-                        ModelTelas.Add(1, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero1.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(2, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero2.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(3, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero3.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(4, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero4.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(5, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero5.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(6, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero6.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(7, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero7.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        ModelTelas.Add(8, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero8.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+
+
+                        
+
+                        Dictionary<int, Model.Match> MatchesGato = new Dictionary<int, Model.Match>();
+                        MatchesGato.Add(1, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero1.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        MatchesGato.Add(2, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero2.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        MatchesGato.Add(3, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero3.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        MatchesGato.Add(4, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero4.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        MatchesGato.Add(5, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero5.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        MatchesGato.Add(6, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero6.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        MatchesGato.Add(7, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero7.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        MatchesGato.Add(8, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero8.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
                         Application.DoEvents();
+
+                        List<Model.Match> Verificar = new List<Model.Match>();
+                        foreach (Model.Match m in MatchesGato.Values)
+                        {
+                            if (m.Semelhanca > 0)
+                            {
+                                Verificar.Add(m);
+                             
+                            }
+                        }   
+
+
+                        List<Model.Match> Clicar = new List<Model.Match>();
+                        bool conflito = false;
+                        if (Verificar.Count > 3)
+                        {
+                            for (int i = 0; i < Verificar.Count; i++)
+                            {
+                                conflito = false;
+
+                                for (int j =0;j < Verificar.Count; j++)
+                                {
+                                    if (i == j)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (new Rectangle(Verificar[i].Location, new Size(24, 24)).Contains(Verificar[j].Location))
+                                    {
+                                        conflito = true;
+                                        if (Verificar[i].Semelhanca > Verificar[j].Semelhanca)
+                                            Clicar.Add(Verificar[i]);
+                                        else
+                                            Clicar.Add(Verificar[j]);
+                                    }
+
+                                }
+                                if (!conflito)
+                                    Clicar.Add(Verificar[i]);
+
+                            }
+                        }
+                        else
+                        {
+                            Clicar.AddRange(Verificar);
+                        }
+
+                        foreach (Model.Match c in Clicar)
+                        {
+                            System.Threading.Thread.Sleep(3000);
+                            Model.Match matchClicar = objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero" + c.Numero.ToString() + ".png", Imagem.EnumRegiaoImagem.LADO_ESQUERDO);
+
+                            System.Windows.Forms.SendKeys.SendWait("1");
+                            System.Threading.Thread.Sleep(1000);
+                            Common.Lib.Win32.posicionarMouse(matchClicar.Location.X, matchClicar.Location.Y);
+                            Common.Lib.Win32.clicarBotaoEsquerdo(matchClicar.Location.X, matchClicar.Location.Y);
+
+                        }
+
+
+
+                        //Dictionary<int, Model.Match> MatchesPersonagem = new Dictionary<int, Model.Match>();
+
+                        //List<Model.Match> EncontradosPersonagem = new List<Model.Match>();
+
+                        //foreach (Model.Match m in MatchesPersonagem.Values)
+                        //{
+                        //    if (m.Semelhanca > 0)
+                        //        EncontradosPersonagem.Add(m);
+                        //}
+
+
+
+                        // @todo Verificar qual resultado está duplicado do lado do personagem e comparar pra usar o mais correto e substituir o outro pelo numero que faltou
+
+
+
+
 
                         //for(int indice = 1; indice < 9; indice++)
                         //{
@@ -74,7 +156,7 @@ namespace Service
                         //        }
                         //    }
                         //}
-                        
+
 
                         //bmpClone.Save(@"C:\\Users\\Public\\Resultado.bmp");
                         Application.DoEvents();

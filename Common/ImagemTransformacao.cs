@@ -159,11 +159,31 @@ namespace Common
         }
 
         public Point obterPontoRotacionado(float angle, Point pt)
-        {
+        {   
+
+      
             var a = angle * System.Math.PI / 180.0;
             float cosa = (float)Math.Cos(a);
             float sina = (float)Math.Sin(a);
-            return new Point((int)(pt.X * cosa - pt.Y * sina) * 2, (int)(pt.X * sina + pt.Y * cosa));
+
+            
+            return new Point((int)(pt.X * cosa - pt.Y * sina), (int)(pt.X * sina + pt.Y * cosa));
+        }
+
+        public Point RotatePoint(Point pointToRotate, Point centerPoint, double angleInDegrees)
+        {
+            double angleInRadians = angleInDegrees * (Math.PI / 180);
+            double cosTheta = Math.Cos(angleInRadians);
+            double sinTheta = Math.Sin(angleInRadians);
+
+            Point pt = new Point();
+            pt.X = (int)(cosTheta * (pointToRotate.X - centerPoint.X) - sinTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.X);
+
+            pt.Y = (int)(sinTheta * (pointToRotate.X - centerPoint.X) + cosTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.Y);
+            //p'y = sin(theta) * (px-ox) + cos(theta) * (py-oy) + oy
+
+            return pt;
+
         }
     }
 }
