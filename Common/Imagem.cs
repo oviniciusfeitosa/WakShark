@@ -5,6 +5,7 @@ namespace Common
     {
         public enum EnumRegiaoImagem
         {
+            RETANGULO,
             COMPLETO,
             LADO_ESQUERDO,
             LADO_DIREITO,

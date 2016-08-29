@@ -35,13 +35,15 @@ namespace Service
             {
                 /*
                  * @TODO: Comentei esse trecho do código, porque nem sempre o posicionamento do pixel será "700,100". 
-                 * Uma maneira mais eficaz é verificando se ao lado da barra de hp já está aparecendo o ícone de batalha (duas espadas).
-                if (Service.TelaPixel.obterInstancia().obterPixel(700, 100) == "#000000")
+                 * Uma maneira mais eficaz é verificando se ao lado da barra de hp já está aparecendo o ícone de batalha (duas espadas).*/
+                System.Drawing.Color cBatalha = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel().GetPixel(700, 100);
+                if (Common.ColorHelper.HexConverter(cBatalha) == "#000000")
                 {
+
                     BatalhaAntiBOT.acaoIniciarBatalha(objModelTela);
                     Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
                 }
-                */
+                
 
                 Win32.posicionarMouse(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
                 Win32.clicarBotaoDireito(objModelTela.eixoHorizontal, objModelTela.eixoVertical);

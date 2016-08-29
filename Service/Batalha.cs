@@ -49,18 +49,19 @@ namespace Service
 
                         BatalhaAntiBOT objBatalhaAntiBOT = BatalhaAntiBOT.obterInstancia();
 
-
+                        Rectangle RectPersonagem = new Rectangle(275, 405, 107, 107);
+                        Rectangle RectGato = new Rectangle(448, 405, 107, 107);
                         
 
                         Dictionary<int, Model.Match> MatchesGato = new Dictionary<int, Model.Match>();
-                        MatchesGato.Add(1, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero1.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        MatchesGato.Add(2, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero2.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        MatchesGato.Add(3, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero3.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        MatchesGato.Add(4, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero4.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        MatchesGato.Add(5, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero5.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        MatchesGato.Add(6, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero6.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        MatchesGato.Add(7, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero7.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
-                        MatchesGato.Add(8, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero8.png", Imagem.EnumRegiaoImagem.LADO_DIREITO));
+                        MatchesGato.Add(1, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero1.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
+                        MatchesGato.Add(2, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero2.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
+                        MatchesGato.Add(3, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero3.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
+                        MatchesGato.Add(4, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero4.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
+                        MatchesGato.Add(5, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero5.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
+                        MatchesGato.Add(6, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero6.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
+                        MatchesGato.Add(7, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero7.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
+                        MatchesGato.Add(8, objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero8.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
                         Application.DoEvents();
 
                         List<Model.Match> Verificar = new List<Model.Match>();
@@ -71,9 +72,9 @@ namespace Service
                                 Verificar.Add(m);
                              
                             }
-                        }   
+                        }
 
-
+                        //System.Threading.Thread.Sleep(1000);
                         List<Model.Match> Clicar = new List<Model.Match>();
                         bool conflito = false;
                         if (Verificar.Count > 3)
@@ -111,16 +112,20 @@ namespace Service
 
                         foreach (Model.Match c in Clicar)
                         {
-                            System.Threading.Thread.Sleep(3000);
-                            Model.Match matchClicar = objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero" + c.Numero.ToString() + ".png", Imagem.EnumRegiaoImagem.LADO_ESQUERDO);
+                            System.Threading.Thread.Sleep(2000);
+                            Model.Match matchClicar = objBatalhaAntiBOT.buscarNumeroPorTemplateRotacionado(@"./numero" + c.Numero.ToString() + ".png", Imagem.EnumRegiaoImagem.RETANGULO, RectPersonagem);
 
                             System.Windows.Forms.SendKeys.SendWait("1");
-                            System.Threading.Thread.Sleep(1000);
+                            System.Threading.Thread.Sleep(2000);
                             Common.Lib.Win32.posicionarMouse(matchClicar.Location.X, matchClicar.Location.Y);
                             Common.Lib.Win32.clicarBotaoEsquerdo(matchClicar.Location.X, matchClicar.Location.Y);
 
                         }
 
+                        Application.DoEvents();
+
+                        System.Threading.Thread.Sleep(8000);
+                        System.Windows.Forms.SendKeys.SendWait("{ESC}");
 
 
                         //Dictionary<int, Model.Match> MatchesPersonagem = new Dictionary<int, Model.Match>();
@@ -159,9 +164,8 @@ namespace Service
 
 
                         //bmpClone.Save(@"C:\\Users\\Public\\Resultado.bmp");
-                        Application.DoEvents();
 
-                        MessageBox.Show("Alo mundo!");
+                        //MessageBox.Show("Alo mundo!");
                         // FIM -  Trecho de teste
                     }
                     catch (Exception objException)

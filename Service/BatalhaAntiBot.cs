@@ -48,11 +48,16 @@ namespace Service
             System.Threading.Thread.Sleep(1000);
 
             System.Windows.Forms.SendKeys.SendWait(" ");
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(5000);
             return true;
         }
 
         public Model.Match buscarNumeroPorTemplateRotacionado(string caminhoTemplateNumero, Imagem.EnumRegiaoImagem objRegiaoImagem)
+        {
+            return buscarNumeroPorTemplateRotacionado(caminhoTemplateNumero, objRegiaoImagem, new Rectangle(0, 0, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height));
+        }
+
+        public Model.Match buscarNumeroPorTemplateRotacionado(string caminhoTemplateNumero, Imagem.EnumRegiaoImagem objRegiaoImagem, Rectangle AreaBusca)
         {
             Bitmap template8bits = (Bitmap)Bitmap.FromFile(caminhoTemplateNumero);
             ImagemTransformacao objImagemTransformacao = ImagemTransformacao.obterInstancia();
@@ -62,19 +67,25 @@ namespace Service
             //template8bits = objImagem.redimencionarImagem(template8bits, template8bits.Width / 2, template8bits.Height);
             //template8bits = objImagem.rotacionarImagem(template8bits, 315f);
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Rgb, byte>(template8bits);
-            
+
+
             //Bitmap tela = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel();
-            Bitmap tela = ImagemCaptura.obterInstancia().obterImagemTela();
-            tela.Save(@"C:\\Users\\Public\\telaOriginal.bmp");
+            //System.Threading.Thread.Sleep(3000);
+            Bitmap telaOriginal = ImagemCaptura.obterInstancia().obterImagemTela();
+            telaOriginal.Save(@"C:\\Users\\Public\\telaOriginal.bmp");
+
+            Bitmap telaOriginalRotacionada; 
 
             float anguloRotacao = 315f;
 
-            tela = objImagemTransformacao.redimencionarImagem(tela, tela.Width / 2, tela.Height);
-            tela = objImagemTransformacao.rotacionarImagem(tela, anguloRotacao); //Deveria ser 45 graus, mas como rotacionei 45 no sentido anti-horario, entao ficou como 315 graus
-            tela = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(tela, objRegiaoImagem);
-            tela.Save(@"C:\\Users\\Public\\telaRotacionada.bmp");
-            
-            Image<Emgu.CV.Structure.Rgb, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Rgb, byte>(tela); // Image B
+            telaOriginalRotacionada = objImagemTransformacao.redimencionarImagem(telaOriginal, telaOriginal.Width / 2, telaOriginal.Height);
+            telaOriginalRotacionada = objImagemTransformacao.rotacionarImagem(telaOriginalRotacionada, anguloRotacao); //Deveria ser 45 graus, mas como rotacionei 45 no sentido anti-horario, entao ficou como 315 graus
+            telaOriginalRotacionada.Save(@"C:\\Users\\Public\\telaOriginalRotacionada.bmp");
+
+            Bitmap telaRotacionadaCortada = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaOriginalRotacionada, objRegiaoImagem, AreaBusca);
+            telaRotacionadaCortada.Save(@"C:\\Users\\Public\\telaRotacionadaCortada.bmp");
+
+            Image<Emgu.CV.Structure.Rgb, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Rgb, byte>(telaRotacionadaCortada); // Image B
 
             //objImagemTelaAtual = objImagemTelaAtual.ThresholdBinary(new Gray(135), new Gray(255));
             //objImagemTelaAtual._Not();
@@ -94,14 +105,14 @@ namespace Service
                 Dictionary<double, Point> MatchesMax = new Dictionary<double, Point>();
                 Dictionary<double, Point> MatchesMin = new Dictionary<double, Point>();
 
-                Bitmap imgResultado = (Bitmap)tela.Clone(new Rectangle(0,0,result.Bitmap.Width, result.Bitmap.Height), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                Bitmap imgResultado = (Bitmap)telaRotacionadaCortada.Clone(new Rectangle(0,0,result.Bitmap.Width, result.Bitmap.Height), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 int cnt = 0;
                 for (int i = 0; i < maxLocations.Length; i++)
                 {
+                    matchRetorno.Location = ImagemTransformacao.obterInstancia().RotatePoint(new Point(maxLocations[i].X + AreaBusca.X, maxLocations[i].Y + AreaBusca.Y), new Point(telaOriginal.Width / 2 /2, telaOriginal.Height / 2), 45d);
 
                     if (maxValues[i] > 0.699d)
                     {
-                        matchRetorno.Location = ImagemTransformacao.obterInstancia().RotatePoint(maxLocations[i], new Point(objImagemTelaAtual.Width / 2, objImagemTelaAtual.Height /2), 315d);
                         
                         matchRetorno.Semelhanca = maxValues[i];
                         if (caminhoTemplateNumero.Contains("numero"))
@@ -109,36 +120,36 @@ namespace Service
                             matchRetorno.Numero = int.Parse(caminhoTemplateNumero.Substring(caminhoTemplateNumero.IndexOf("numero") + 6, 1));
                         }
                         objImagemTelaAtual.Copy(new Rectangle(maxLocations[i].X, maxLocations[i].Y, objImagemTemplate.Width, objImagemTemplate.Height)).Save(@"C:\\Users\\Public\\match_" + caminhoTemplateNumero.Substring(caminhoTemplateNumero.IndexOf("numero")).Replace(".bmp", "") + maxValues[cnt].ToString() + ".bmp");
-                        for (int x = maxLocations[i].X; x < maxLocations[i].X + template8bits.Width - 1; x++)
-                        {
-                            for (int y = maxLocations[i].Y; y < maxLocations[i].Y + template8bits.Height - 1; y++)
-                            {
-                                try
-                                {
-                                    imgResultado.SetPixel(x, y, Color.LightGreen);
-                                }
-                                catch (System.Exception exc)
-                                {
+                        //for (int x = maxLocations[i].X; x < maxLocations[i].X + template8bits.Width - 1; x++)
+                        //{
+                        //    for (int y = maxLocations[i].Y; y < maxLocations[i].Y + template8bits.Height - 1; y++)
+                        //    {
+                        //        try
+                        //        {
+                        //            imgResultado.SetPixel(x, y, Color.LightGreen);
+                        //        }
+                        //        catch (System.Exception exc)
+                        //        {
 
-                                }
-                            }
-                        }
+                        //        }
+                        //    }
+                        //}
                     }
                     else
                     {
-                        for (int x = maxLocations[i].X; x < maxLocations[i].X + template8bits.Width - 1; x++)
-                        {
-                            for (int y = maxLocations[i].Y; y < maxLocations[i].Y + template8bits.Height - 1; y++)
-                            {
-                                try {
-                                    imgResultado.SetPixel(x, y, Color.Red);
-                                }
-                                catch (System.Exception exc)
-                                {
+                        //for (int x = maxLocations[i].X; x < maxLocations[i].X + template8bits.Width - 1; x++)
+                        //{
+                        //    for (int y = maxLocations[i].Y; y < maxLocations[i].Y + template8bits.Height - 1; y++)
+                        //    {
+                        //        try {
+                        //            imgResultado.SetPixel(x, y, Color.Red);
+                        //        }
+                        //        catch (System.Exception exc)
+                        //        {
 
-                                }
-                            }
-                        }
+                        //        }
+                        //    }
+                        //}
                     }
                     cnt++;
                 }
@@ -173,7 +184,9 @@ namespace Service
             objImagemTemplate.ToBitmap().Save("C:\\Users\\Public\\objImagemTemplate" + caminhoTemplateNumero.Substring(caminhoTemplateNumero.IndexOf("numero")).Replace(".bmp", "") + ".bmp");
             objImagemTelaAtual.Dispose();
             objImagemTemplate.Dispose();
-            tela.Dispose();
+            telaOriginal.Dispose();
+            telaOriginalRotacionada.Dispose();
+            telaRotacionadaCortada.Dispose();
             template8bits.Dispose();
 
             return matchRetorno;

@@ -34,12 +34,20 @@ namespace Common
 
         public string obterPixel(Model.Tela objModelTela)
         {
+            if (this.objVFBitmapLocker == null)
+            {
+                this.objVFBitmapLocker = new Common.Lib.VFBitmapLocker(ImagemCaptura.obterInstancia().obterImagemTela());
+            }
             Color objColor = this.objVFBitmapLocker.getPixel(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
             return Common.ColorHelper.HexConverter(objColor);
         }
 
         public string obterPixel(int eixoHorizontal, int eixoVertical)
         {
+            if (this.objVFBitmapLocker == null)
+            {
+                this.objVFBitmapLocker = new Common.Lib.VFBitmapLocker(ImagemCaptura.obterInstancia().obterImagemTela());
+            }
             Color objColor = this.objVFBitmapLocker.getPixel(eixoHorizontal, eixoVertical);
             return Common.ColorHelper.HexConverter(objColor);
         }

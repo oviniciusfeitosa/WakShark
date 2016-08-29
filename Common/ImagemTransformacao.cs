@@ -87,16 +87,24 @@ namespace Common
         /***
          * @todo corrigir funcionamento desse método para que pegue o lado esquerdo, ou direito ou tela cheia.
          */
+
         public Bitmap extrairRegiaoImagem(Bitmap objBitmap, Imagem.EnumRegiaoImagem objEnumRegiaoTela)
+        {
+            return extrairRegiaoImagem(objBitmap, objEnumRegiaoTela);
+        }
+
+        public Bitmap extrairRegiaoImagem(Bitmap objBitmap, Imagem.EnumRegiaoImagem objEnumRegiaoTela, Rectangle Area)
         {
 
             objBitmap.SetResolution(objBitmap.HorizontalResolution, objBitmap.VerticalResolution);
             Bitmap obj8bpp = objBitmap.Clone(new Rectangle(0, 0, objBitmap.Width, objBitmap.Height), PixelFormat.Format32bppRgb);
 
+            Rectangle rectExtracao = Area;
+
             using (Graphics objGraphics = Graphics.FromImage(obj8bpp)) {
 
                 objGraphics.DrawImageUnscaled(obj8bpp, 0, 0);
-                Brush brush = new SolidBrush(Color.FromArgb(255, Color.White));
+               // Brush brush = new SolidBrush(Color.FromArgb(255, Color.White));
                 int posicaoHorizontalInicial = 0;
                 int posicaoHorizontalFinal = 0;
                 int posicaoVerticalInicial = 0;
@@ -107,17 +115,26 @@ namespace Common
                     case Imagem.EnumRegiaoImagem.LADO_ESQUERDO:
                         posicaoHorizontalInicial = (int)(obj8bpp.Width / 2);
                         posicaoHorizontalFinal = obj8bpp.Width;
+                        rectExtracao = new Rectangle(posicaoHorizontalInicial, posicaoVerticalInicial, posicaoHorizontalFinal, posicaoVerticalFinal);
                         break;
                     case Imagem.EnumRegiaoImagem.LADO_DIREITO:
                         posicaoHorizontalInicial = 0;
-                        posicaoHorizontalFinal = (int)(obj8bpp.Width / 2); 
+                        posicaoHorizontalFinal = (int)(obj8bpp.Width / 2);
+                        rectExtracao = new Rectangle(posicaoHorizontalInicial, posicaoVerticalInicial, posicaoHorizontalFinal, posicaoVerticalFinal);
                         break;
-                    // @todo Adicionar Enumeradores para outras posições.
-                }
+                    case Imagem.EnumRegiaoImagem.RETANGULO:
+                        {
+                            rectExtracao = Area;
+                            break;
+                        }
+                        // @todo Adicionar Enumeradores para outras posições.
 
-                objGraphics.FillRectangle(brush, new Rectangle(posicaoHorizontalInicial, posicaoVerticalInicial, posicaoHorizontalFinal, posicaoVerticalFinal));
-                brush.Dispose();
-                return obj8bpp;
+                }
+                Bitmap telaRecortada = new Bitmap(Area.Width, Area.Height);
+                //objGraphics.FillRectangle(brush, rectExtracao);
+                telaRecortada =  obj8bpp.Clone(Area, PixelFormat.Format32bppRgb);
+                //brush.Dispose();
+                return telaRecortada;
             }
         }
 
@@ -177,7 +194,7 @@ namespace Common
             double sinTheta = Math.Sin(angleInRadians);
 
             Point pt = new Point();
-            pt.X = (int)(cosTheta * (pointToRotate.X - centerPoint.X) - sinTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.X);
+            pt.X = ((int)(cosTheta * (pointToRotate.X - centerPoint.X) - sinTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.X))*2;
 
             pt.Y = (int)(sinTheta * (pointToRotate.X - centerPoint.X) + cosTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.Y);
             //p'y = sin(theta) * (px-ox) + cos(theta) * (py-oy) + oy
