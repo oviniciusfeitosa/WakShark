@@ -36,9 +36,11 @@ namespace Service
                 /*
                  * @TODO: Comentei esse trecho do código, porque nem sempre o posicionamento do pixel será "700,100". 
                  * Uma maneira mais eficaz é verificando se ao lado da barra de hp já está aparecendo o ícone de batalha (duas espadas).*/
-                System.Drawing.Color cBatalha = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel().GetPixel(700, 100);
+                System.Drawing.Bitmap bmpBatalha = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem.COMPLETO,true);
+                System.Drawing.Color cBatalha = bmpBatalha.GetPixel(700, 100);
                 if (Common.ColorHelper.HexConverter(cBatalha) == "#000000")
                 {
+                    bmpBatalha.Save(@"C:\users\public\iniciandoBatalha.bmp");
 
                     BatalhaAntiBOT.acaoIniciarBatalha(objModelTela);
                     Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
