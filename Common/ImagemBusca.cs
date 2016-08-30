@@ -223,19 +223,30 @@ namespace Common
             return objTTipoAcaoBusca;
         }
 
+        //Rectangle RectPersonagem = new Rectangle(eixoHorizontal, eixoVertical, larguraEAlturaRetangulo, larguraEAlturaRetangulo);
+
         public Model.Tela procurarImagemPorTemplate(string caminhoTemplateRecurso)
+        {
+            return procurarImagemPorTemplate(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, new Rectangle(0, 0, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height));
+        }
+
+        public Model.Tela procurarImagemPorTemplate(string caminhoTemplateRecurso, Imagem.EnumRegiaoImagem objRegiaoImagem)
+        {
+            return procurarImagemPorTemplate(caminhoTemplateRecurso, objRegiaoImagem, new Rectangle(0, 0, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height));
+        }
+
+        public Model.Tela procurarImagemPorTemplate(string caminhoTemplateRecurso, Imagem.EnumRegiaoImagem objRegiaoImagem, Rectangle areaBusca)
         {
             ImagemCaptura objImagemCaptura = ImagemCaptura.obterInstancia();
             Bitmap objBitmapTemplate = new Bitmap(caminhoTemplateRecurso);
-
-            if (objImagemCaptura.isUtilizarMascaraLuminosidade)
-            {
-                objBitmapTemplate = ImagemMascaraNegra.obterInstancia().aplicarMascaraNegraImagem(objBitmapTemplate);
-            }
-
+            if (objImagemCaptura.isUtilizarMascaraLuminosidade) objBitmapTemplate = ImagemMascaraNegra.obterInstancia().aplicarMascaraNegraImagem(objBitmapTemplate);
             objBitmapTemplate = ImagemTransformacao.obterInstancia().converterImagemPara8bitesPorPixel(objBitmapTemplate);
 
-            Image<Emgu.CV.Structure.Gray, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Gray, byte>(objImagemCaptura.obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem.COMPLETO, true)); // Image B
+            Bitmap objTelaPrincipal = objImagemCaptura.obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem.COMPLETO, true);
+            objTelaPrincipal = objTelaPrincipal.Clone(new Rectangle(0, 0, objTelaPrincipal.Width, objTelaPrincipal.Height), System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+            objTelaPrincipal = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(objTelaPrincipal, objRegiaoImagem, areaBusca);
+            objTelaPrincipal.Save(@"c:\users\public\vinicius123.bmp");
+            Image<Emgu.CV.Structure.Gray, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Gray, byte>(objTelaPrincipal); // Image B
             Image<Emgu.CV.Structure.Gray, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Gray, byte>(objBitmapTemplate); // Image A
 
             Model.Tela objModelTela = new Model.Tela();
@@ -261,6 +272,13 @@ namespace Common
         public bool procurarImagemPorTemplateComAcao(string caminhoTemplateRecurso, Func<Model.Tela, bool> objMetodoAcao)
         {
             Model.Tela objModelTela = this.procurarImagemPorTemplate(caminhoTemplateRecurso);
+            if (objModelTela.eixoHorizontal > 0 && objModelTela.eixoVertical > 0) return objMetodoAcao(objModelTela);
+            return false;
+        }
+
+        public bool procurarImagemPorTemplateComAcao(string caminhoTemplateRecurso, Func<Model.Tela, bool> objMetodoAcao, Imagem.EnumRegiaoImagem objRegiaoImagem, Rectangle areaBusca)
+        {
+            Model.Tela objModelTela = this.procurarImagemPorTemplate(caminhoTemplateRecurso, objRegiaoImagem, areaBusca);
             if (objModelTela.eixoHorizontal > 0 && objModelTela.eixoVertical > 0) return objMetodoAcao(objModelTela);
             return false;
         }

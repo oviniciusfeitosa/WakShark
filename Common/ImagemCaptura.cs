@@ -64,10 +64,16 @@ namespace Common
 
         public Bitmap obterImagemTela()
         {
-            Size bounds = SystemInformation.PrimaryMonitorSize;
+            return obterImagemTela(false);
+        }
 
-            using (Bitmap objBitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb))
+        public Bitmap obterImagemTela(bool isGerarNovaInstancia)
+        {
+            if (this.objBitmap == null || isGerarNovaInstancia == true)
             {
+                Size bounds = SystemInformation.PrimaryMonitorSize;
+
+                objBitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb);
                 using (Graphics g = Graphics.FromImage(objBitmap))
                 {
                     g.CopyFromScreen(0, 0, 0, 0, objBitmap.Size);
@@ -81,8 +87,9 @@ namespace Common
                         return objBitmapMascarado.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format32bppArgb);
                     }
                 }
-                return objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format32bppArgb);
+                objBitmap = objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format32bppArgb);
             }
+            return this.objBitmap;
         }
 
         public Bitmap obterImagemTelaComo8bitesPorPixel()
@@ -131,7 +138,7 @@ namespace Common
             return this.objBitmap;
         }
 
-        
+
 
         public Bitmap obterImagemApplicacao(string nomeProcesso)
         {

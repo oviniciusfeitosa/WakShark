@@ -84,10 +84,6 @@ namespace Common
             return objImagemTemplate;
         }
 
-        /***
-         * @todo corrigir funcionamento desse método para que pegue o lado esquerdo, ou direito ou tela cheia.
-         */
-
         public Bitmap extrairRegiaoImagem(Bitmap objBitmap, Imagem.EnumRegiaoImagem objEnumRegiaoTela)
         {
             return extrairRegiaoImagem(objBitmap, objEnumRegiaoTela);
@@ -101,14 +97,17 @@ namespace Common
 
             Rectangle rectExtracao = Area;
 
-            using (Graphics objGraphics = Graphics.FromImage(obj8bpp)) {
+            using (Graphics objGraphics = Graphics.FromImage(obj8bpp))
+            {
 
                 objGraphics.DrawImageUnscaled(obj8bpp, 0, 0);
-               // Brush brush = new SolidBrush(Color.FromArgb(255, Color.White));
+                // Brush brush = new SolidBrush(Color.FromArgb(255, Color.White));
                 int posicaoHorizontalInicial = 0;
                 int posicaoHorizontalFinal = 0;
                 int posicaoVerticalInicial = 0;
                 int posicaoVerticalFinal = obj8bpp.Height;
+
+                Bitmap telaRecortada = new Bitmap(obj8bpp.Width, obj8bpp.Height);
 
                 switch (objEnumRegiaoTela)
                 {
@@ -123,16 +122,22 @@ namespace Common
                         rectExtracao = new Rectangle(posicaoHorizontalInicial, posicaoVerticalInicial, posicaoHorizontalFinal, posicaoVerticalFinal);
                         break;
                     case Imagem.EnumRegiaoImagem.RETANGULO:
-                        {
-                            rectExtracao = Area;
-                            break;
-                        }
+                        telaRecortada = new Bitmap(Area.Width, Area.Height);
+                        break;
+                    case Imagem.EnumRegiaoImagem.RETANGULO_TELA_CHEIA:
+                        break;
                         // @todo Adicionar Enumeradores para outras posições.
 
                 }
-                Bitmap telaRecortada = new Bitmap(Area.Width, Area.Height);
+
                 //objGraphics.FillRectangle(brush, rectExtracao);
-                telaRecortada =  obj8bpp.Clone(Area, PixelFormat.Format32bppRgb);
+                telaRecortada = obj8bpp.Clone(rectExtracao, PixelFormat.Format32bppRgb);
+                telaRecortada.MakeTransparent(Color.Black);
+                Bitmap novaTela = new Bitmap(obj8bpp.Width, obj8bpp.Height);
+                Graphics g = Graphics.FromImage(novaTela);
+                
+                g.DrawImage(telaRecortada, new Point(Area.X, Area.Y));
+
                 //brush.Dispose();
                 return telaRecortada;
             }
@@ -176,14 +181,11 @@ namespace Common
         }
 
         public Point obterPontoRotacionado(float angle, Point pt)
-        {   
-
-      
+        {
             var a = angle * System.Math.PI / 180.0;
             float cosa = (float)Math.Cos(a);
             float sina = (float)Math.Sin(a);
 
-            
             return new Point((int)(pt.X * cosa - pt.Y * sina), (int)(pt.X * sina + pt.Y * cosa));
         }
 
@@ -194,14 +196,19 @@ namespace Common
             double sinTheta = Math.Sin(angleInRadians);
 
             Point pt = new Point();
-            pt.X = ((int)(cosTheta * (pointToRotate.X - centerPoint.X) - sinTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.X))*2;
-
+            pt.X = ((int)(cosTheta * (pointToRotate.X - centerPoint.X) - sinTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.X)) * 2;
             pt.Y = (int)(sinTheta * (pointToRotate.X - centerPoint.X) + cosTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.Y);
-            //p'y = sin(theta) * (px-ox) + cos(theta) * (py-oy) + oy
 
             return pt;
 
         }
+
+        public int calcularProporcao(int valorTransformacao, int valorOrigem, int valorDestino)
+        {
+            if (valorDestino != valorOrigem) valorTransformacao = ((valorTransformacao * valorDestino) / valorOrigem);
+            return valorTransformacao;
+        }
+
     }
 }
 

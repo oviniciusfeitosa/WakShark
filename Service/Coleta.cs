@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using System.Threading;
 using Common.Lib;
 using Common;
+using System.Drawing;
+using System;
 
 namespace Service
 {
@@ -26,41 +28,41 @@ namespace Service
 
         public bool coletar(string caminhoTemplateRecurso)
         {
+            System.Drawing.Bitmap bmpBatalha = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem.COMPLETO, true);
+            this.validarInicioBatalha(bmpBatalha);
+            
+            int eixoHorizontal = Convert.ToInt32(SystemInformation.PrimaryMonitorSize.Width * 0.3);
+            int eixoVertical = Convert.ToInt32(SystemInformation.PrimaryMonitorSize.Height * 0.3);
+            int largura = Convert.ToInt32(SystemInformation.PrimaryMonitorSize.Width * 0.4);
+            int altura = Convert.ToInt32(SystemInformation.PrimaryMonitorSize.Height * 0.4);
+
+            //Rectangle RectPersonagem = new Rectangle(eixoHorizontal, eixoVertical, largura, altura);
+            //return ImagemBusca.obterInstancia().procurarImagemPorTemplateComAcao(caminhoTemplateRecurso, acaoColetar, Imagem.EnumRegiaoImagem.COMPLETO, RectPersonagem);
             return ImagemBusca.obterInstancia().procurarImagemPorTemplateComAcao(caminhoTemplateRecurso, acaoColetar);
         }
-        
+
+        public void validarInicioBatalha(Bitmap bmpBatalha)
+        {
+            
+            if (Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(200, 100)) == "#000000"
+                && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(300, 100)) == "#000000"
+                && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(400, 100)) == "#000000")
+            {
+                //bmpBatalha.Save(@"C:\users\public\iniciandoBatalha.bmp");
+                System.Windows.Forms.SendKeys.SendWait(" ");
+                Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
+            }
+        }
+
         public static bool acaoColetar(Model.Tela objModelTela)
         {
             try
             {
-                /*
-                 * @TODO: Comentei esse trecho do código, porque nem sempre o posicionamento do pixel será "700,100". 
-                 * Uma maneira mais eficaz é verificando se ao lado da barra de hp já está aparecendo o ícone de batalha (duas espadas).*/
-                System.Drawing.Bitmap bmpBatalha = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem.COMPLETO,true);
-                System.Drawing.Color cBatalha = bmpBatalha.GetPixel(700, 100);
-                if (Common.ColorHelper.HexConverter(cBatalha) == "#000000")
-                {
-                    bmpBatalha.Save(@"C:\users\public\iniciandoBatalha.bmp");
-
-                    BatalhaAntiBOT.acaoIniciarBatalha(objModelTela);
-                    Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
-                }
-                
-
-                Win32.posicionarMouse(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
                 Win32.clicarBotaoDireito(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
-
                 Thread.Sleep(1100);
-
-                Win32.posicionarMouse(objModelTela.eixoHorizontal + 35, objModelTela.eixoVertical - 35);
-                Win32.clicarBotaoEsquerdo(objModelTela.eixoHorizontal + 35, objModelTela.eixoVertical - 35);
-
+                Win32.clicarBotaoEsquerdo(objModelTela.eixoHorizontal - 35, objModelTela.eixoVertical - 35);
                 Thread.Sleep(6000);
-                
-                /**
-                 */
-                //MessageBox.Show("Achou");
-                //Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
+
                 return true;
             }
             catch (System.Exception objException)
@@ -68,6 +70,5 @@ namespace Service
                 throw new System.Exception(objException.ToString());
             }
         }
-
     }
 }

@@ -14,6 +14,7 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Linq;
 
 namespace WakBoy
 {
@@ -28,9 +29,13 @@ namespace WakBoy
 
         private void FormularioPrincipal_Load(object sender, EventArgs e)
         {
-            string[] objDataSourceTipoBusca = new[] { "Coleta" };
+            string[] objDataSourceTipoBusca = new[] { "Coleta", "Batalha" };
             comboBoxTipoBusca.DataSource = objDataSourceTipoBusca;
-			hook = new KeyboardHook ();
+
+            
+            //newRecurso.tiposRecurso
+
+            hook = new KeyboardHook ();
             hook.KeyPressed += new EventHandler<KeyPressedEventArgs>(gatilhoTeclaPressionadaGlobalmente);
             // register the control + alt + F12 combination as hot key.
             // hook.RegisterHotKey(Common.Lib.ModifierKeys.Control | ModifierKeys.Alt, Keys.F12);
@@ -254,5 +259,31 @@ namespace WakBoy
             labelHorarioFranca.Text = horarioConvertido.ToString("HH:mm:ss");
         }
         #endregion
+        
+
+        private void comboBoxTipoBusca_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxTipoBusca.SelectedItem == "Coleta")
+            {
+                //string[] objDataSourceTipoBusca = new[] { "Coleta", "Batalha" };
+                Model.Recurso objRecurso = new Model.Recurso();
+                comboBoxTipo.DataSource = new BindingSource(objRecurso.tiposRecurso, null);
+                comboBoxTipo.ValueMember = "Value";
+                comboBoxTipo.DisplayMember = "Key";
+            }
+            else
+            {
+                comboBoxTipo.DataSource = null;
+            }
+        }
+
+        private void comboBoxTipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxTipo.SelectedValue != null) {
+                textBoxLocalizacaoImagemTemplate.Text = comboBoxTipo.SelectedValue.ToString();
+            } else {
+                textBoxLocalizacaoImagemTemplate.Text = "";
+            }
+        }
     }
 }
