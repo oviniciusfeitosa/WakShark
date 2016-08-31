@@ -1,10 +1,12 @@
 ﻿using Common;
+using Common.Lib;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Service
@@ -143,13 +145,27 @@ namespace Service
                 Application.DoEvents();
 
                 System.Threading.Thread.Sleep(5000);
-                System.Windows.Forms.SendKeys.SendWait("{ESC}");
+                //System.Windows.Forms.SendKeys.SendWait("{ESC}");
+                ImagemBusca.obterInstancia().procurarImagemPorTemplateComAcao(System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\batalhaAntiBOT\fechar.png", acaoFechar);
             }
             catch (Exception objException)
             {
                 MessageBox.Show(objException.Message);
             }
             return true;
+        }
+
+        public static bool acaoFechar(Model.Tela objModelTela)
+        {
+            try
+            {
+                Win32.clicarBotaoEsquerdo(objModelTela.eixoHorizontal + 5, objModelTela.eixoVertical + 5);
+                return true;
+            }
+            catch (System.Exception objException)
+            {
+                throw new System.Exception(objException.ToString());
+            }
         }
 
         public Model.Match buscarNumeroPorTemplateRotacionado(string caminhoTemplateNumero, Imagem.EnumRegiaoImagem objRegiaoImagem)
