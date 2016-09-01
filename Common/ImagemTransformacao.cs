@@ -24,7 +24,7 @@ namespace Common
         #endregion
 
 
-        public Bitmap redimencionarImagem(Bitmap objImagem, int largura, int altura)
+        public Bitmap redimensionarImagem(Bitmap objImagem, int largura, int altura)
         {
             var destRect = new Rectangle(0, 0, largura, altura);
             var destImage = new Bitmap(largura, altura);

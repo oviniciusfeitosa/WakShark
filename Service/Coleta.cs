@@ -13,6 +13,8 @@ namespace Service
 {
     public class Coleta
     {
+
+        private int _areaColetaPercent = 30;
         #region Singleton
         private static Coleta objColeta;
 
@@ -26,6 +28,32 @@ namespace Service
         }
         #endregion
 
+        private void _ampliaAreaColeta()
+        {
+            if (_areaColetaPercent <= 80)
+            {
+                _areaColetaPercent += 10;
+            }
+        }
+
+        private void _resetaAreaColeta()
+        {
+            _areaColetaPercent = 30;
+        }
+
+        private Rectangle rectAreaColeta = new Rectangle();
+
+        private Rectangle defineRetanguloAreaColeta()
+        {
+            return new Rectangle(
+                                                (Screen.PrimaryScreen.Bounds.Width / 4) - ((Screen.PrimaryScreen.Bounds.Width / 2  * _areaColetaPercent / 100) / 2),
+                                                (Screen.PrimaryScreen.Bounds.Height / 2) - ((Screen.PrimaryScreen.Bounds.Height  * _areaColetaPercent / 100) / 2),
+                                                (Screen.PrimaryScreen.Bounds.Width /2 * _areaColetaPercent / 100),
+                                                (Screen.PrimaryScreen.Bounds.Height  * _areaColetaPercent / 100)
+                                               );
+        }
+
+
         public bool coletar(string caminhoTemplateRecurso)
         {
             System.Drawing.Bitmap bmpBatalha = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem.COMPLETO, true);
@@ -38,7 +66,28 @@ namespace Service
 
             //Rectangle RectPersonagem = new Rectangle(eixoHorizontal, eixoVertical, largura, altura);
             //return ImagemBusca.obterInstancia().procurarImagemPorTemplateComAcao(caminhoTemplateRecurso, acaoColetar, Imagem.EnumRegiaoImagem.COMPLETO, RectPersonagem);
-            return ImagemBusca.obterInstancia().procurarImagemPorTemplateComAcao(caminhoTemplateRecurso, acaoColetar);
+
+            Model.Match match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, defineRetanguloAreaColeta());
+            
+            while (match.Semelhanca < 0.7)
+            {
+                if (match.Semelhanca >= 0.7)
+                {
+                    acaoColetar(match);
+                    _resetaAreaColeta();
+                    return true;
+                }
+                else
+                {
+                    if (_areaColetaPercent == 100)
+                        return false;
+                    _ampliaAreaColeta();
+                }
+
+                match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, defineRetanguloAreaColeta());
+
+            }
+            return false;
         }
 
         public void validarInicioBatalha(Bitmap bmpBatalha)
@@ -54,13 +103,13 @@ namespace Service
             }
         }
 
-        public static bool acaoColetar(Model.Tela objModelTela)
+        public static bool acaoColetar(Model.Match Match)
         {
             try
             {
-                Win32.clicarBotaoDireito(objModelTela.eixoHorizontal, objModelTela.eixoVertical);
+                Win32.clicarBotaoDireito(Match.Location.X, Match.Location.Y);
                 Thread.Sleep(1100);
-                Win32.clicarBotaoEsquerdo(objModelTela.eixoHorizontal - 35, objModelTela.eixoVertical - 35);
+                Win32.clicarBotaoEsquerdo(Match.Location.X - 35, Match.Location.Y - 35);
                 Thread.Sleep(6000);
 
                 return true;
