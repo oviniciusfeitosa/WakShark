@@ -85,7 +85,7 @@ namespace Service
                 }
 
                 match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, defineRetanguloAreaColeta());
-
+                acaoColetar(match);
             }
             return false;
         }
