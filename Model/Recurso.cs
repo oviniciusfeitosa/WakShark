@@ -10,8 +10,8 @@ namespace Model
     {
         public Dictionary<string, string> tiposRecurso = new Dictionary<string, string> {
             { "Trigo", System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\trigo.png" },
-            { "Cevada", System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\centeio.png" },
-            { "Centeio", System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\cevada.png" },
+            { "Cevada", System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\cevada.png" },
+            { "Centeio", System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\centeio.png" },
             { "Aveia", System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\aveia.png" }
         };
     }

@@ -56,8 +56,8 @@ namespace Service
 
         public bool coletar(string caminhoTemplateRecurso)
         {
-            System.Drawing.Bitmap bmpBatalha = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem.COMPLETO, true);
-            this.validarInicioBatalha(bmpBatalha);
+            
+            this.validarInicioBatalha();
             
             int eixoHorizontal = Convert.ToInt32(SystemInformation.PrimaryMonitorSize.Width * 0.3);
             int eixoVertical = Convert.ToInt32(SystemInformation.PrimaryMonitorSize.Height * 0.3);
@@ -105,9 +105,9 @@ namespace Service
             return false;
         }
 
-        public void validarInicioBatalha(Bitmap bmpBatalha)
+        public void validarInicioBatalha()
         {
-            
+            System.Drawing.Bitmap bmpBatalha = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem.COMPLETO, true);
             if (Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(200, 100)) == "#000000"
                 && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(300, 100)) == "#000000"
                 && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(400, 100)) == "#000000")

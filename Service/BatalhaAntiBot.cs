@@ -163,7 +163,7 @@ namespace Service
 
                 System.Threading.Thread.Sleep(5000);
                 //System.Windows.Forms.SendKeys.SendWait("{ESC}");
-               Model.Match match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\batalhaAntiBOT\fechar.png", Imagem.EnumRegiaoImagem.RETANGULO, new Rectangle(50, 50, Screen.PrimaryScreen.Bounds.Width - 100, Screen.PrimaryScreen.Bounds.Height - 100));
+               Model.Match match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\batalhaAntiBOT\fechar.png", Imagem.EnumRegiaoImagem.COMPLETO, new Rectangle(50, 50, Screen.PrimaryScreen.Bounds.Width - 100, Screen.PrimaryScreen.Bounds.Height - 100));
                 if (match.Semelhanca > 0.9)
                 {
                     acaoFechar(new Model.Tela(match.Location.X, match.Location.Y));

@@ -199,6 +199,7 @@ namespace WakBoy
         #region Tirar Screenshot
         private void botaoScreenshot_Click(object sender, EventArgs e)
         {
+            /*
             if (!String.IsNullOrEmpty(textBoxTransparencia.Text)) ImagemTransparencia.obterInstancia().valorTransparencia = Int32.Parse(textBoxTransparencia.Text);
 
             ImagemTransparencia.obterInstancia().definirValorTransparenciaPorHorario();
@@ -207,7 +208,17 @@ namespace WakBoy
             {
                 source.Save(@textBoxLocalizacaoScreenshot.Text);
                 MessageBox.Show("PrintScreen realizado com sucesso!");
-            }
+            }*/
+            float anguloRotacao = 315f;
+            Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
+            //Esse trecho de código está assim para manter um padrão de acordo com a resolução escolhida
+            int widthTelaRedimencionada = ImagemTransformacao.obterInstancia().calcularProporcao(telaOriginal.Width, 1600, telaOriginal.Width);
+            int heightTelaRedimencionada = ImagemTransformacao.obterInstancia().calcularProporcao(telaOriginal.Height, 900, telaOriginal.Height);
+            telaOriginal = ImagemTransformacao.obterInstancia().redimensionarImagem(telaOriginal, widthTelaRedimencionada / 2, heightTelaRedimencionada);
+            telaOriginal = ImagemTransformacao.obterInstancia().rotacionarImagem(telaOriginal, anguloRotacao);
+            telaOriginal.Save(@textBoxLocalizacaoScreenshot.Text);
+            telaOriginal.Dispose();
+            MessageBox.Show("PrintScreen realizado com sucesso!");
         }
         #endregion
 
