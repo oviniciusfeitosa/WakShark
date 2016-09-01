@@ -296,9 +296,10 @@ namespace Common
 
         public Model.Match buscarImagemPorTemplateRotacionado(string caminhoTemplateNumero, Imagem.EnumRegiaoImagem objRegiaoImagem, Rectangle AreaBusca)
         {
+           // System.Threading.Thread.Sleep(3000);
             Bitmap objBitmapTemplate = (Bitmap)Bitmap.FromFile(caminhoTemplateNumero);
             Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
-            //telaOriginal.Save(@"C:\\Users\\Public\\telaOriginal.bmp");
+            telaOriginal.Save(@"C:\\Users\\Public\\telaOriginal.bmp");
             ImagemTransformacao objImagemTransformacao = ImagemTransformacao.obterInstancia();
             objBitmapTemplate = objImagemTransformacao.redimensionarImagem(objBitmapTemplate, objImagemTransformacao.calcularProporcao(objBitmapTemplate.Width, 1600, telaOriginal.Width), objImagemTransformacao.calcularProporcao(objBitmapTemplate.Height, 900, telaOriginal.Height));
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Rgb, byte>(objBitmapTemplate);
@@ -308,14 +309,14 @@ namespace Common
 
             Bitmap telaOriginalRotacionada = objImagemTransformacao.redimensionarImagem(telaOriginal, telaOriginal.Width / 2, telaOriginal.Height);
             telaOriginalRotacionada = objImagemTransformacao.rotacionarImagem(telaOriginalRotacionada, anguloRotacao); //Deveria ser 45 graus, mas como rotacionei 45 no sentido anti-horario, entao ficou como 315 graus
-            //telaOriginalRotacionada.Save(@"C:\\Users\\Public\\telaOriginalRotacionada.bmp");
+            telaOriginalRotacionada.Save(@"C:\\Users\\Public\\telaOriginalRotacionada.bmp");
 
             Bitmap telaRotacionadaCortada = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaOriginalRotacionada, objRegiaoImagem, AreaBusca);
-            //telaRotacionadaCortada.Save(@"C:\\Users\\Public\\telaRotacionadaCortada.bmp");
+            telaRotacionadaCortada.Save(@"C:\\Users\\Public\\telaRotacionadaCortada.bmp");
 
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Rgb, byte>(telaRotacionadaCortada); // Image B
-            //objImagemTelaAtual.ToBitmap().Save(@"C:\\Users\\Public\\objImagemTelaAtual.bmp");
-            //objImagemTemplate.ToBitmap().Save(@"C:\\Users\\Public\\objImagemTemplate.bmp");
+            objImagemTelaAtual.ToBitmap().Save(@"C:\\Users\\Public\\objImagemTelaAtual.bmp");
+            objImagemTemplate.ToBitmap().Save(@"C:\\Users\\Public\\objImagemTemplate.bmp");
 
             Model.Match matchRetorno = new Model.Match();
             using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED))

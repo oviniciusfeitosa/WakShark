@@ -64,29 +64,44 @@ namespace Service
             int largura = Convert.ToInt32(SystemInformation.PrimaryMonitorSize.Width * 0.4);
             int altura = Convert.ToInt32(SystemInformation.PrimaryMonitorSize.Height * 0.4);
 
+
+            
+
             //Rectangle RectPersonagem = new Rectangle(eixoHorizontal, eixoVertical, largura, altura);
             //return ImagemBusca.obterInstancia().procurarImagemPorTemplateComAcao(caminhoTemplateRecurso, acaoColetar, Imagem.EnumRegiaoImagem.COMPLETO, RectPersonagem);
 
-            Model.Match match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, defineRetanguloAreaColeta());
-            
-            while (match.Semelhanca < 0.7)
-            {
-                if (match.Semelhanca >= 0.7)
-                {
-                    acaoColetar(match);
-                    _resetaAreaColeta();
-                    return true;
-                }
-                else
-                {
-                    if (_areaColetaPercent == 100)
-                        return false;
-                    _ampliaAreaColeta();
-                }
+            Model.Match match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, new Rectangle(75,75, Screen.PrimaryScreen.Bounds.Width /2  - 150, Screen.PrimaryScreen.Bounds.Height - 150));
 
-                match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, defineRetanguloAreaColeta());
+            if (match.Semelhanca > 0.5)
+            {
                 acaoColetar(match);
+                return true;
             }
+            else
+            {
+                return false;
+            }
+            //Model.Match match = new Model.Match();
+
+            //while (match.Semelhanca < 0.7)
+            //{
+            //    match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, defineRetanguloAreaColeta());
+
+            //    if (match.Semelhanca >= 0.7)
+            //    {
+            //        acaoColetar(match);
+            //        _resetaAreaColeta();
+            //        return true;
+            //    }
+            //    else
+            //    {
+            //        if (_areaColetaPercent == 100)
+            //            return false;
+            //        _ampliaAreaColeta();
+            //    }
+
+            //   // acaoColetar(match);
+            //}
             return false;
         }
 
