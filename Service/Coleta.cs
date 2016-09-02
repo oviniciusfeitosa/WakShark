@@ -70,38 +70,40 @@ namespace Service
             //Rectangle RectPersonagem = new Rectangle(eixoHorizontal, eixoVertical, largura, altura);
             //return ImagemBusca.obterInstancia().procurarImagemPorTemplateComAcao(caminhoTemplateRecurso, acaoColetar, Imagem.EnumRegiaoImagem.COMPLETO, RectPersonagem);
 
-            Model.Match match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, new Rectangle(75,75, Screen.PrimaryScreen.Bounds.Width /2  - 150, Screen.PrimaryScreen.Bounds.Height - 150));
+           // Model.Match match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, new Rectangle(75,75, Screen.PrimaryScreen.Bounds.Width /2  - 150, Screen.PrimaryScreen.Bounds.Height - 150));
 
-            if (match.Semelhanca > 0.5)
-            {
-                acaoColetar(match);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-            //Model.Match match = new Model.Match();
-
-            //while (match.Semelhanca < 0.7)
+            //if (match.Semelhanca > 0.5)
             //{
-            //    match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, defineRetanguloAreaColeta());
-
-            //    if (match.Semelhanca >= 0.7)
-            //    {
-            //        acaoColetar(match);
-            //        _resetaAreaColeta();
-            //        return true;
-            //    }
-            //    else
-            //    {
-            //        if (_areaColetaPercent == 100)
-            //            return false;
-            //        _ampliaAreaColeta();
-            //    }
-
-            //   // acaoColetar(match);
+            //    acaoColetar(match);
+            //    return true;
             //}
+            //else
+            //{
+            //    return false;
+            //}
+
+            Model.Match match = new Model.Match();
+
+            while (match.Semelhanca < 0.7)
+            {
+                match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, defineRetanguloAreaColeta());
+
+                if (match.Semelhanca >= 0.7)
+                {
+                    acaoColetar(match);
+                    _resetaAreaColeta();
+                    return true;
+                }
+                else
+                {
+                    if (_areaColetaPercent == 90)
+                        return false;
+                    _ampliaAreaColeta();
+                    Win32.posicionarMouse(_areaColetaPercent, _areaColetaPercent);
+                }
+
+                
+            }
             return false;
         }
 
@@ -123,9 +125,9 @@ namespace Service
             try
             {
                 Win32.clicarBotaoDireito(Match.Location.X, Match.Location.Y);
-                Thread.Sleep(1100);
+                Thread.Sleep(500);
                 Win32.clicarBotaoEsquerdo(Match.Location.X - 35, Match.Location.Y - 35);
-                Thread.Sleep(6000);
+                Thread.Sleep(4500);
 
                 return true;
             }

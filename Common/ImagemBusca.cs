@@ -237,6 +237,7 @@ namespace Common
 
         public Model.Tela procurarImagemPorTemplate(string caminhoTemplateRecurso, Imagem.EnumRegiaoImagem objRegiaoImagem, Rectangle areaBusca)
         {
+            //System.Threading.Thread.Sleep(3000);
             ImagemCaptura objImagemCaptura = ImagemCaptura.obterInstancia();
             Bitmap objBitmapTemplate = new Bitmap(caminhoTemplateRecurso);
             if (objImagemCaptura.isUtilizarMascaraLuminosidade) objBitmapTemplate = ImagemMascaraNegra.obterInstancia().aplicarMascaraNegraImagem(objBitmapTemplate);
@@ -258,8 +259,8 @@ namespace Common
 
                 if (maxValues[0] > 0.5d)
                 {
-                    objModelTela.eixoHorizontal = maxLocations[0].X;
-                    objModelTela.eixoVertical = maxLocations[0].Y;
+                    objModelTela.eixoHorizontal = maxLocations[0].X + areaBusca.X;
+                    objModelTela.eixoVertical = maxLocations[0].Y + areaBusca.Y;
                 }
             }
 
@@ -296,7 +297,7 @@ namespace Common
 
         public Model.Match buscarImagemPorTemplateRotacionado(string caminhoTemplateNumero, Imagem.EnumRegiaoImagem objRegiaoImagem, Rectangle AreaBusca)
         {
-           // System.Threading.Thread.Sleep(3000);
+            ///System.Threading.Thread.Sleep(3000);
             Bitmap objBitmapTemplate = (Bitmap)Bitmap.FromFile(caminhoTemplateNumero);
             Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
             telaOriginal.Save(@"C:\\Users\\Public\\telaOriginal.bmp");
@@ -319,13 +320,17 @@ namespace Common
             objImagemTemplate.ToBitmap().Save(@"C:\\Users\\Public\\objImagemTemplate.bmp");
 
             Model.Match matchRetorno = new Model.Match();
+            
             using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED))
             {
                 double[] minValues, maxValues;
                 Point[] minLocations, maxLocations;
 
                 result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
+                if (minValues.Length > 1 || maxValues.Length > 1)
+                {
 
+                }
                 Dictionary<double, Point> MatchesMax = new Dictionary<double, Point>();
                 Dictionary<double, Point> MatchesMin = new Dictionary<double, Point>();
 
