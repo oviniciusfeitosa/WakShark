@@ -302,10 +302,11 @@ namespace Common
             Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
             telaOriginal.Save(@"C:\\Users\\Public\\telaOriginal.bmp");
             ImagemTransformacao objImagemTransformacao = ImagemTransformacao.obterInstancia();
-            objBitmapTemplate = objImagemTransformacao.redimensionarImagem(objBitmapTemplate, objImagemTransformacao.calcularProporcao(objBitmapTemplate.Width, 1600, telaOriginal.Width), objImagemTransformacao.calcularProporcao(objBitmapTemplate.Height, 900, telaOriginal.Height));
+            int alturaPadronizada = objImagemTransformacao.calcularProporcao(objBitmapTemplate.Height, 900, telaOriginal.Height);
+            int larguraPadronizada = objImagemTransformacao.calcularProporcao(objBitmapTemplate.Width, 1600, telaOriginal.Width);
+            objBitmapTemplate = objImagemTransformacao.redimensionarImagem(objBitmapTemplate, larguraPadronizada, alturaPadronizada);
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Rgb, byte>(objBitmapTemplate);
-
-
+            
             float anguloRotacao = 315f;
 
             Bitmap telaOriginalRotacionada = objImagemTransformacao.redimensionarImagem(telaOriginal, telaOriginal.Width / 2, telaOriginal.Height);
