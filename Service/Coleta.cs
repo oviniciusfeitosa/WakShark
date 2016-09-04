@@ -15,12 +15,14 @@ namespace Service
     {
 
         private int _areaColetaPercent = 30;
+
         #region Singleton
         private static Coleta objColeta;
 
-        public static Coleta obterInstancia() {
+        public static Coleta obterInstancia()
+        {
 
-            if(Coleta.objColeta == null)
+            if (Coleta.objColeta == null)
             {
                 Coleta.objColeta = new Coleta();
             }
@@ -28,7 +30,7 @@ namespace Service
         }
         #endregion
 
-        private void _ampliaAreaColeta()
+        private void _ampliarAreaColeta()
         {
             if (_areaColetaPercent <= 80)
             {
@@ -36,43 +38,26 @@ namespace Service
             }
         }
 
-        private void _resetaAreaColeta()
+        private void _redefinirAreaColeta()
         {
             _areaColetaPercent = 30;
         }
 
-        private Rectangle rectAreaColeta = new Rectangle();
-
         private Rectangle definirRetanguloAreaColeta()
         {
             return new Rectangle(
-                                                (Screen.PrimaryScreen.Bounds.Width / 4) - ((Screen.PrimaryScreen.Bounds.Width / 2  * _areaColetaPercent / 100) / 2),
-                                                (Screen.PrimaryScreen.Bounds.Height / 2) - ((Screen.PrimaryScreen.Bounds.Height  * _areaColetaPercent / 100) / 2),
-                                                (Screen.PrimaryScreen.Bounds.Width /2 * _areaColetaPercent / 100),
-                                                (Screen.PrimaryScreen.Bounds.Height  * _areaColetaPercent / 100)
-                                               );
+                                (Screen.PrimaryScreen.Bounds.Width / 4) - ((Screen.PrimaryScreen.Bounds.Width / 2 * _areaColetaPercent / 100) / 2),
+                                (Screen.PrimaryScreen.Bounds.Height / 2) - ((Screen.PrimaryScreen.Bounds.Height * _areaColetaPercent / 100) / 2),
+                                (Screen.PrimaryScreen.Bounds.Width / 2 * _areaColetaPercent / 100),
+                                (Screen.PrimaryScreen.Bounds.Height * _areaColetaPercent / 100)
+            );
         }
 
 
         public bool coletar(string caminhoTemplateRecurso)
         {
-            
+
             this.validarInicioBatalha();
-            
-            //Rectangle RectPersonagem = new Rectangle(eixoHorizontal, eixoVertical, largura, altura);
-            //return ImagemBusca.obterInstancia().procurarImagemPorTemplateComAcao(caminhoTemplateRecurso, acaoColetar, Imagem.EnumRegiaoImagem.COMPLETO, RectPersonagem);
-
-            // Model.Match match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, new Rectangle(75,75, Screen.PrimaryScreen.Bounds.Width /2  - 150, Screen.PrimaryScreen.Bounds.Height - 150));
-
-            //if (match.Semelhanca > 0.5)
-            //{
-            //    acaoColetar(match);
-            //    return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
 
             Model.Match match = new Model.Match();
 
@@ -83,18 +68,17 @@ namespace Service
                 if (match.Semelhanca >= 0.7)
                 {
                     acaoColetar(match);
-                    _resetaAreaColeta();
-                    return true;
+                    _redefinirAreaColeta();
+                }
+                else if(_areaColetaPercent == 90) {
+                    Personagem.obterInstancia().movimentarRandomicamente();
+                    _redefinirAreaColeta();
                 }
                 else
                 {
-                    if (_areaColetaPercent == 90)
-                        return false;
-                    _ampliaAreaColeta();
-                    Win32.posicionarMouse(_areaColetaPercent, _areaColetaPercent);
+                    
+                    _ampliarAreaColeta();
                 }
-
-                
             }
             return false;
         }
@@ -102,9 +86,9 @@ namespace Service
         public void validarInicioBatalha()
         {
             System.Drawing.Bitmap bmpBatalha = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem.COMPLETO, true);
-            if (Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(200, 100)) == "#000000"
-                && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(300, 100)) == "#000000"
-                && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(400, 100)) == "#000000")
+            if (Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(200, 200)) == "#000000"
+                && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(250, 250)) == "#000000"
+                && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(300, 300)) == "#000000")
             {
                 //bmpBatalha.Save(@"C:\users\public\iniciandoBatalha.bmp");
                 System.Windows.Forms.SendKeys.SendWait(" ");

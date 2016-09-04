@@ -59,6 +59,7 @@
     <Compile Include="BatalhaAntiBOT.cs" />
     <Compile Include="Coleta.cs" />
     <Compile Include="Batalha.cs" />
+    <Compile Include="Personagem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

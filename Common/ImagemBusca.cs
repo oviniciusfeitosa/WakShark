@@ -300,25 +300,26 @@ namespace Common
             ///System.Threading.Thread.Sleep(3000);
             Bitmap objBitmapTemplate = (Bitmap)Bitmap.FromFile(caminhoTemplateNumero);
             Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
-            telaOriginal.Save(@"C:\\Users\\Public\\telaOriginal.bmp");
+            //telaOriginal.Save(@"C:\\Users\\Public\\telaOriginal.bmp");
             ImagemTransformacao objImagemTransformacao = ImagemTransformacao.obterInstancia();
             int alturaPadronizada = objImagemTransformacao.calcularProporcao(objBitmapTemplate.Height, 900, telaOriginal.Height);
             int larguraPadronizada = objImagemTransformacao.calcularProporcao(objBitmapTemplate.Width, 1600, telaOriginal.Width);
             objBitmapTemplate = objImagemTransformacao.redimensionarImagem(objBitmapTemplate, larguraPadronizada, alturaPadronizada);
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Rgb, byte>(objBitmapTemplate);
             
+            //Deveria ser 45 graus, mas como rotacionei 45 no sentido anti-horario, entao ficou como 315 graus            
             float anguloRotacao = 315f;
 
             Bitmap telaOriginalRotacionada = objImagemTransformacao.redimensionarImagem(telaOriginal, telaOriginal.Width / 2, telaOriginal.Height);
-            telaOriginalRotacionada = objImagemTransformacao.rotacionarImagem(telaOriginalRotacionada, anguloRotacao); //Deveria ser 45 graus, mas como rotacionei 45 no sentido anti-horario, entao ficou como 315 graus
-            telaOriginalRotacionada.Save(@"C:\\Users\\Public\\telaOriginalRotacionada.bmp");
+            telaOriginalRotacionada = objImagemTransformacao.rotacionarImagem(telaOriginalRotacionada, anguloRotacao); 
+            //telaOriginalRotacionada.Save(@"C:\\Users\\Public\\telaOriginalRotacionada.bmp");
 
             Bitmap telaRotacionadaCortada = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaOriginalRotacionada, objRegiaoImagem, AreaBusca);
-            telaRotacionadaCortada.Save(@"C:\Users\Public\telaRotacionadaCortada.bmp");
+            //telaRotacionadaCortada.Save(@"C:\Users\Public\telaRotacionadaCortada.bmp");
 
-            Image<Emgu.CV.Structure.Rgb, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Rgb, byte>(telaRotacionadaCortada); // Image B
-            objImagemTelaAtual.ToBitmap().Save(@"C:\Users\Public\objImagemTelaAtual.bmp");
-            objImagemTemplate.ToBitmap().Save(@"C:\Users\Public\objImagemTemplate.bmp");
+            Image<Emgu.CV.Structure.Rgb, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Rgb, byte>(telaRotacionadaCortada);
+            //objImagemTelaAtual.ToBitmap().Save(@"C:\Users\Public\objImagemTelaAtual.bmp");
+            //objImagemTemplate.ToBitmap().Save(@"C:\Users\Public\objImagemTemplate.bmp");
 
             Model.Match matchRetorno = new Model.Match();
             
@@ -347,9 +348,6 @@ namespace Common
                 }
             }
 
-            //objImagemTelaAtual.ToBitmap().Save("C:\\Users\\Public\\objImagemTelaAtual2.bmp");
-            //caminhoTemplateRecurso.Replace("./", "");
-            //objImagemTemplate.ToBitmap().Save("C:\\Users\\Public\\objImagemTemplate" + caminhoTemplateNumero.Substring(caminhoTemplateNumero.IndexOf("numero")).Replace(".bmp", "") + ".bmp");
             objImagemTelaAtual.Dispose();
             objImagemTemplate.Dispose();
             //telaOriginal.Dispose();
