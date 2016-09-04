@@ -43,7 +43,7 @@ namespace Service
 
         private Rectangle rectAreaColeta = new Rectangle();
 
-        private Rectangle defineRetanguloAreaColeta()
+        private Rectangle definirRetanguloAreaColeta()
         {
             return new Rectangle(
                                                 (Screen.PrimaryScreen.Bounds.Width / 4) - ((Screen.PrimaryScreen.Bounds.Width / 2  * _areaColetaPercent / 100) / 2),
@@ -59,18 +59,10 @@ namespace Service
             
             this.validarInicioBatalha();
             
-            int eixoHorizontal = Convert.ToInt32(SystemInformation.PrimaryMonitorSize.Width * 0.3);
-            int eixoVertical = Convert.ToInt32(SystemInformation.PrimaryMonitorSize.Height * 0.3);
-            int largura = Convert.ToInt32(SystemInformation.PrimaryMonitorSize.Width * 0.4);
-            int altura = Convert.ToInt32(SystemInformation.PrimaryMonitorSize.Height * 0.4);
-
-
-            
-
             //Rectangle RectPersonagem = new Rectangle(eixoHorizontal, eixoVertical, largura, altura);
             //return ImagemBusca.obterInstancia().procurarImagemPorTemplateComAcao(caminhoTemplateRecurso, acaoColetar, Imagem.EnumRegiaoImagem.COMPLETO, RectPersonagem);
 
-           // Model.Match match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, new Rectangle(75,75, Screen.PrimaryScreen.Bounds.Width /2  - 150, Screen.PrimaryScreen.Bounds.Height - 150));
+            // Model.Match match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, new Rectangle(75,75, Screen.PrimaryScreen.Bounds.Width /2  - 150, Screen.PrimaryScreen.Bounds.Height - 150));
 
             //if (match.Semelhanca > 0.5)
             //{
@@ -86,7 +78,7 @@ namespace Service
 
             while (match.Semelhanca < 0.7)
             {
-                match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, defineRetanguloAreaColeta());
+                match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, definirRetanguloAreaColeta());
 
                 if (match.Semelhanca >= 0.7)
                 {
@@ -118,6 +110,7 @@ namespace Service
                 System.Windows.Forms.SendKeys.SendWait(" ");
                 Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
             }
+            bmpBatalha.Dispose();
         }
 
         public static bool acaoColetar(Model.Match Match)

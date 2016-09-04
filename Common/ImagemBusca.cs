@@ -314,11 +314,11 @@ namespace Common
             telaOriginalRotacionada.Save(@"C:\\Users\\Public\\telaOriginalRotacionada.bmp");
 
             Bitmap telaRotacionadaCortada = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaOriginalRotacionada, objRegiaoImagem, AreaBusca);
-            telaRotacionadaCortada.Save(@"C:\\Users\\Public\\telaRotacionadaCortada.bmp");
+            telaRotacionadaCortada.Save(@"C:\Users\Public\telaRotacionadaCortada.bmp");
 
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Rgb, byte>(telaRotacionadaCortada); // Image B
-            objImagemTelaAtual.ToBitmap().Save(@"C:\\Users\\Public\\objImagemTelaAtual.bmp");
-            objImagemTemplate.ToBitmap().Save(@"C:\\Users\\Public\\objImagemTemplate.bmp");
+            objImagemTelaAtual.ToBitmap().Save(@"C:\Users\Public\objImagemTelaAtual.bmp");
+            objImagemTemplate.ToBitmap().Save(@"C:\Users\Public\objImagemTemplate.bmp");
 
             Model.Match matchRetorno = new Model.Match();
             
@@ -326,34 +326,25 @@ namespace Common
             {
                 double[] minValues, maxValues;
                 Point[] minLocations, maxLocations;
-
                 result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
-                if (minValues.Length > 1 || maxValues.Length > 1)
-                {
-
-                }
-                Dictionary<double, Point> MatchesMax = new Dictionary<double, Point>();
-                Dictionary<double, Point> MatchesMin = new Dictionary<double, Point>();
-
-                int cnt = 0;
+                
                 for (int i = 0; i < maxLocations.Length; i++)
                 {
-                    matchRetorno.Location = ImagemTransformacao.obterInstancia().RotatePoint(new Point(maxLocations[i].X + AreaBusca.X, maxLocations[i].Y + AreaBusca.Y), new Point(telaOriginal.Width / 2 / 2, telaOriginal.Height / 2), 45d);
+                    double valorSemelhanca = maxValues[i];
+                    Point pontoRotacao = new Point(maxLocations[i].X + AreaBusca.X, maxLocations[i].Y + AreaBusca.Y);
+                    Point pontoCentral = new Point(telaOriginal.Width / 2 / 2, telaOriginal.Height / 2);
+                    matchRetorno.Location = ImagemTransformacao.obterInstancia().RotatePoint(pontoRotacao, pontoCentral, 45d);
+
                     if (caminhoTemplateNumero.Contains("numero"))
                     {
                         matchRetorno.Numero = int.Parse(caminhoTemplateNumero.Substring(caminhoTemplateNumero.IndexOf("numero") + 6, 1));
                     }
 
-                    if (maxValues[i] > 0.699d)
+                    if (valorSemelhanca > 0.699d)
                     {
-                        matchRetorno.Semelhanca = maxValues[i];
-
-                        //objImagemTelaAtual.Copy(new Rectangle(maxLocations[i].X, maxLocations[i].Y, objImagemTemplate.Width, objImagemTemplate.Height)).Save(@"C:\\Users\\Public\\match_" + caminhoTemplateNumero.Substring(caminhoTemplateNumero.IndexOf("numero")).Replace(".bmp", "") + maxValues[cnt].ToString() + ".bmp");
+                        matchRetorno.Semelhanca = valorSemelhanca;
                     }
-                    cnt++;
                 }
-
-                double valorMaximo = maxValues[0];
             }
 
             //objImagemTelaAtual.ToBitmap().Save("C:\\Users\\Public\\objImagemTelaAtual2.bmp");

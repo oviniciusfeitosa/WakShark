@@ -232,7 +232,7 @@ namespace WakBoy
             ImagemTransformacao.obterInstancia().extrairRegiaoImagem(Imagem, Common.Imagem.EnumRegiaoImagem.LADO_ESQUERDO).Save(@"C:\Users\Public\depois_esquerdo.png", ImageFormat.Png);
             ImagemTransformacao.obterInstancia().extrairRegiaoImagem(Imagem, Common.Imagem.EnumRegiaoImagem.LADO_DIREITO).Save(@"C:\Users\Public\depois_direito.png", ImageFormat.Png);
             */
-            Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
+            //Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
             //MessageBox.Show(Service.TelaCaptura.obterInstancia().obterValorTransparenciaPorHorario().ToString());
             /*
             CheckBox objComboBox = (CheckBox)sender;
