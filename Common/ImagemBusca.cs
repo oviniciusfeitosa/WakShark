@@ -341,7 +341,7 @@ namespace Common
                         matchRetorno.Numero = int.Parse(caminhoTemplateNumero.Substring(caminhoTemplateNumero.IndexOf("numero") + 6, 1));
                     }
 
-                    if (valorSemelhanca > 0.699d)
+                    if (valorSemelhanca > 0.633d)
                     {
                         matchRetorno.Semelhanca = valorSemelhanca;
                     }

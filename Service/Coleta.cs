@@ -40,7 +40,7 @@ namespace Service
 
         private void _redefinirAreaColeta()
         {
-            _areaColetaPercent = 30;
+            _areaColetaPercent = 20;
         }
 
         private Rectangle definirRetanguloAreaColeta()
@@ -61,25 +61,27 @@ namespace Service
 
             Model.Match match = new Model.Match();
 
-            while (match.Semelhanca < 0.7)
+            while (match.Semelhanca < 0.633d)
             {
                 match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, definirRetanguloAreaColeta());
 
-                if (match.Semelhanca >= 0.7)
+                if (match.Semelhanca >= 0.633d)
                 {
                     acaoColetar(match);
-                    _redefinirAreaColeta();
+                    break;
                 }
-                else if(_areaColetaPercent == 90) {
+                else if(_areaColetaPercent > 89) {
                     Personagem.obterInstancia().movimentarRandomicamente();
-                    _redefinirAreaColeta();
+                    Thread.Sleep(800);
+                    break;
                 }
                 else
-                {
-                    
+                {   
                     _ampliarAreaColeta();
-                }
+                }    
             }
+            _redefinirAreaColeta();
+            
             return false;
         }
 
