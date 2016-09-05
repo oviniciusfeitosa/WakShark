@@ -141,8 +141,8 @@ namespace Service
                     Model.Match matchClicar = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(@"./numero" + objMatch.Numero.ToString() + ".png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloPersonagem);
 
                     System.Windows.Forms.SendKeys.SendWait("1");
-                    System.Threading.Thread.Sleep(1000);
-                    Common.Lib.Win32.posicionarMouse(matchClicar.Location.X, matchClicar.Location.Y);
+                    System.Threading.Thread.Sleep(800);
+                    //Common.Lib.Win32.posicionarMouse(matchClicar.Location.X, matchClicar.Location.Y);
                     Common.Lib.Win32.clicarBotaoEsquerdo(matchClicar.Location.X, matchClicar.Location.Y);
                     
                     /*System.Windows.Forms.SendKeys.SendWait("1");
@@ -154,11 +154,7 @@ namespace Service
 
                 System.Threading.Thread.Sleep(5000);
                 //System.Windows.Forms.SendKeys.SendWait("{ESC}");
-               Model.Tela telaX = ImagemBusca.obterInstancia().procurarImagemPorTemplate(System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\batalhaAntiBOT\fechar.png", Imagem.EnumRegiaoImagem.COMPLETO, new Rectangle(50, 50, bounds.Width  - 300, bounds.Height - 300));
-                if (telaX.eixoHorizontal > 0)
-                {
-                    acaoFechar(new Model.Tela(telaX.eixoHorizontal, telaX.eixoVertical));
-                }
+               
 
             }
             catch (Exception objException)
@@ -166,19 +162,6 @@ namespace Service
                 MessageBox.Show(objException.Message);
             }
             return true;
-        }
-
-        public static bool acaoFechar(Model.Tela objModelTela)
-        {
-            try
-            {
-                Win32.clicarBotaoEsquerdo(objModelTela.eixoHorizontal + 5, objModelTela.eixoVertical + 5);
-                return true;
-            }
-            catch (System.Exception objException)
-            {
-                throw new System.Exception(objException.ToString());
-            }
         }
 
         public Model.Match buscarNumeroPorTemplateRotacionado(string caminhoTemplateNumero, Imagem.EnumRegiaoImagem objRegiaoImagem)

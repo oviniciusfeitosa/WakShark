@@ -69,6 +69,7 @@
             this.labelCor = new System.Windows.Forms.Label();
             this.timerHorarioFrances = new System.Windows.Forms.Timer(this.components);
             this.openFileDialogImagemTemplate = new System.Windows.Forms.OpenFileDialog();
+            this.botaoScreenshotRotacionado = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.capinacao.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -235,6 +236,7 @@
             // 
             // abaCapturadorPixels
             // 
+            this.abaCapturadorPixels.Controls.Add(this.botaoScreenshotRotacionado);
             this.abaCapturadorPixels.Controls.Add(this.labelHorarioFranca);
             this.abaCapturadorPixels.Controls.Add(this.label3);
             this.abaCapturadorPixels.Controls.Add(this.textBoxTransparencia);
@@ -285,7 +287,7 @@
             // 
             // textBoxTransparencia
             // 
-            this.textBoxTransparencia.Location = new System.Drawing.Point(337, 223);
+            this.textBoxTransparencia.Location = new System.Drawing.Point(527, 205);
             this.textBoxTransparencia.Name = "textBoxTransparencia";
             this.textBoxTransparencia.Size = new System.Drawing.Size(38, 20);
             this.textBoxTransparencia.TabIndex = 19;
@@ -293,7 +295,7 @@
             // labelTransparencia
             // 
             this.labelTransparencia.AutoSize = true;
-            this.labelTransparencia.Location = new System.Drawing.Point(208, 228);
+            this.labelTransparencia.Location = new System.Drawing.Point(398, 208);
             this.labelTransparencia.Name = "labelTransparencia";
             this.labelTransparencia.Size = new System.Drawing.Size(123, 13);
             this.labelTransparencia.TabIndex = 18;
@@ -472,6 +474,16 @@
             // 
             this.openFileDialogImagemTemplate.FileName = "openFileDialogImagemTemplate";
             // 
+            // botaoScreenshotRotacionado
+            // 
+            this.botaoScreenshotRotacionado.Location = new System.Drawing.Point(129, 218);
+            this.botaoScreenshotRotacionado.Name = "botaoScreenshotRotacionado";
+            this.botaoScreenshotRotacionado.Size = new System.Drawing.Size(133, 23);
+            this.botaoScreenshotRotacionado.TabIndex = 22;
+            this.botaoScreenshotRotacionado.Text = "Screenshot Rotacionado";
+            this.botaoScreenshotRotacionado.UseVisualStyleBackColor = true;
+            this.botaoScreenshotRotacionado.Click += new System.EventHandler(this.botaoScreenshotRotacionado_Click);
+            // 
             // FormularioPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -537,6 +549,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox comboBoxTipo;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button botaoScreenshotRotacionado;
     }
 }
 

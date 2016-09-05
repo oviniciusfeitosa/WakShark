@@ -73,7 +73,7 @@ namespace Common
         {
             if (this.objBitmap == null || isGerarNovaInstancia == true)
             {
-                Size bounds = Proporcao.obterProporcao();
+                Size bounds = Screen.PrimaryScreen.Bounds.Size;
 
                 this.objBitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb);
                 using (Graphics g = Graphics.FromImage(this.objBitmap))
@@ -90,8 +90,11 @@ namespace Common
                     }
                 }
                 
-                
                 this.objBitmap = objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format32bppArgb);
+            }
+            if(this.objBitmap.Width != Proporcao.Width || this.objBitmap.Height != Proporcao.Height )
+            {
+                this.objBitmap = ImagemTransformacao.obterInstancia().redimensionarImagem(this.objBitmap, Proporcao.Width, Proporcao.Height);
             }
             return this.objBitmap;
         }
@@ -110,7 +113,7 @@ namespace Common
         {
             if (this.regiaoTelaAtual != objEnumRegiaoTela || isGerarNovaInstancia == true)
             {
-                Size bounds = Proporcao.obterProporcao();
+                Size bounds = Screen.PrimaryScreen.Bounds.Size;
 
                 //Rectangle bounds = SystemInformation.VirtualScreen;
                 //Rectangle bounds = Screen.PrimaryScreen.Bounds;
@@ -138,6 +141,11 @@ namespace Common
                     }
                 }
                 this.objBitmap = objBitmapTemporaria.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format8bppIndexed);
+            }
+
+            if (this.objBitmap.Width != Proporcao.Width || this.objBitmap.Height != Proporcao.Height)
+            {
+                this.objBitmap = ImagemTransformacao.obterInstancia().redimensionarImagem(this.objBitmap, Proporcao.Width, Proporcao.Height);
             }
 
             return this.objBitmap;

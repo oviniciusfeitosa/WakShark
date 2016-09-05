@@ -68,6 +68,7 @@ namespace Service
         {
 
             this.validarInicioBatalha();
+            this.validarFechamentoMensagens();
 
             Model.Match match = new Model.Match();
 
@@ -102,21 +103,35 @@ namespace Service
                 && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(250, 250)) == "#000000"
                 && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(300, 300)) == "#000000")
             {
-                //bmpBatalha.Save(@"C:\users\public\iniciandoBatalha.bmp");
                 System.Windows.Forms.SendKeys.SendWait(" ");
                 Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
             }
             bmpBatalha.Dispose();
         }
 
-        public static bool acaoColetarGraos(Model.Match Match)
+        private void validarFechamentoMensagens()
+        {
+            Acao objAcao = new Model.Acao();
+            Rectangle areaBusca = new Rectangle(50, 50, Proporcao.Width - 50, Proporcao.Height - 50);
+            Model.Match objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(objAcao.tiposAcoes["Fechar"], Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
+            if (objMatch.Semelhanca > 0) Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
+        }
+
+        private bool acaoColetarGraos(Model.Match objMatch)
         {
             try
             {
-                Win32.clicarBotaoDireito(Match.Location.X, Match.Location.Y);
+                Win32.clicarBotaoDireito(objMatch.Location.X, objMatch.Location.Y);
                 Thread.Sleep(500);
-                Win32.clicarBotaoEsquerdo(Match.Location.X - 35, Match.Location.Y - 35);
-                Thread.Sleep(4500);
+                Acao objAcao = new Model.Acao();
+
+                Rectangle areaBusca = new Rectangle(objMatch.Location.X - 100, objMatch.Location.Y - 60, 100, 100);
+                objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(objAcao.tiposAcoes["Colher"], Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
+                if(objMatch.Semelhanca > 0)
+                {
+                    Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
+                    Thread.Sleep(4700);
+                }
 
                 return true;
             }

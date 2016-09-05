@@ -200,26 +200,7 @@ namespace WakBoy
         #region Tirar Screenshot
         private void botaoScreenshot_Click(object sender, EventArgs e)
         {
-            /*
-            if (!String.IsNullOrEmpty(textBoxTransparencia.Text)) ImagemTransparencia.obterInstancia().valorTransparencia = Int32.Parse(textBoxTransparencia.Text);
-
-            ImagemTransparencia.obterInstancia().definirValorTransparenciaPorHorario();
-
-            using (Image<Gray, byte> source = new Image<Gray, byte>(ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel()))
-            {
-                source.Save(@textBoxLocalizacaoScreenshot.Text);
-                MessageBox.Show("PrintScreen realizado com sucesso!");
-            }*/
-            float anguloRotacao = 315f;
             Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
-            //Esse trecho de código está assim para manter um padrão de acordo com a resolução escolhida
-            //int widthTelaRedimencionada = ImagemTransformacao.obterInstancia().calcularProporcao(telaOriginal.Width, 1600, telaOriginal.Width);
-            //int heightTelaRedimencionada = ImagemTransformacao.obterInstancia().calcularProporcao(telaOriginal.Height, 900, telaOriginal.Height);
-
-            Size bounds = Proporcao.obterProporcao();
-            telaOriginal = ImagemTransformacao.obterInstancia().redimensionarImagem(telaOriginal, bounds.Width / 2, bounds.Height);
-            //telaOriginal = ImagemTransformacao.obterInstancia().redimensionarImagem(telaOriginal, telaOriginal.Width / 2, telaOriginal.Height);
-            telaOriginal = ImagemTransformacao.obterInstancia().rotacionarImagem(telaOriginal, anguloRotacao);
             telaOriginal.Save(@textBoxLocalizacaoScreenshot.Text);
             telaOriginal.Dispose();
             MessageBox.Show("PrintScreen realizado com sucesso!");
@@ -237,7 +218,7 @@ namespace WakBoy
             */
             //Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
             //MessageBox.Show(Service.TelaCaptura.obterInstancia().obterValorTransparenciaPorHorario().ToString());
-            /*
+            
             CheckBox objComboBox = (CheckBox)sender;
             objComboBox.BackColor = Color.Transparent;
             objComboBox.ForeColor = Color.DimGray;
@@ -260,7 +241,7 @@ namespace WakBoy
                 m_GlobalHook.MouseDownExt -= obterPixelPorClique;
                 m_GlobalHook.MouseMoveExt -= exibirPixelMovimentoMouse;
                 m_GlobalHook.Dispose();
-            }*/
+            }
         }
         #endregion
 
@@ -299,6 +280,18 @@ namespace WakBoy
             } else {
                 textBoxLocalizacaoImagemTemplate.Text = "";
             }
+        }
+
+        private void botaoScreenshotRotacionado_Click(object sender, EventArgs e)
+        {
+            float anguloRotacao = 315f;
+            Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
+            Size bounds = Proporcao.obterProporcao();
+            telaOriginal = ImagemTransformacao.obterInstancia().redimensionarImagem(telaOriginal, bounds.Width / 2, bounds.Height);
+            telaOriginal = ImagemTransformacao.obterInstancia().rotacionarImagem(telaOriginal, anguloRotacao);
+            telaOriginal.Save(@textBoxLocalizacaoScreenshot.Text);
+            telaOriginal.Dispose();
+            MessageBox.Show("PrintScreen Rotacionado realizado com sucesso!");
         }
     }
 }

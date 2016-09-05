@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
+using System.Windows.Forms;
+using Model;
 
 namespace Common.Lib
 {
@@ -262,6 +264,11 @@ namespace Common.Lib
 
         public static void clicarBotaoEsquerdo(int eixoHorizontal, int eixoVertical)
         {
+            //teste
+            eixoHorizontal = ImagemTransformacao.obterInstancia().calcularProporcao(eixoHorizontal, Proporcao.Width, Screen.PrimaryScreen.Bounds.Width);
+            eixoVertical = ImagemTransformacao.obterInstancia().calcularProporcao(eixoVertical, Proporcao.Height, Screen.PrimaryScreen.Bounds.Height);
+            // fim do teste
+
             INPUT mouseInput = new INPUT();
             mouseInput.type = SendInputEventType.InputMouse;
             mouseInput.mkhi.mi.dx = CalculateAbsoluteCoordinateX(eixoHorizontal);
@@ -280,6 +287,11 @@ namespace Common.Lib
 
         public static void clicarBotaoDireito(int eixoHorizontal, int eixoVertical)
         {
+            //teste
+            eixoHorizontal = ImagemTransformacao.obterInstancia().calcularProporcao(eixoHorizontal, Proporcao.Width, Screen.PrimaryScreen.Bounds.Width);
+            eixoVertical = ImagemTransformacao.obterInstancia().calcularProporcao(eixoVertical, Proporcao.Height, Screen.PrimaryScreen.Bounds.Height);
+            // fim do teste
+
             INPUT mouseInput = new INPUT();
             mouseInput.type = SendInputEventType.InputMouse;
             mouseInput.mkhi.mi.dx = CalculateAbsoluteCoordinateX(eixoHorizontal);
