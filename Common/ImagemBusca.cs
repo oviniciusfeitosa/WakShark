@@ -336,7 +336,7 @@ namespace Common
                 {
                     double valorSemelhanca = maxValues[i];
                     Point pontoRotacao = new Point(maxLocations[i].X + AreaBusca.X, maxLocations[i].Y + AreaBusca.Y);
-                    Point pontoCentral = new Point(telaOriginal.Width / 2, telaOriginal.Height / 2);
+                    Point pontoCentral = new Point(telaOriginal.Width / 2 / 2, telaOriginal.Height / 2);
                     matchRetorno.Location = ImagemTransformacao.obterInstancia().RotatePoint(pontoRotacao, pontoCentral, 45d);
 
                     if (caminhoTemplateNumero.Contains("numero"))
