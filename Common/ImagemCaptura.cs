@@ -1,4 +1,5 @@
 ﻿using Common.Lib;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -41,7 +42,8 @@ namespace Common
         {
             try
             {
-                using (this.objBitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb))
+                Size bounds = Proporcao.obterProporcao();
+                using (this.objBitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb))
                 {
                     var gfxScreenshot = Graphics.FromImage(this.objBitmap);
 
@@ -49,7 +51,7 @@ namespace Common
                                                 Screen.PrimaryScreen.Bounds.Y,
                                                 0,
                                                 0,
-                                                Screen.PrimaryScreen.Bounds.Size,
+                                                bounds,
                                                 CopyPixelOperation.SourceCopy);
 
                     if (this.objBitmap == null) throw new Exception();
@@ -71,23 +73,25 @@ namespace Common
         {
             if (this.objBitmap == null || isGerarNovaInstancia == true)
             {
-                Size bounds = SystemInformation.PrimaryMonitorSize;
+                Size bounds = Proporcao.obterProporcao();
 
-                objBitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb);
-                using (Graphics g = Graphics.FromImage(objBitmap))
+                this.objBitmap = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb);
+                using (Graphics g = Graphics.FromImage(this.objBitmap))
                 {
-                    g.CopyFromScreen(0, 0, 0, 0, objBitmap.Size);
+                    g.CopyFromScreen(0, 0, 0, 0, this.objBitmap.Size);
                 }
 
                 int valorTransparencia = ImagemTransparencia.obterInstancia().valorTransparencia;
                 if (valorTransparencia > 0)
                 {
-                    using (Bitmap objBitmapMascarado = ImagemMascaraNegra.obterInstancia().aplicarMascaraNegraImagem(objBitmap, valorTransparencia))
+                    using (Bitmap objBitmapMascarado = ImagemMascaraNegra.obterInstancia().aplicarMascaraNegraImagem(this.objBitmap, valorTransparencia))
                     {
                         return objBitmapMascarado.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format32bppArgb);
                     }
                 }
-                objBitmap = objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format32bppArgb);
+                
+                
+                this.objBitmap = objBitmap.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format32bppArgb);
             }
             return this.objBitmap;
         }
@@ -106,7 +110,8 @@ namespace Common
         {
             if (this.regiaoTelaAtual != objEnumRegiaoTela || isGerarNovaInstancia == true)
             {
-                Size bounds = SystemInformation.PrimaryMonitorSize;
+                Size bounds = Proporcao.obterProporcao();
+
                 //Rectangle bounds = SystemInformation.VirtualScreen;
                 //Rectangle bounds = Screen.PrimaryScreen.Bounds;
 

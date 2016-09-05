@@ -93,32 +93,32 @@ namespace Common
         {
 
             objBitmap.SetResolution(objBitmap.HorizontalResolution, objBitmap.VerticalResolution);
-            Bitmap obj8bpp = objBitmap.Clone(new Rectangle(0, 0, objBitmap.Width, objBitmap.Height), PixelFormat.Format32bppRgb);
+            Bitmap objImagemComo8bbpx = objBitmap.Clone(new Rectangle(0, 0, objBitmap.Width, objBitmap.Height), PixelFormat.Format32bppRgb);
 
             Rectangle rectExtracao = Area;
 
-            using (Graphics objGraphics = Graphics.FromImage(obj8bpp))
+            using (Graphics objGraphics = Graphics.FromImage(objImagemComo8bbpx))
             {
 
-                objGraphics.DrawImageUnscaled(obj8bpp, 0, 0);
+                objGraphics.DrawImageUnscaled(objImagemComo8bbpx, 0, 0);
                 // Brush brush = new SolidBrush(Color.FromArgb(255, Color.White));
                 int posicaoHorizontalInicial = 0;
                 int posicaoHorizontalFinal = 0;
                 int posicaoVerticalInicial = 0;
-                int posicaoVerticalFinal = obj8bpp.Height;
+                int posicaoVerticalFinal = objImagemComo8bbpx.Height;
 
-                Bitmap telaRecortada = new Bitmap(obj8bpp.Width, obj8bpp.Height);
+                Bitmap telaRecortada = new Bitmap(objImagemComo8bbpx.Width, objImagemComo8bbpx.Height);
 
                 switch (objEnumRegiaoTela)
                 {
                     case Imagem.EnumRegiaoImagem.LADO_ESQUERDO:
-                        posicaoHorizontalInicial = (int)(obj8bpp.Width / 2);
-                        posicaoHorizontalFinal = obj8bpp.Width;
+                        posicaoHorizontalInicial = (int)(objImagemComo8bbpx.Width / 2);
+                        posicaoHorizontalFinal = objImagemComo8bbpx.Width;
                         rectExtracao = new Rectangle(posicaoHorizontalInicial, posicaoVerticalInicial, posicaoHorizontalFinal, posicaoVerticalFinal);
                         break;
                     case Imagem.EnumRegiaoImagem.LADO_DIREITO:
                         posicaoHorizontalInicial = 0;
-                        posicaoHorizontalFinal = (int)(obj8bpp.Width / 2);
+                        posicaoHorizontalFinal = (int)(objImagemComo8bbpx.Width / 2);
                         rectExtracao = new Rectangle(posicaoHorizontalInicial, posicaoVerticalInicial, posicaoHorizontalFinal, posicaoVerticalFinal);
                         break;
                     case Imagem.EnumRegiaoImagem.RETANGULO:
@@ -131,9 +131,9 @@ namespace Common
                 }
 
                 //objGraphics.FillRectangle(brush, rectExtracao);
-                telaRecortada = obj8bpp.Clone(rectExtracao, PixelFormat.Format32bppRgb);
+                telaRecortada = objImagemComo8bbpx.Clone(rectExtracao, PixelFormat.Format32bppRgb);
                 telaRecortada.MakeTransparent(Color.Black);
-                Bitmap novaTela = new Bitmap(obj8bpp.Width, obj8bpp.Height);
+                Bitmap novaTela = new Bitmap(objImagemComo8bbpx.Width, objImagemComo8bbpx.Height);
                 Graphics g = Graphics.FromImage(novaTela);
                 
                 g.DrawImage(telaRecortada, new Point(Area.X, Area.Y));

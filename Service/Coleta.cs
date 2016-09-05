@@ -8,6 +8,7 @@ using Common.Lib;
 using Common;
 using System.Drawing;
 using System;
+using Model;
 
 namespace Service
 {
@@ -45,11 +46,20 @@ namespace Service
 
         private Rectangle definirRetanguloAreaColeta()
         {
+            /*
             return new Rectangle(
                                 (Screen.PrimaryScreen.Bounds.Width / 4) - ((Screen.PrimaryScreen.Bounds.Width / 2 * _areaColetaPercent / 100) / 2),
                                 (Screen.PrimaryScreen.Bounds.Height / 2) - ((Screen.PrimaryScreen.Bounds.Height * _areaColetaPercent / 100) / 2),
                                 (Screen.PrimaryScreen.Bounds.Width / 2 * _areaColetaPercent / 100),
                                 (Screen.PrimaryScreen.Bounds.Height * _areaColetaPercent / 100)
+            );*/
+            Size bounds = Proporcao.obterProporcao();
+
+            return new Rectangle(
+                                (bounds.Width / 4) - ((bounds.Width / 2 * _areaColetaPercent / 100) / 2),
+                                (bounds.Height / 2) - ((bounds.Height * _areaColetaPercent / 100) / 2),
+                                (bounds.Width / 2 * _areaColetaPercent / 100),
+                                (bounds.Height * _areaColetaPercent / 100)
             );
         }
 
@@ -67,7 +77,7 @@ namespace Service
 
                 if (match.Semelhanca >= 0.633d)
                 {
-                    acaoColetar(match);
+                    acaoColetarGraos(match);
                     break;
                 }
                 else if(_areaColetaPercent > 89) {
@@ -99,7 +109,7 @@ namespace Service
             bmpBatalha.Dispose();
         }
 
-        public static bool acaoColetar(Model.Match Match)
+        public static bool acaoColetarGraos(Model.Match Match)
         {
             try
             {

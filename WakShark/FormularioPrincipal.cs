@@ -15,6 +15,7 @@ using Emgu.CV.Structure;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
+using Model;
 
 namespace WakBoy
 {
@@ -214,8 +215,10 @@ namespace WakBoy
             //Esse trecho de código está assim para manter um padrão de acordo com a resolução escolhida
             //int widthTelaRedimencionada = ImagemTransformacao.obterInstancia().calcularProporcao(telaOriginal.Width, 1600, telaOriginal.Width);
             //int heightTelaRedimencionada = ImagemTransformacao.obterInstancia().calcularProporcao(telaOriginal.Height, 900, telaOriginal.Height);
-            //telaOriginal = ImagemTransformacao.obterInstancia().redimensionarImagem(telaOriginal, widthTelaRedimencionada / 2, heightTelaRedimencionada);
-            telaOriginal = ImagemTransformacao.obterInstancia().redimensionarImagem(telaOriginal, telaOriginal.Width / 2, telaOriginal.Height);
+
+            Size bounds = Proporcao.obterProporcao();
+            telaOriginal = ImagemTransformacao.obterInstancia().redimensionarImagem(telaOriginal, bounds.Width / 2, bounds.Height);
+            //telaOriginal = ImagemTransformacao.obterInstancia().redimensionarImagem(telaOriginal, telaOriginal.Width / 2, telaOriginal.Height);
             telaOriginal = ImagemTransformacao.obterInstancia().rotacionarImagem(telaOriginal, anguloRotacao);
             telaOriginal.Save(@textBoxLocalizacaoScreenshot.Text);
             telaOriginal.Dispose();

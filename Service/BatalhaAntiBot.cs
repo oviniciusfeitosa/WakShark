@@ -2,6 +2,7 @@
 using Common.Lib;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -57,30 +58,29 @@ namespace Service
             System.Threading.Thread.Sleep(4000);
             try
             {
+                Size bounds = Proporcao.obterProporcao();
+
                 if (ImagemCaptura.obterInstancia().objBitmap != null) ImagemCaptura.obterInstancia().objBitmap.Dispose();
                 Bitmap objBitmap = ImagemCaptura.obterInstancia().obterImagemTela(true);
 
-                // if (this.imagemLadoEsquerdo != null) this.imagemLadoEsquerdo.Dispose();
-                //if (this.imagemLadoDireito != null) this.imagemLadoDireito.Dispose();
+                int eixoHorizontal = 275;
+                int eixoVertical = 405;
+                int larguraEAlturaRetangulo = 107;
 
-                int eixoHorizontal = ImagemTransformacao.obterInstancia().calcularProporcao(275, 1600, objBitmap.Width); ;
-                int eixoVertical = ImagemTransformacao.obterInstancia().calcularProporcao(405, 900, objBitmap.Height);
-                int larguraEAlturaRetangulo = ImagemTransformacao.obterInstancia().calcularProporcao(107, 1440000, objBitmap.Width * objBitmap.Height);
+                Rectangle retanguloPersonagem = new Rectangle(eixoHorizontal, eixoVertical, larguraEAlturaRetangulo, larguraEAlturaRetangulo);
 
-                Rectangle RectPersonagem = new Rectangle(eixoHorizontal, eixoVertical, larguraEAlturaRetangulo, larguraEAlturaRetangulo);
-
-                eixoHorizontal = ImagemTransformacao.obterInstancia().calcularProporcao(448, 1600, objBitmap.Width); ;
-                Rectangle RectGato = new Rectangle(eixoHorizontal, eixoVertical, larguraEAlturaRetangulo, larguraEAlturaRetangulo);
+                eixoHorizontal = 448;
+                Rectangle retanguloGato = new Rectangle(eixoHorizontal, eixoVertical, larguraEAlturaRetangulo, larguraEAlturaRetangulo);
 
                 Dictionary<int, Model.Match> MatchesGato = new Dictionary<int, Model.Match>();
-                MatchesGato.Add(1, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero1.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
-                MatchesGato.Add(2, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero2.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
-                MatchesGato.Add(3, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero3.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
-                MatchesGato.Add(4, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero4.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
-                MatchesGato.Add(5, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero5.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
-                MatchesGato.Add(6, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero6.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
-                MatchesGato.Add(7, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero7.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
-                MatchesGato.Add(8, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero8.png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato));
+                MatchesGato.Add(1, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero1.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
+                MatchesGato.Add(2, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero2.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
+                MatchesGato.Add(3, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero3.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
+                MatchesGato.Add(4, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero4.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
+                MatchesGato.Add(5, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero5.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
+                MatchesGato.Add(6, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero6.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
+                MatchesGato.Add(7, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero7.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
+                MatchesGato.Add(8, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero8.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
                 Application.DoEvents();
 
                 List<Model.Match> Verificar = new List<Model.Match>();
@@ -100,16 +100,7 @@ namespace Service
                             NaoEncontrados.Add(m);
                         }
                     }
-
-                    //if (Verificar.Count < 3)
-                    //{
-                    //    for (int i = 0; i < NaoEncontrados.Count; i++)
-                    //    {
-                    //        MatchesGato[NaoEncontrados[i].Numero] = this.buscarNumeroPorTemplateRotacionado(@"./numero" + NaoEncontrados[i].Numero.ToString() + ".png", Imagem.EnumRegiaoImagem.RETANGULO, RectGato);
-                    //    }
-                    //}
-
-                //System.Threading.Thread.Sleep(1000);
+                    
                 List<Model.Match> Clicar = new List<Model.Match>();
                 bool conflito = false;
                 if (Verificar.Count > 3)
@@ -147,7 +138,7 @@ namespace Service
                 {
                     
                     //System.Threading.Thread.Sleep(2000);
-                    Model.Match matchClicar = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(@"./numero" + objMatch.Numero.ToString() + ".png", Imagem.EnumRegiaoImagem.RETANGULO, RectPersonagem);
+                    Model.Match matchClicar = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(@"./numero" + objMatch.Numero.ToString() + ".png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloPersonagem);
 
                     System.Windows.Forms.SendKeys.SendWait("1");
                     System.Threading.Thread.Sleep(1000);
@@ -163,7 +154,7 @@ namespace Service
 
                 System.Threading.Thread.Sleep(5000);
                 //System.Windows.Forms.SendKeys.SendWait("{ESC}");
-               Model.Tela telaX = ImagemBusca.obterInstancia().procurarImagemPorTemplate(System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\batalhaAntiBOT\fechar.png", Imagem.EnumRegiaoImagem.COMPLETO, new Rectangle(50, 50, Screen.PrimaryScreen.Bounds.Width  - 100, Screen.PrimaryScreen.Bounds.Height - 100));
+               Model.Tela telaX = ImagemBusca.obterInstancia().procurarImagemPorTemplate(System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\batalhaAntiBOT\fechar.png", Imagem.EnumRegiaoImagem.COMPLETO, new Rectangle(50, 50, bounds.Width  - 300, bounds.Height - 300));
                 if (telaX.eixoHorizontal > 0)
                 {
                     acaoFechar(new Model.Tela(telaX.eixoHorizontal, telaX.eixoVertical));
@@ -192,7 +183,7 @@ namespace Service
 
         public Model.Match buscarNumeroPorTemplateRotacionado(string caminhoTemplateNumero, Imagem.EnumRegiaoImagem objRegiaoImagem)
         {
-            return ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateNumero, objRegiaoImagem, new Rectangle(0, 0, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height));
+            return ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateNumero, objRegiaoImagem, new Rectangle(0, 0, Proporcao.Width, Proporcao.Height));
         }
  
         public Bitmap tratarLadoImagemParaBusca(Imagem.EnumRegiaoImagem objRegiaoImagem, Rectangle AreaBusca)

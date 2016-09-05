@@ -227,12 +227,12 @@ namespace Common
 
         public Model.Tela procurarImagemPorTemplate(string caminhoTemplateRecurso)
         {
-            return procurarImagemPorTemplate(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, new Rectangle(0, 0, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height));
+            return procurarImagemPorTemplate(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, new Rectangle(0, 0, Proporcao.Width, Proporcao.Height));
         }
 
         public Model.Tela procurarImagemPorTemplate(string caminhoTemplateRecurso, Imagem.EnumRegiaoImagem objRegiaoImagem)
         {
-            return procurarImagemPorTemplate(caminhoTemplateRecurso, objRegiaoImagem, new Rectangle(0, 0, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height));
+            return procurarImagemPorTemplate(caminhoTemplateRecurso, objRegiaoImagem, new Rectangle(0, 0, Proporcao.Width, Proporcao.Height));
         }
 
         public Model.Tela procurarImagemPorTemplate(string caminhoTemplateRecurso, Imagem.EnumRegiaoImagem objRegiaoImagem, Rectangle areaBusca)
@@ -299,12 +299,15 @@ namespace Common
         {
             ///System.Threading.Thread.Sleep(3000);
             Bitmap objBitmapTemplate = (Bitmap)Bitmap.FromFile(caminhoTemplateNumero);
-            Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
-            //telaOriginal.Save(@"C:\\Users\\Public\\telaOriginal.bmp");
             ImagemTransformacao objImagemTransformacao = ImagemTransformacao.obterInstancia();
-            int alturaPadronizada = objImagemTransformacao.calcularProporcao(objBitmapTemplate.Height, 900, telaOriginal.Height);
-            int larguraPadronizada = objImagemTransformacao.calcularProporcao(objBitmapTemplate.Width, 1600, telaOriginal.Width);
-            objBitmapTemplate = objImagemTransformacao.redimensionarImagem(objBitmapTemplate, larguraPadronizada, alturaPadronizada);
+            Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
+
+            
+            telaOriginal.Save(@"C:\\Users\\Public\\1telaOriginal.bmp");
+            
+            //int alturaPadronizada = objImagemTransformacao.calcularProporcao(objBitmapTemplate.Height, 900, telaOriginal.Height);
+            //int larguraPadronizada = objImagemTransformacao.calcularProporcao(objBitmapTemplate.Width, 1600, telaOriginal.Width);
+            //objBitmapTemplate = objImagemTransformacao.redimensionarImagem(objBitmapTemplate, larguraPadronizada, alturaPadronizada);
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Rgb, byte>(objBitmapTemplate);
             
             //Deveria ser 45 graus, mas como rotacionei 45 no sentido anti-horario, entao ficou como 315 graus            
@@ -312,14 +315,14 @@ namespace Common
 
             Bitmap telaOriginalRotacionada = objImagemTransformacao.redimensionarImagem(telaOriginal, telaOriginal.Width / 2, telaOriginal.Height);
             telaOriginalRotacionada = objImagemTransformacao.rotacionarImagem(telaOriginalRotacionada, anguloRotacao); 
-            //telaOriginalRotacionada.Save(@"C:\\Users\\Public\\telaOriginalRotacionada.bmp");
+            telaOriginalRotacionada.Save(@"C:\\Users\\Public\\2telaOriginalRotacionada.bmp");
 
             Bitmap telaRotacionadaCortada = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaOriginalRotacionada, objRegiaoImagem, AreaBusca);
-            //telaRotacionadaCortada.Save(@"C:\Users\Public\telaRotacionadaCortada.bmp");
+            telaRotacionadaCortada.Save(@"C:\Users\Public\3telaRotacionadaCortada.bmp");
 
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Rgb, byte>(telaRotacionadaCortada);
-            //objImagemTelaAtual.ToBitmap().Save(@"C:\Users\Public\objImagemTelaAtual.bmp");
-            //objImagemTemplate.ToBitmap().Save(@"C:\Users\Public\objImagemTemplate.bmp");
+            objImagemTelaAtual.ToBitmap().Save(@"C:\Users\Public\4objImagemTelaAtual.bmp");
+            objImagemTemplate.ToBitmap().Save(@"C:\Users\Public\5objImagemTemplate.bmp");
 
             Model.Match matchRetorno = new Model.Match();
             
@@ -333,7 +336,7 @@ namespace Common
                 {
                     double valorSemelhanca = maxValues[i];
                     Point pontoRotacao = new Point(maxLocations[i].X + AreaBusca.X, maxLocations[i].Y + AreaBusca.Y);
-                    Point pontoCentral = new Point(telaOriginal.Width / 2 / 2, telaOriginal.Height / 2);
+                    Point pontoCentral = new Point(telaOriginal.Width / 2, telaOriginal.Height / 2);
                     matchRetorno.Location = ImagemTransformacao.obterInstancia().RotatePoint(pontoRotacao, pontoCentral, 45d);
 
                     if (caminhoTemplateNumero.Contains("numero"))
