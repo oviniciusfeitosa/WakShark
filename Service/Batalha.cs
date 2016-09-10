@@ -34,6 +34,7 @@ namespace Service
 
         public bool iniciar(EnumTiposBatalha objEnumTipoBatalha)
         {
+            Camera.obterInstancia().padronizarDistanciaCamera();
             switch (objEnumTipoBatalha)
             {
                 case EnumTiposBatalha.AntiBOT:

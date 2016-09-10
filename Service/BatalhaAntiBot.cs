@@ -27,7 +27,8 @@ namespace Service
         }
         #endregion
 
-        public enum numeroMarcacao {
+        public enum numeroMarcacao
+        {
             Um,
             Dois,
             Tres,
@@ -50,7 +51,7 @@ namespace Service
             return false;
         }
 
-        
+
         public bool acaoIniciarBatalha()
         {
             System.Threading.Thread.Sleep(1000);
@@ -73,34 +74,35 @@ namespace Service
                 Rectangle retanguloGato = new Rectangle(eixoHorizontal, eixoVertical, larguraEAlturaRetangulo, larguraEAlturaRetangulo);
 
                 Dictionary<int, Model.Match> MatchesGato = new Dictionary<int, Model.Match>();
-                MatchesGato.Add(1, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero1.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
-                MatchesGato.Add(2, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero2.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
-                MatchesGato.Add(3, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero3.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
-                MatchesGato.Add(4, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero4.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
-                MatchesGato.Add(5, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero5.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
-                MatchesGato.Add(6, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero6.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
-                MatchesGato.Add(7, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero7.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
-                MatchesGato.Add(8, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(Application.StartupPath + @"/numero8.png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloGato));
+                AntiBOT objAntiBOT = new AntiBOT();
+                for (int numeroMatch = 1; numeroMatch < 8; numeroMatch++)
+                {
+                    MatchesGato.Add(numeroMatch, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(
+                        objAntiBOT.numerosMatch["Numero" + numeroMatch],
+                        Imagem.EnumRegiaoImagem.RETANGULO,
+                        retanguloGato
+                        )
+                    );
+                }
                 Application.DoEvents();
 
                 List<Model.Match> Verificar = new List<Model.Match>();
                 List<Model.Match> NaoEncontrados = new List<Model.Match>();
-
                 
                 //Buscar os números até encontrar pelo menos 3 do lado do gato
-                    Verificar.Clear();
-                    foreach (Model.Match m in MatchesGato.Values)
+                Verificar.Clear();
+                foreach (Model.Match m in MatchesGato.Values)
+                {
+                    if (m.Semelhanca > 0)
                     {
-                        if (m.Semelhanca > 0)
-                        {
-                            Verificar.Add(m);
-                        }
-                        else
-                        {
-                            NaoEncontrados.Add(m);
-                        }
+                        Verificar.Add(m);
                     }
-                    
+                    else
+                    {
+                        NaoEncontrados.Add(m);
+                    }
+                }
+
                 List<Model.Match> Clicar = new List<Model.Match>();
                 bool conflito = false;
                 if (Verificar.Count > 3)
@@ -133,18 +135,18 @@ namespace Service
                 {
                     Clicar.AddRange(Verificar);
                 }
-
+                System.Threading.Thread.Sleep(1100);
                 foreach (Model.Match objMatch in Clicar)
                 {
-                    
+
                     //System.Threading.Thread.Sleep(2000);
-                    Model.Match matchClicar = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(@"./numero" + objMatch.Numero.ToString() + ".png", Imagem.EnumRegiaoImagem.RETANGULO, retanguloPersonagem);
+                    Model.Match matchClicar = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(objAntiBOT.numerosMatch["Numero" + objMatch.Numero.ToString()], Imagem.EnumRegiaoImagem.RETANGULO, retanguloPersonagem);
 
                     System.Windows.Forms.SendKeys.SendWait("1");
                     System.Threading.Thread.Sleep(800);
                     //Common.Lib.Win32.posicionarMouse(matchClicar.Location.X, matchClicar.Location.Y);
                     Common.Lib.Win32.clicarBotaoEsquerdo(matchClicar.Location.X, matchClicar.Location.Y);
-                    
+
                     /*System.Windows.Forms.SendKeys.SendWait("1");
                     System.Threading.Thread.Sleep(1000);
                     Common.Lib.Win32.clicarBotaoEsquerdo(objMatch.Location.X, objMatch.Location.Y);*/
@@ -154,7 +156,7 @@ namespace Service
 
                 System.Threading.Thread.Sleep(5000);
                 //System.Windows.Forms.SendKeys.SendWait("{ESC}");
-               
+
 
             }
             catch (Exception objException)
@@ -168,7 +170,7 @@ namespace Service
         {
             return ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateNumero, objRegiaoImagem, new Rectangle(0, 0, Proporcao.Width, Proporcao.Height));
         }
- 
+
         public Bitmap tratarLadoImagemParaBusca(Imagem.EnumRegiaoImagem objRegiaoImagem, Rectangle AreaBusca)
         {
             Bitmap objTemplate = new Bitmap(@"./x.bmp");
@@ -196,7 +198,7 @@ namespace Service
                 return this.telaRotacionadaLadoDireito;
             }
 
-            
+
         }
     }
 }

@@ -12,6 +12,7 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.CvEnum;
 using System.Threading;
+using System.Drawing.Imaging;
 
 namespace Common
 {
@@ -364,6 +365,7 @@ namespace Common
         public Model.Match buscarImagemPorTemplate(string caminhoTemplateImagem, Imagem.EnumRegiaoImagem objRegiaoImagem, Rectangle areaBusca)
         {
             Bitmap objBitmapTemplate = (Bitmap)Bitmap.FromFile(caminhoTemplateImagem);
+            //PixelFormat.Format32bppRgb
             ImagemTransformacao objImagemTransformacao = ImagemTransformacao.obterInstancia();
             Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Rgb, byte>(objBitmapTemplate);

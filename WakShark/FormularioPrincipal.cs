@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
 using Model;
+using WindowsInput;
+using WindowsInput.Native;
 
 namespace WakBoy
 {
@@ -74,6 +76,10 @@ namespace WakBoy
                     this.checkBoxCacadorPixelsLigado.BackColor = Color.Green;
 
                     ImagemCaptura.obterInstancia().isUtilizarMascaraLuminosidade = checkBoxMascaraLuminosidade.Checked;
+
+                    Common.Lib.Win32.clicarBotaoEsquerdo(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
+
+                    Camera.obterInstancia().padronizarDistanciaCamera();
 
                     // Modificar esse trecho utilizado para teste, porque está sendo validado somente por 'coleta'. Quem sabe um switch não caia melhor?
                     if (comboBoxTipoBusca.SelectedValue.ToString() == "Coleta") {
@@ -218,6 +224,7 @@ namespace WakBoy
             */
             //Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
             //MessageBox.Show(Service.TelaCaptura.obterInstancia().obterValorTransparenciaPorHorario().ToString());
+            
             
             CheckBox objComboBox = (CheckBox)sender;
             objComboBox.BackColor = Color.Transparent;

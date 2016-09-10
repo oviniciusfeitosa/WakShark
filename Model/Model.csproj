@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acao.cs" />
+    <Compile Include="AntiBOT.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="Proporcao.cs" />
     <Compile Include="Recurso.cs" />
