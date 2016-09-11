@@ -317,7 +317,7 @@ namespace Common
             Bitmap telaOriginalRotacionada = objImagemTransformacao.redimensionarImagem(telaOriginal, telaOriginal.Width / 2, telaOriginal.Height);
             telaOriginalRotacionada = objImagemTransformacao.rotacionarImagem(telaOriginalRotacionada, anguloRotacao);
             telaOriginalRotacionada.Save(@"C:\\Users\\Public\\2telaOriginalRotacionada.bmp");
-                       Bitmap telaRotacionadaCortada = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaOriginalRotacionada, objRegiaoImagem, AreaBusca);
+            Bitmap telaRotacionadaCortada = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaOriginalRotacionada, objRegiaoImagem, AreaBusca);
             telaRotacionadaCortada.Save(@"C:\Users\Public\3telaRotacionadaCortada.bmp");
 
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Rgb, byte>(telaRotacionadaCortada);
@@ -384,6 +384,8 @@ namespace Common
             Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Rgb, byte>(objBitmapTemplate);
             Bitmap telaOriginalCortada = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaOriginal, objRegiaoImagem, areaBusca);
+            telaOriginal.Save(@"C:\Users\Public\1____telaOriginal.bmp");
+            telaOriginalCortada.Save(@"C:\Users\Public\2____telaOriginalCortada.bmp");
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Rgb, byte>(telaOriginalCortada);
             Model.Match matchRetorno = new Model.Match();
 
@@ -401,7 +403,7 @@ namespace Common
                     matchRetorno.Numero = int.Parse(caminhoTemplateImagem.Substring(caminhoTemplateImagem.IndexOf("numero") + 6, 1));
                 }
 
-                if (valorSemelhanca > 0.633d)
+                if (valorSemelhanca > 0.6d)
                 {
                     matchRetorno.Semelhanca = valorSemelhanca;
                 }
