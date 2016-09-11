@@ -46,13 +46,6 @@ namespace Service
 
         private Rectangle definirRetanguloAreaColeta()
         {
-            /*
-            return new Rectangle(
-                                (Screen.PrimaryScreen.Bounds.Width / 4) - ((Screen.PrimaryScreen.Bounds.Width / 2 * _areaColetaPercent / 100) / 2),
-                                (Screen.PrimaryScreen.Bounds.Height / 2) - ((Screen.PrimaryScreen.Bounds.Height * _areaColetaPercent / 100) / 2),
-                                (Screen.PrimaryScreen.Bounds.Width / 2 * _areaColetaPercent / 100),
-                                (Screen.PrimaryScreen.Bounds.Height * _areaColetaPercent / 100)
-            );*/
             Size bounds = Proporcao.obterProporcao();
 
             return new Rectangle(
@@ -64,18 +57,9 @@ namespace Service
         }
 
 
-        public bool coletar(string caminhoTemplateRecurso)
+        public bool coletar(string caminhoTemplateRecurso, bool isAtivarModoBaixoConsumo)
         {
-            this.validarInicioBatalha();
-
-
-            //Verificando janelas/convites a cada 5 coletas e ao final de cada batalha, aqui estava aumentando muito o tempo de coleta.
-            this._qtdColetas++;
-
-            if (this._qtdColetas % 5 == 0)
-            {
-                this.validarFechamentoMensagens();
-            }
+            this.validarInicioColeta(isAtivarModoBaixoConsumo);
 
             Model.Match match = new Model.Match();
 
@@ -88,19 +72,38 @@ namespace Service
                     acaoColetarGraos(match);
                     break;
                 }
-                else if(_areaColetaPercent > 89) {
+                else if (_areaColetaPercent > 89)
+                {
                     Personagem.obterInstancia().movimentarRandomicamente();
                     Thread.Sleep(800);
                     break;
                 }
                 else
-                {   
+                {
                     _ampliarAreaColeta();
-                }    
+                }
             }
             _redefinirAreaColeta();
-            
+
             return false;
+        }
+
+        public void validarInicioColeta(bool isAtivarModoBaixoConsumo)
+        {
+            this.validarInicioBatalha();
+            if (isAtivarModoBaixoConsumo)
+            {
+                //Verificando janelas/convites a cada 5 coletas e ao final de cada batalha, aqui estava aumentando muito o tempo de coleta.
+                this._qtdColetas++;   
+                if (this._qtdColetas % 5 == 0)
+                {
+                    this.validarFechamentoMensagens();
+                }
+            }
+            else
+            {
+                this.validarFechamentoMensagens();
+            }
         }
 
         public void validarInicioBatalha()
@@ -134,7 +137,7 @@ namespace Service
 
                 Rectangle areaBusca = new Rectangle(objMatch.Location.X - 100, objMatch.Location.Y - 60, 100, 100);
                 objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(objAcao.tiposAcoes["Colher"], Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
-                if(objMatch.Semelhanca > 0)
+                if (objMatch.Semelhanca > 0)
                 {
                     Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
                     Thread.Sleep(4700);

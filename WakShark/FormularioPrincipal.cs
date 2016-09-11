@@ -89,7 +89,7 @@ namespace WakBoy
                         {
                             while (this.checkBoxCacadorPixelsLigado.Checked)
                             {
-                                ServiceColeta.obterInstancia().coletar(textBoxLocalizacaoImagemTemplate.Text);
+                                ServiceColeta.obterInstancia().coletar(textBoxLocalizacaoImagemTemplate.Text, checkBoxAtivarBaixoConsumo.Checked);
                             }
                         });
                     }

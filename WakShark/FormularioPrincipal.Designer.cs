@@ -46,6 +46,7 @@
             this.checkBoxCacadorPixelsLigado = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.abaCapturadorPixels = new System.Windows.Forms.TabPage();
+            this.botaoScreenshotRotacionado = new System.Windows.Forms.Button();
             this.labelHorarioFranca = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxTransparencia = new System.Windows.Forms.TextBox();
@@ -69,7 +70,7 @@
             this.labelCor = new System.Windows.Forms.Label();
             this.timerHorarioFrances = new System.Windows.Forms.Timer(this.components);
             this.openFileDialogImagemTemplate = new System.Windows.Forms.OpenFileDialog();
-            this.botaoScreenshotRotacionado = new System.Windows.Forms.Button();
+            this.checkBoxAtivarBaixoConsumo = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.capinacao.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -88,6 +89,7 @@
             // 
             // capinacao
             // 
+            this.capinacao.Controls.Add(this.checkBoxAtivarBaixoConsumo);
             this.capinacao.Controls.Add(this.groupBox1);
             this.capinacao.Controls.Add(this.checkBoxMascaraLuminosidade);
             this.capinacao.Controls.Add(this.labelObrigatorio);
@@ -265,6 +267,16 @@
             this.abaCapturadorPixels.TabIndex = 1;
             this.abaCapturadorPixels.Text = "Capturador de Pixels";
             this.abaCapturadorPixels.UseVisualStyleBackColor = true;
+            // 
+            // botaoScreenshotRotacionado
+            // 
+            this.botaoScreenshotRotacionado.Location = new System.Drawing.Point(129, 218);
+            this.botaoScreenshotRotacionado.Name = "botaoScreenshotRotacionado";
+            this.botaoScreenshotRotacionado.Size = new System.Drawing.Size(133, 23);
+            this.botaoScreenshotRotacionado.TabIndex = 22;
+            this.botaoScreenshotRotacionado.Text = "Screenshot Rotacionado";
+            this.botaoScreenshotRotacionado.UseVisualStyleBackColor = true;
+            this.botaoScreenshotRotacionado.Click += new System.EventHandler(this.botaoScreenshotRotacionado_Click);
             // 
             // labelHorarioFranca
             // 
@@ -474,15 +486,16 @@
             // 
             this.openFileDialogImagemTemplate.FileName = "openFileDialogImagemTemplate";
             // 
-            // botaoScreenshotRotacionado
+            // checkBoxAtivarBaixoConsumo
             // 
-            this.botaoScreenshotRotacionado.Location = new System.Drawing.Point(129, 218);
-            this.botaoScreenshotRotacionado.Name = "botaoScreenshotRotacionado";
-            this.botaoScreenshotRotacionado.Size = new System.Drawing.Size(133, 23);
-            this.botaoScreenshotRotacionado.TabIndex = 22;
-            this.botaoScreenshotRotacionado.Text = "Screenshot Rotacionado";
-            this.botaoScreenshotRotacionado.UseVisualStyleBackColor = true;
-            this.botaoScreenshotRotacionado.Click += new System.EventHandler(this.botaoScreenshotRotacionado_Click);
+            this.checkBoxAtivarBaixoConsumo.AutoSize = true;
+            this.checkBoxAtivarBaixoConsumo.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxAtivarBaixoConsumo.Location = new System.Drawing.Point(23, 176);
+            this.checkBoxAtivarBaixoConsumo.Name = "checkBoxAtivarBaixoConsumo";
+            this.checkBoxAtivarBaixoConsumo.Size = new System.Drawing.Size(159, 17);
+            this.checkBoxAtivarBaixoConsumo.TabIndex = 17;
+            this.checkBoxAtivarBaixoConsumo.Text = "Ativar Modo Baixo Consumo";
+            this.checkBoxAtivarBaixoConsumo.UseVisualStyleBackColor = true;
             // 
             // FormularioPrincipal
             // 
@@ -550,6 +563,7 @@
         private System.Windows.Forms.ComboBox comboBoxTipo;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button botaoScreenshotRotacionado;
+        private System.Windows.Forms.CheckBox checkBoxAtivarBaixoConsumo;
     }
 }
 
