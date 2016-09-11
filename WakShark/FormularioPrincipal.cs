@@ -284,6 +284,8 @@ namespace WakBoy
         {
             if (comboBoxTipo.SelectedValue != null) {
                 textBoxLocalizacaoImagemTemplate.Text = comboBoxTipo.SelectedValue.ToString();
+                string localizacaoImagemTemplate = ((System.Collections.Generic.KeyValuePair<string, string>)comboBoxTipo.SelectedItem).Value;
+                pictureBoxMiniaturaRecurso.Image = Image.FromFile(localizacaoImagemTemplate);
             } else {
                 textBoxLocalizacaoImagemTemplate.Text = "";
             }

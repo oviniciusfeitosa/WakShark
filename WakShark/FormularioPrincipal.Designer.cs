@@ -71,10 +71,12 @@
             this.timerHorarioFrances = new System.Windows.Forms.Timer(this.components);
             this.openFileDialogImagemTemplate = new System.Windows.Forms.OpenFileDialog();
             this.checkBoxAtivarBaixoConsumo = new System.Windows.Forms.CheckBox();
+            this.pictureBoxMiniaturaRecurso = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.capinacao.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.abaCapturadorPixels.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMiniaturaRecurso)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -107,6 +109,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.pictureBoxMiniaturaRecurso);
             this.groupBox1.Controls.Add(this.comboBoxTipo);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.textBoxLocalizacaoImagemTemplate);
@@ -497,6 +500,14 @@
             this.checkBoxAtivarBaixoConsumo.Text = "Ativar Modo Baixo Consumo";
             this.checkBoxAtivarBaixoConsumo.UseVisualStyleBackColor = true;
             // 
+            // pictureBoxMiniaturaRecurso
+            // 
+            this.pictureBoxMiniaturaRecurso.Location = new System.Drawing.Point(264, 19);
+            this.pictureBoxMiniaturaRecurso.Name = "pictureBoxMiniaturaRecurso";
+            this.pictureBoxMiniaturaRecurso.Size = new System.Drawing.Size(43, 28);
+            this.pictureBoxMiniaturaRecurso.TabIndex = 17;
+            this.pictureBoxMiniaturaRecurso.TabStop = false;
+            // 
             // FormularioPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -517,6 +528,7 @@
             this.groupBox1.PerformLayout();
             this.abaCapturadorPixels.ResumeLayout(false);
             this.abaCapturadorPixels.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMiniaturaRecurso)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -564,6 +576,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button botaoScreenshotRotacionado;
         private System.Windows.Forms.CheckBox checkBoxAtivarBaixoConsumo;
+        private System.Windows.Forms.PictureBox pictureBoxMiniaturaRecurso;
     }
 }
 
