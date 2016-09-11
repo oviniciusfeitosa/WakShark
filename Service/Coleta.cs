@@ -14,7 +14,7 @@ namespace Service
 {
     public class Coleta
     {
-
+        private int _qtdColetas = 0;
         private int _areaColetaPercent = 30;
 
         #region Singleton
@@ -66,9 +66,16 @@ namespace Service
 
         public bool coletar(string caminhoTemplateRecurso)
         {
-
             this.validarInicioBatalha();
-            this.validarFechamentoMensagens();
+
+
+            //Verificando janelas/convites a cada 5 coletas e ao final de cada batalha, aqui estava aumentando muito o tempo de coleta.
+            this._qtdColetas++;
+
+            if (this._qtdColetas % 5 == 0)
+            {
+                this.validarFechamentoMensagens();
+            }
 
             Model.Match match = new Model.Match();
 
@@ -109,7 +116,7 @@ namespace Service
             bmpBatalha.Dispose();
         }
 
-        private void validarFechamentoMensagens()
+        public void validarFechamentoMensagens()
         {
             Acao objAcao = new Model.Acao();
             Rectangle areaBusca = new Rectangle(50, 50, Proporcao.Width - 50, Proporcao.Height - 50);

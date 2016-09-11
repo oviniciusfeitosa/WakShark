@@ -304,26 +304,25 @@ namespace Common
             Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
 
 
-            telaOriginal.Save(@"C:\\Users\\Public\\1telaOriginal.bmp");
+           // telaOriginal.Save(@"C:\\Users\\Public\\1telaOriginal.bmp");
 
             //int alturaPadronizada = objImagemTransformacao.calcularProporcao(objBitmapTemplate.Height, 900, telaOriginal.Height);
             //int larguraPadronizada = objImagemTransformacao.calcularProporcao(objBitmapTemplate.Width, 1600, telaOriginal.Width);
             //objBitmapTemplate = objImagemTransformacao.redimensionarImagem(objBitmapTemplate, larguraPadronizada, alturaPadronizada);
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Rgb, byte>(objBitmapTemplate);
 
-            //Deveria ser 45 graus, mas como rotacionei 45 no sentido anti-horario, entao ficou como 315 graus            
+           //Deveria ser 45 graus, mas como rotacionei 45 no sentido anti-horario, entao ficou como 315 graus            
             float anguloRotacao = 315f;
 
             Bitmap telaOriginalRotacionada = objImagemTransformacao.redimensionarImagem(telaOriginal, telaOriginal.Width / 2, telaOriginal.Height);
             telaOriginalRotacionada = objImagemTransformacao.rotacionarImagem(telaOriginalRotacionada, anguloRotacao);
-            telaOriginalRotacionada.Save(@"C:\\Users\\Public\\2telaOriginalRotacionada.bmp");
-
-            Bitmap telaRotacionadaCortada = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaOriginalRotacionada, objRegiaoImagem, AreaBusca);
-            telaRotacionadaCortada.Save(@"C:\Users\Public\3telaRotacionadaCortada.bmp");
+            //telaOriginalRotacionada.Save(@"C:\\Users\\Public\\2telaOriginalRotacionada.bmp");
+                       Bitmap telaRotacionadaCortada = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaOriginalRotacionada, objRegiaoImagem, AreaBusca);
+            //telaRotacionadaCortada.Save(@"C:\Users\Public\3telaRotacionadaCortada.bmp");
 
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Rgb, byte>(telaRotacionadaCortada);
-            objImagemTelaAtual.ToBitmap().Save(@"C:\Users\Public\4objImagemTelaAtual.bmp");
-            objImagemTemplate.ToBitmap().Save(@"C:\Users\Public\5objImagemTemplate.bmp");
+            //objImagemTelaAtual.ToBitmap().Save(@"C:\Users\Public\4objImagemTelaAtual.bmp");
+            //objImagemTemplate.ToBitmap().Save(@"C:\Users\Public\5objImagemTemplate.bmp");
 
             Model.Match matchRetorno = new Model.Match();
 
@@ -343,13 +342,28 @@ namespace Common
                     if (caminhoTemplateNumero.Contains("numero"))
                     {
                         matchRetorno.Numero = int.Parse(caminhoTemplateNumero.Substring(caminhoTemplateNumero.IndexOf("numero") + 6, 1));
+
+                        if (valorSemelhanca > 0.7d)
+                        {
+                            matchRetorno.Location.X += objBitmapTemplate.Width / 2;
+                            matchRetorno.Location.Y += objBitmapTemplate.Height / 2;
+                        }
                     }
 
-                    if (valorSemelhanca > 0.633d)
+                    if (valorSemelhanca > 0.70d)
                     {
                         matchRetorno.Semelhanca = valorSemelhanca;
+                        //objBitmapTemplate.Save(@"c:\users\public\MatchTemplate" + matchRetorno.Numero.ToString() + "_" + matchRetorno.Semelhanca.ToString() + ".bmp");
+                        //objImagemTelaAtual.Bitmap.Clone(new Rectangle(maxLocations[i].X, maxLocations[i].Y, objImagemTemplate.Width, objImagemTemplate.Height), PixelFormat.Format16bppRgb555).Save(@"c:\users\public\MatchEncontrado" + matchRetorno.Numero.ToString() + "_" + matchRetorno.Semelhanca.ToString() + ".bmp");
+
                     }
+
+
                 }
+            }
+            if (caminhoTemplateNumero.Contains("numero8"))
+            {
+
             }
 
             objImagemTelaAtual.Dispose();

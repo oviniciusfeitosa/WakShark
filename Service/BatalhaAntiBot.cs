@@ -65,8 +65,9 @@ namespace Service
                 Bitmap objBitmap = ImagemCaptura.obterInstancia().obterImagemTela(true);
 
                 int eixoHorizontal = 275;
-                int eixoVertical = 405;
-                int larguraEAlturaRetangulo = 107;
+                int eixoVertical = 405 ;
+                //Acrescentado 21 pixels na altura/largura do retangulo do personagem e gato, estava cortando no meio do retangulo do número.
+                int larguraEAlturaRetangulo = 107 + 21;
 
                 Rectangle retanguloPersonagem = new Rectangle(eixoHorizontal, eixoVertical, larguraEAlturaRetangulo, larguraEAlturaRetangulo);
 
@@ -75,7 +76,7 @@ namespace Service
 
                 Dictionary<int, Model.Match> MatchesGato = new Dictionary<int, Model.Match>();
                 AntiBOT objAntiBOT = new AntiBOT();
-                for (int numeroMatch = 1; numeroMatch < 8; numeroMatch++)
+                for (int numeroMatch = 1; numeroMatch <= 8; numeroMatch++)
                 {
                     MatchesGato.Add(numeroMatch, ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(
                         objAntiBOT.numerosMatch["Numero" + numeroMatch],
@@ -156,6 +157,7 @@ namespace Service
 
                 System.Threading.Thread.Sleep(5000);
                 //System.Windows.Forms.SendKeys.SendWait("{ESC}");
+                Coleta.obterInstancia().validarFechamentoMensagens();
 
 
             }
