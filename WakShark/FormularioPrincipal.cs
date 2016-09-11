@@ -293,8 +293,7 @@ namespace WakBoy
         {
             float anguloRotacao = 315f;
             Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
-            Size bounds = Proporcao.obterProporcao();
-            telaOriginal = ImagemTransformacao.obterInstancia().redimensionarImagem(telaOriginal, bounds.Width / 2, bounds.Height);
+            telaOriginal = ImagemTransformacao.obterInstancia().redimensionarImagem(telaOriginal, telaOriginal.Width / 2, telaOriginal.Height);
             telaOriginal = ImagemTransformacao.obterInstancia().rotacionarImagem(telaOriginal, anguloRotacao);
             telaOriginal.Save(@textBoxLocalizacaoScreenshot.Text);
             telaOriginal.Dispose();
