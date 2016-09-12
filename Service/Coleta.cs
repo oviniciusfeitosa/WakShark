@@ -57,7 +57,7 @@ namespace Service
         }
 
 
-        public bool coletar(string caminhoTemplateRecurso, bool isAtivarModoBaixoConsumo)
+        public bool coletar(Recurso recurso, bool isAtivarModoBaixoConsumo)
         {
             bool retorno = false;
             this.validarInicioColeta(isAtivarModoBaixoConsumo);
@@ -66,11 +66,11 @@ namespace Service
 
             while (match.Semelhanca < 0.633d)
             {
-                match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoTemplateRecurso, Imagem.EnumRegiaoImagem.COMPLETO, definirRetanguloAreaColeta());
+                match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(recurso.Imagem, Imagem.EnumRegiaoImagem.COMPLETO, definirRetanguloAreaColeta());
 
                 if (match.Semelhanca >= 0.633d)
                 {
-                    acaoColetarGraos(match);
+                    acaoColetarGraos(match, recurso);
                     retorno = true;
                     break;
                 }
@@ -121,26 +121,25 @@ namespace Service
 
         public void validarFechamentoMensagens()
         {
-            Acao objAcao = new Model.Acao();
             Rectangle areaBusca = new Rectangle(50, 50, Proporcao.Width - 50, Proporcao.Height - 50);
-            Model.Match objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(objAcao.tiposAcoes["Fechar"], Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
+            Model.Match objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(Acao.obterAcao("Fechar").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
             if (objMatch.Semelhanca > 0) Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
         }
 
-        private bool acaoColetarGraos(Model.Match objMatch)
+        private bool acaoColetarGraos(Model.Match objMatch, Recurso recurso)
         {
             try
             {
                 Win32.clicarBotaoDireito(objMatch.Location.X, objMatch.Location.Y);
                 Thread.Sleep(600);
-                Acao objAcao = new Model.Acao();
 
                 Rectangle areaBusca = new Rectangle(objMatch.Location.X - 100, objMatch.Location.Y - 60, 100, 100);
-                objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(objAcao.tiposAcoes["Colher"], Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
+                objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(Acao.obterAcao("Colher").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
                 if (objMatch.Semelhanca > 0)
                 {
                     Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
-                    Thread.Sleep(4700);
+                    Thread.Sleep(2000);
+                    Thread.Sleep(recurso.Tempo);
                 }
 
                 return true;

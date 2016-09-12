@@ -32,9 +32,12 @@ namespace WakBoy
 
         private void FormularioPrincipal_Load(object sender, EventArgs e)
         {
+            Acao.inicializarAcoes();
+            Recurso.inicializarRecursos();
+
             string[] objDataSourceTipoBusca = new[] { "Coleta", "Batalha" };
             comboBoxTipoBusca.DataSource = objDataSourceTipoBusca;
-
+            
             
             //newRecurso.tiposRecurso
 
@@ -89,7 +92,7 @@ namespace WakBoy
                         {
                             while (this.checkBoxCacadorPixelsLigado.Checked)
                             {
-                                bool isSucessoNaColeta = ServiceColeta.obterInstancia().coletar(textBoxLocalizacaoImagemTemplate.Text, checkBoxAtivarBaixoConsumo.Checked);
+                                bool isSucessoNaColeta = ServiceColeta.obterInstancia().coletar(Recurso.obterRecurso(textBoxLocalizacaoImagemTemplate.Text), checkBoxAtivarBaixoConsumo.Checked);
                                 if (!isSucessoNaColeta && checkBoxMovimentarAleatoriamente.Checked) {
                                     Personagem.obterInstancia().movimentarRandomicamente();
                                     Thread.Sleep(800);
@@ -273,10 +276,10 @@ namespace WakBoy
             if (comboBoxTipoBusca.SelectedItem == "Coleta")
             {
                 //string[] objDataSourceTipoBusca = new[] { "Coleta", "Batalha" };
-                Model.Recurso objRecurso = new Model.Recurso();
-                comboBoxTipo.DataSource = new BindingSource(objRecurso.tiposRecurso, null);
+                //Model.Recurso objRecurso = new Model.Recurso();
+                comboBoxTipo.DataSource = new BindingSource(Recurso.Recursos, null);
                 comboBoxTipo.ValueMember = "Value";
-                comboBoxTipo.DisplayMember = "Key";
+                comboBoxTipo.DisplayMember = "Caption";
             }
             else
             {
@@ -287,8 +290,10 @@ namespace WakBoy
         private void comboBoxTipo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxTipo.SelectedValue != null) {
-                textBoxLocalizacaoImagemTemplate.Text = comboBoxTipo.SelectedValue.ToString();
-                string localizacaoImagemTemplate = ((System.Collections.Generic.KeyValuePair<string, string>)comboBoxTipo.SelectedItem).Value;
+                //todo Revisar essa parte, não podemos amarrar aqui com o Tipo Recurso pois ele não é a única opção possível
+                textBoxLocalizacaoImagemTemplate.Text = ((Recurso)comboBoxTipo.SelectedValue).Nome;
+                //string localizacaoImagemTemplate = ((System.Collections.Generic.KeyValuePair<string, string>)comboBoxTipo.SelectedItem).Value;
+                string localizacaoImagemTemplate = ((Recurso)comboBoxTipo.SelectedValue).Imagem;
                 pictureBoxMiniaturaRecurso.Image = Image.FromFile(localizacaoImagemTemplate);
             } else {
                 textBoxLocalizacaoImagemTemplate.Text = "";
