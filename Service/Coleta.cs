@@ -59,6 +59,7 @@ namespace Service
 
         public bool coletar(string caminhoTemplateRecurso, bool isAtivarModoBaixoConsumo)
         {
+            bool retorno = false;
             this.validarInicioColeta(isAtivarModoBaixoConsumo);
 
             Model.Match match = new Model.Match();
@@ -70,12 +71,11 @@ namespace Service
                 if (match.Semelhanca >= 0.633d)
                 {
                     acaoColetarGraos(match);
+                    retorno = true;
                     break;
                 }
                 else if (_areaColetaPercent > 89)
                 {
-                    Personagem.obterInstancia().movimentarRandomicamente();
-                    Thread.Sleep(800);
                     break;
                 }
                 else
@@ -85,7 +85,7 @@ namespace Service
             }
             _redefinirAreaColeta();
 
-            return false;
+            return retorno;
         }
 
         public void validarInicioColeta(bool isAtivarModoBaixoConsumo)
@@ -132,7 +132,7 @@ namespace Service
             try
             {
                 Win32.clicarBotaoDireito(objMatch.Location.X, objMatch.Location.Y);
-                Thread.Sleep(500);
+                Thread.Sleep(600);
                 Acao objAcao = new Model.Acao();
 
                 Rectangle areaBusca = new Rectangle(objMatch.Location.X - 100, objMatch.Location.Y - 60, 100, 100);
