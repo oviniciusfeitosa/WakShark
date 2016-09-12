@@ -90,7 +90,7 @@ namespace WakBoy
                             while (this.checkBoxCacadorPixelsLigado.Checked)
                             {
                                 bool isSucessoNaColeta = ServiceColeta.obterInstancia().coletar(textBoxLocalizacaoImagemTemplate.Text, checkBoxAtivarBaixoConsumo.Checked);
-                                if (!isSucessoNaColeta) {
+                                if (!isSucessoNaColeta && checkBoxMovimentarAleatoriamente.Checked) {
                                     Personagem.obterInstancia().movimentarRandomicamente();
                                     Thread.Sleep(800);
                                 }

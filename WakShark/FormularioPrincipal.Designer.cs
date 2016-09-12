@@ -72,6 +72,7 @@
             this.openFileDialogImagemTemplate = new System.Windows.Forms.OpenFileDialog();
             this.checkBoxAtivarBaixoConsumo = new System.Windows.Forms.CheckBox();
             this.pictureBoxMiniaturaRecurso = new System.Windows.Forms.PictureBox();
+            this.checkBoxMovimentarAleatoriamente = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.capinacao.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -91,6 +92,7 @@
             // 
             // capinacao
             // 
+            this.capinacao.Controls.Add(this.checkBoxMovimentarAleatoriamente);
             this.capinacao.Controls.Add(this.checkBoxAtivarBaixoConsumo);
             this.capinacao.Controls.Add(this.groupBox1);
             this.capinacao.Controls.Add(this.checkBoxMascaraLuminosidade);
@@ -508,6 +510,17 @@
             this.pictureBoxMiniaturaRecurso.TabIndex = 17;
             this.pictureBoxMiniaturaRecurso.TabStop = false;
             // 
+            // checkBoxMovimentarAleatoriamente
+            // 
+            this.checkBoxMovimentarAleatoriamente.AutoSize = true;
+            this.checkBoxMovimentarAleatoriamente.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxMovimentarAleatoriamente.Location = new System.Drawing.Point(23, 199);
+            this.checkBoxMovimentarAleatoriamente.Name = "checkBoxMovimentarAleatoriamente";
+            this.checkBoxMovimentarAleatoriamente.Size = new System.Drawing.Size(154, 17);
+            this.checkBoxMovimentarAleatoriamente.TabIndex = 18;
+            this.checkBoxMovimentarAleatoriamente.Text = "Movimentar Aleatoriamente";
+            this.checkBoxMovimentarAleatoriamente.UseVisualStyleBackColor = true;
+            // 
             // FormularioPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -577,6 +590,7 @@
         private System.Windows.Forms.Button botaoScreenshotRotacionado;
         private System.Windows.Forms.CheckBox checkBoxAtivarBaixoConsumo;
         private System.Windows.Forms.PictureBox pictureBoxMiniaturaRecurso;
+        private System.Windows.Forms.CheckBox checkBoxMovimentarAleatoriamente;
     }
 }
 
