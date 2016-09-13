@@ -76,11 +76,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acao.cs" />
+    <Compile Include="Acao\Base\AAcao.cs" />
+    <Compile Include="Acao\Ceifar.cs" />
+    <Compile Include="Acao\Colher.cs" />
+    <Compile Include="Acao\Fechar.cs" />
     <Compile Include="AntiBOT.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="Proporcao.cs" />
-    <Compile Include="Recurso.cs" />
+    <Compile Include="Recurso\Agua.cs" />
+    <Compile Include="Recurso\Base\ARecurso.cs" />
+    <Compile Include="Recurso\Aveia.cs" />
+    <Compile Include="Recurso\Centeio.cs" />
+    <Compile Include="Recurso\Cevada.cs" />
+    <Compile Include="Recurso\Trigo.cs" />
     <Compile Include="Tela.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

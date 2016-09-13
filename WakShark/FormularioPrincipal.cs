@@ -6,6 +6,8 @@ using ModelTela = Model.Tela;
 using CapturadorPixel = Common.CapturadorPixel;
 using Common;
 using ServiceColeta = Service.Coleta;
+using ServiceRecurso = Service.Recurso;
+using ServiceAcao = Service.Acao;
 using Service;
 using Gma.System.MouseKeyHook;
 using System.Drawing.Imaging;
@@ -18,6 +20,8 @@ using System.Linq;
 using Model;
 using WindowsInput;
 using WindowsInput.Native;
+using Model.Recurso.Base;
+using System.Collections.Generic;
 
 namespace WakBoy
 {
@@ -32,15 +36,10 @@ namespace WakBoy
 
         private void FormularioPrincipal_Load(object sender, EventArgs e)
         {
-            Acao.inicializarAcoes();
-            Recurso.inicializarRecursos();
-
+            // @todo : Retirar esses itens que estão definidos manualmente e fazer algo como foi feito para Acoes e Recursos no package "Model".
             string[] objDataSourceTipoBusca = new[] { "Coleta", "Batalha" };
             comboBoxTipoBusca.DataSource = objDataSourceTipoBusca;
             
-            
-            //newRecurso.tiposRecurso
-
             hook = new KeyboardHook ();
             hook.KeyPressed += new EventHandler<KeyPressedEventArgs>(gatilhoTeclaPressionadaGlobalmente);
             // register the control + alt + F12 combination as hot key.
@@ -86,13 +85,13 @@ namespace WakBoy
 
                     // Modificar esse trecho utilizado para teste, porque está sendo validado somente por 'coleta'. Quem sabe um switch não caia melhor?
                     if (comboBoxTipoBusca.SelectedValue.ToString() == "Coleta") {
-
+                        ServiceRecurso objRecurso = ServiceRecurso.obterInstancia();
                         // Responsável por permitir que o loop consiga ser encerrado utilizando as hotkeys ou clique no botão.
                         Task.Factory.StartNew(() =>
                         {
                             while (this.checkBoxCacadorPixelsLigado.Checked)
                             {
-                                bool isSucessoNaColeta = ServiceColeta.obterInstancia().coletar(Recurso.obterRecurso(textBoxLocalizacaoImagemTemplate.Text), checkBoxAtivarBaixoConsumo.Checked);
+                                bool isSucessoNaColeta = ServiceColeta.obterInstancia().coletar(objRecurso.obterRecurso(textBoxLocalizacaoImagemTemplate.Text), checkBoxAtivarBaixoConsumo.Checked);
                                 if (!isSucessoNaColeta && checkBoxMovimentarAleatoriamente.Checked) {
                                     Personagem.obterInstancia().movimentarRandomicamente();
                                     Thread.Sleep(800);
@@ -276,24 +275,23 @@ namespace WakBoy
             if (comboBoxTipoBusca.SelectedItem == "Coleta")
             {
                 //string[] objDataSourceTipoBusca = new[] { "Coleta", "Batalha" };
-                //Model.Recurso objRecurso = new Model.Recurso();
-                comboBoxTipo.DataSource = new BindingSource(Recurso.Recursos, null);
-                comboBoxTipo.ValueMember = "Value";
-                comboBoxTipo.DisplayMember = "Caption";
+
+                ServiceRecurso objServiceRecurso = ServiceRecurso.obterInstancia();
+                comboBoxRecurso.DataSource = new BindingSource(objServiceRecurso.obterListaSimplificadaRecursos(), null);
+                comboBoxRecurso.ValueMember = "Value";
+                comboBoxRecurso.DisplayMember = "Key";
             }
             else
             {
-                comboBoxTipo.DataSource = null;
+                comboBoxRecurso.DataSource = null;
             }
         }
 
         private void comboBoxTipo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxTipo.SelectedValue != null) {
-                //todo Revisar essa parte, não podemos amarrar aqui com o Tipo Recurso pois ele não é a única opção possível
-                textBoxLocalizacaoImagemTemplate.Text = ((Recurso)comboBoxTipo.SelectedValue).Nome;
-                //string localizacaoImagemTemplate = ((System.Collections.Generic.KeyValuePair<string, string>)comboBoxTipo.SelectedItem).Value;
-                string localizacaoImagemTemplate = ((Recurso)comboBoxTipo.SelectedValue).Imagem;
+            if (comboBoxRecurso.SelectedValue != null) {
+                string localizacaoImagemTemplate = ((KeyValuePair<string, string>)comboBoxRecurso.SelectedItem).Value;
+                textBoxLocalizacaoImagemTemplate.Text = localizacaoImagemTemplate;
                 pictureBoxMiniaturaRecurso.Image = Image.FromFile(localizacaoImagemTemplate);
             } else {
                 textBoxLocalizacaoImagemTemplate.Text = "";

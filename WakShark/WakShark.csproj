@@ -208,6 +208,9 @@
     <Content Include="assets\imagem\antibot\numero8.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\imagem\recurso\agua.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\imagem\recurso\aveia.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
