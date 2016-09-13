@@ -87,11 +87,12 @@ namespace WakBoy
                     if (comboBoxTipoBusca.SelectedValue.ToString() == "Coleta") {
                         ServiceRecurso objRecurso = ServiceRecurso.obterInstancia();
                         // Responsável por permitir que o loop consiga ser encerrado utilizando as hotkeys ou clique no botão.
+                        string nomeRecurso = ((KeyValuePair<string, string>)comboBoxRecurso.SelectedItem).Key;
                         Task.Factory.StartNew(() =>
                         {
                             while (this.checkBoxCacadorPixelsLigado.Checked)
                             {
-                                bool isSucessoNaColeta = ServiceColeta.obterInstancia().coletar(objRecurso.obterRecurso(textBoxLocalizacaoImagemTemplate.Text), checkBoxAtivarBaixoConsumo.Checked);
+                                bool isSucessoNaColeta = ServiceColeta.obterInstancia().coletar(objRecurso.obterRecurso(nomeRecurso), checkBoxAtivarBaixoConsumo.Checked);
                                 if (!isSucessoNaColeta && checkBoxMovimentarAleatoriamente.Checked) {
                                     Personagem.obterInstancia().movimentarRandomicamente();
                                     Thread.Sleep(800);

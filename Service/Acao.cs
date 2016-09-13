@@ -25,7 +25,12 @@ namespace Service
 
         public static List<AAcao> listaAcoes = new List<AAcao>();
         
-        public static void preencherListaAcoes()
+        public Acao ()
+        {
+            this.preencherListaAcoes();
+        }
+
+        public void preencherListaAcoes()
         {
             listaAcoes = new List<AAcao>();
             listaAcoes.Add(new Colher());
@@ -35,11 +40,11 @@ namespace Service
 
         public AAcao obterAcao(string nome)
         {
-            foreach (AAcao objRecurso in listaAcoes)
+            foreach (AAcao objAcao in listaAcoes)
             {
-                if (objRecurso.Nome == nome)
+                if (objAcao.Nome == nome)
                 {
-                    return objRecurso;
+                    return objAcao;
                 }
             }
             return null;
