@@ -86,13 +86,17 @@ namespace WakBoy
                     // Modificar esse trecho utilizado para teste, porque está sendo validado somente por 'coleta'. Quem sabe um switch não caia melhor?
                     if (comboBoxTipoBusca.SelectedValue.ToString() == "Coleta") {
                         ServiceRecurso objRecurso = ServiceRecurso.obterInstancia();
-                        // Responsável por permitir que o loop consiga ser encerrado utilizando as hotkeys ou clique no botão.
+                        ServiceAcao objAcao = ServiceAcao.obterInstancia();
                         string nomeRecurso = ((KeyValuePair<string, string>)comboBoxRecurso.SelectedItem).Key;
+                        string nomeAcao = ((KeyValuePair<string, string>)comboBoxAcao.SelectedItem).Key;
+                        ServiceColeta objServiceColeta = ServiceColeta.obterInstancia();
+                        objServiceColeta.isAtivarModoBaixoConsumo = checkBoxAtivarBaixoConsumo.Checked;
+                        // Responsável por permitir que o loop consiga ser encerrado utilizando as hotkeys ou clique no botão.
                         Task.Factory.StartNew(() =>
                         {
                             while (this.checkBoxCacadorPixelsLigado.Checked)
                             {
-                                bool isSucessoNaColeta = ServiceColeta.obterInstancia().coletar(objRecurso.obterRecurso(nomeRecurso), checkBoxAtivarBaixoConsumo.Checked);
+                                bool isSucessoNaColeta = objServiceColeta.coletar(objRecurso.obterRecurso(nomeRecurso), objAcao.obterAcao(nomeAcao));
                                 if (!isSucessoNaColeta && checkBoxMovimentarAleatoriamente.Checked) {
                                     Personagem.obterInstancia().movimentarRandomicamente();
                                     Thread.Sleep(800);
@@ -273,18 +277,20 @@ namespace WakBoy
 
         private void comboBoxTipoBusca_SelectedIndexChanged(object sender, EventArgs e)
         {
+            comboBoxRecurso.DataSource = null;
+            comboBoxAcao.DataSource = null;
             if (comboBoxTipoBusca.SelectedItem == "Coleta")
             {
-                //string[] objDataSourceTipoBusca = new[] { "Coleta", "Batalha" };
-
                 ServiceRecurso objServiceRecurso = ServiceRecurso.obterInstancia();
                 comboBoxRecurso.DataSource = new BindingSource(objServiceRecurso.obterListaSimplificadaRecursos(), null);
                 comboBoxRecurso.ValueMember = "Value";
                 comboBoxRecurso.DisplayMember = "Key";
-            }
-            else
-            {
-                comboBoxRecurso.DataSource = null;
+
+                ServiceAcao objServiceAcao = ServiceAcao.obterInstancia();
+                comboBoxAcao.DataSource = new BindingSource(objServiceAcao.obterListaSimplificadaAcoes(), null);
+                comboBoxAcao.ValueMember = "Value";
+                comboBoxAcao.DisplayMember = "Key";
+                
             }
         }
 
@@ -308,6 +314,17 @@ namespace WakBoy
             telaOriginal.Save(@textBoxLocalizacaoScreenshot.Text);
             telaOriginal.Dispose();
             MessageBox.Show("PrintScreen Rotacionado realizado com sucesso!");
+        }
+        
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

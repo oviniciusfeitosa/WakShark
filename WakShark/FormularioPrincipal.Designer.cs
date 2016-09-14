@@ -32,6 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormularioPrincipal));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.capinacao = new System.Windows.Forms.TabPage();
+            this.comboBoxAcao = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.checkBoxMovimentarAleatoriamente = new System.Windows.Forms.CheckBox();
             this.checkBoxAtivarBaixoConsumo = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -92,6 +94,8 @@
             // 
             // capinacao
             // 
+            this.capinacao.Controls.Add(this.comboBoxAcao);
+            this.capinacao.Controls.Add(this.label5);
             this.capinacao.Controls.Add(this.checkBoxMovimentarAleatoriamente);
             this.capinacao.Controls.Add(this.checkBoxAtivarBaixoConsumo);
             this.capinacao.Controls.Add(this.groupBox1);
@@ -108,6 +112,25 @@
             this.capinacao.TabIndex = 0;
             this.capinacao.Text = "Caçador de Pixels";
             this.capinacao.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxAcao
+            // 
+            this.comboBoxAcao.FormattingEnabled = true;
+            this.comboBoxAcao.Location = new System.Drawing.Point(325, 17);
+            this.comboBoxAcao.Name = "comboBoxAcao";
+            this.comboBoxAcao.Size = new System.Drawing.Size(126, 21);
+            this.comboBoxAcao.TabIndex = 20;
+            this.comboBoxAcao.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(284, 20);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 13);
+            this.label5.TabIndex = 19;
+            this.label5.Text = "Ação:";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // checkBoxMovimentarAleatoriamente
             // 
@@ -591,6 +614,8 @@
         private System.Windows.Forms.CheckBox checkBoxAtivarBaixoConsumo;
         private System.Windows.Forms.PictureBox pictureBoxMiniaturaRecurso;
         private System.Windows.Forms.CheckBox checkBoxMovimentarAleatoriamente;
+        private System.Windows.Forms.ComboBox comboBoxAcao;
+        private System.Windows.Forms.Label label5;
     }
 }
 
