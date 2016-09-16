@@ -99,7 +99,7 @@ namespace WakBoy
                                 bool isSucessoNaColeta = objServiceColeta.coletar(objRecurso.obterRecurso(nomeRecurso), objAcao.obterAcao(nomeAcao));
                                 if (!isSucessoNaColeta && checkBoxMovimentarAleatoriamente.Checked) {
                                     Personagem.obterInstancia().movimentarRandomicamente();
-                                    Thread.Sleep(800);
+                                    Thread.Sleep(5000);
                                 }
                             }
                         });

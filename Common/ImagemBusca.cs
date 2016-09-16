@@ -357,13 +357,7 @@ namespace Common
                         //objImagemTelaAtual.Bitmap.Clone(new Rectangle(maxLocations[i].X, maxLocations[i].Y, objImagemTemplate.Width, objImagemTemplate.Height), PixelFormat.Format16bppRgb555).Save(@"c:\users\public\MatchEncontrado" + matchRetorno.Numero.ToString() + "_" + matchRetorno.Semelhanca.ToString() + ".bmp");
 
                     }
-
-
                 }
-            }
-            if (caminhoTemplateNumero.Contains("numero8"))
-            {
-
             }
 
             objImagemTelaAtual.Dispose();
