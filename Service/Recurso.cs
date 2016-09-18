@@ -1,5 +1,5 @@
 ﻿using Model.Recurso;
-using Model.Recurso.Base;
+using Model.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +34,8 @@ namespace Service
             listaRecursos = new List<ARecurso>();
             listaRecursos.Add(new Agua());
             listaRecursos.Add(new Trigo());
+            listaRecursos.Add(new CardoCoroadoTipo1());
+            listaRecursos.Add(new CardoCoroadoTipo2());
             listaRecursos.Add(new Cevada());
             listaRecursos.Add(new Aveia());
             listaRecursos.Add(new Centeio());

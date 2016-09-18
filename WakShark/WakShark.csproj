@@ -181,6 +181,7 @@
     <Content Include="assets\imagem\acao\colher.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\imagem\acao\cortar.png" />
     <Content Include="assets\imagem\acao\fechar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -211,16 +212,22 @@
     <Content Include="assets\imagem\recurso\agua.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\imagem\recurso\aveia.png">
+    <Content Include="assets\imagem\recurso\fazendeiro\aveia.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\imagem\recurso\centeio.png">
+    <Content Include="assets\imagem\recurso\fazendeiro\centeio.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\imagem\recurso\cevada.png">
+    <Content Include="assets\imagem\recurso\fazendeiro\cevada.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\imagem\recurso\trigo.png">
+    <Content Include="assets\imagem\recurso\fazendeiro\trigo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\imagem\recurso\herbolista\cardo_coroado_tipo-1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\imagem\recurso\herbolista\cardo_coroado_tipo-2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="opencv_core220.dll">

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model.Recurso.Base;
-
+﻿using Model.Base;
 namespace Model.Recurso
 {
-    public class Centeio : ARecurso
+    public class Centeio : ARecurso, IFazendeiro
     {
-        public Centeio() : base("Centeio", 50, 3000, System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\centeio.png"){}
+        public Centeio() : base("Centeio", 50, 3000, System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\fazendeiro\centeio.png") {}
     }
 }

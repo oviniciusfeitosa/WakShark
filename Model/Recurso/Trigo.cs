@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model.Recurso.Base;
-
+﻿using Model.Base;
 namespace Model.Recurso
 {
-    public class Trigo : ARecurso
+    public class Trigo : ARecurso, IFazendeiro
     {
-        public Trigo() : base("Trigo", 0, 3000, System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\trigo.png") {}
+        public Trigo() : base("Trigo", 0, 3000, System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\fazendeiro\trigo.png") {}
     }
 }

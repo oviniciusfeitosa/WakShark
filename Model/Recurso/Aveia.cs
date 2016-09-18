@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model.Recurso.Base;
+﻿using Model.Base;
 
 namespace Model.Recurso
 {
-    public class Aveia : ARecurso
+    public class Aveia : ARecurso, IFazendeiro
     {
-        public Aveia() : base("Aveia", 35, 3000, System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\aveia.png") {}
+        public Aveia() : base("Aveia", 35, 3000, System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\fazendeiro\aveia.png") {}
     }
 }

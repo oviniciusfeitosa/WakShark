@@ -1,16 +1,9 @@
-﻿
-using ModelTela = Model.Tela;
-using Service;
-using Gma.System.MouseKeyHook;
-using System.Windows.Forms;
-using System.Threading;
+﻿using System.Threading;
 using Common.Lib;
 using Common;
 using System.Drawing;
-using System;
 using Model;
-using Model.Recurso.Base;
-using Model.Acao.Base;
+using Model.Base;
 
 namespace Service
 {

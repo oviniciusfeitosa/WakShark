@@ -1,5 +1,6 @@
-﻿using Model.Acao;
-using Model.Acao.Base;
+﻿using Model.Recurso;
+using Model.Base;
+using Model.Acao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace Service
             listaAcoes = new List<AAcao>();
             listaAcoes.Add(new Colher());
             listaAcoes.Add(new Ceifar());
+            listaAcoes.Add(new Cortar());
             listaAcoes.Add(new Fechar());
         }
 

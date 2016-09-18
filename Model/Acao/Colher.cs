@@ -1,10 +1,4 @@
-﻿using Model.Acao.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Model.Base;
 namespace Model.Acao
 {
     public class Colher : AAcao

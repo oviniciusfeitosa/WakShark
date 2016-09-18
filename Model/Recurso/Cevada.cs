@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model.Recurso.Base;
+﻿using Model.Base;
 
 namespace Model.Recurso
 {
-    public class Cevada : ARecurso
+    public class Cevada : ARecurso, IFazendeiro
     {
-        public Cevada() : base("Cevada", 20, 3000, System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\cevada.png") {}
+        public Cevada() : base("Cevada", 20, 2700, System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\fazendeiro\cevada.png") {}
     }
 }

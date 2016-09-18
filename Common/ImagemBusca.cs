@@ -316,9 +316,9 @@ namespace Common
 
             Bitmap telaOriginalRotacionada = objImagemTransformacao.redimensionarImagem(telaOriginal, telaOriginal.Width / 2, telaOriginal.Height);
             telaOriginalRotacionada = objImagemTransformacao.rotacionarImagem(telaOriginalRotacionada, anguloRotacao);
-            telaOriginalRotacionada.Save(@"C:\\Users\\Public\\2telaOriginalRotacionada.bmp");
+            telaOriginalRotacionada.Save(@"C:/Users/Public/2telaOriginalRotacionada.bmp");
             Bitmap telaRotacionadaCortada = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaOriginalRotacionada, objRegiaoImagem, AreaBusca);
-            telaRotacionadaCortada.Save(@"C:\Users\Public\3telaRotacionadaCortada.bmp");
+            telaRotacionadaCortada.Save(@"C:/Users/Public/3telaRotacionadaCortada.bmp");
 
             Image<Emgu.CV.Structure.Rgb, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Rgb, byte>(telaRotacionadaCortada);
             //objImagemTelaAtual.ToBitmap().Save(@"C:\Users\Public\4objImagemTelaAtual.bmp");

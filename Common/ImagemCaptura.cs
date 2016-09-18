@@ -111,41 +111,47 @@ namespace Common
 
         public Bitmap obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem objEnumRegiaoTela, bool isGerarNovaInstancia)
         {
-            if (this.regiaoTelaAtual != objEnumRegiaoTela || isGerarNovaInstancia == true)
+            try
             {
-                Size bounds = Screen.PrimaryScreen.Bounds.Size;
-
-                //Rectangle bounds = SystemInformation.VirtualScreen;
-                //Rectangle bounds = Screen.PrimaryScreen.Bounds;
-
-                this.regiaoTelaAtual = objEnumRegiaoTela;
-
-                Bitmap objBitmapTemporaria = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb);
-
-                using (Graphics objGraphics = Graphics.FromImage(objBitmapTemporaria))
+                if (this.regiaoTelaAtual != objEnumRegiaoTela || isGerarNovaInstancia == true)
                 {
+                    Size bounds = Screen.PrimaryScreen.Bounds.Size;
 
-                    Size objSize = objBitmapTemporaria.Size;
-                    switch (objEnumRegiaoTela)
+                    //Rectangle bounds = SystemInformation.VirtualScreen;
+                    //Rectangle bounds = Screen.PrimaryScreen.Bounds;
+
+                    this.regiaoTelaAtual = objEnumRegiaoTela;
+
+                    Bitmap objBitmapTemporaria = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format32bppArgb);
+
+                    using (Graphics objGraphics = Graphics.FromImage(objBitmapTemporaria))
                     {
-                        case Imagem.EnumRegiaoImagem.LADO_ESQUERDO:
-                            objGraphics.CopyFromScreen(0, 0, (int)(objBitmapTemporaria.Width / 2.09), 0, objSize);
-                            break;
-                        case Imagem.EnumRegiaoImagem.LADO_DIREITO:
-                            objGraphics.CopyFromScreen((int)(objBitmapTemporaria.Width / 2), 0, (int)(objBitmapTemporaria.Width / 2), 0, objSize);
-                            break;
-                        case Imagem.EnumRegiaoImagem.COMPLETO:
-                        default:
-                            objGraphics.CopyFromScreen(0, 0, 0, 0, objBitmapTemporaria.Size);
-                            break;
-                    }
-                }
-                this.objBitmap = objBitmapTemporaria.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format8bppIndexed);
-            }
 
-            if (this.objBitmap.Width != Proporcao.Width || this.objBitmap.Height != Proporcao.Height)
+                        Size objSize = objBitmapTemporaria.Size;
+                        switch (objEnumRegiaoTela)
+                        {
+                            case Imagem.EnumRegiaoImagem.LADO_ESQUERDO:
+                                objGraphics.CopyFromScreen(0, 0, (int)(objBitmapTemporaria.Width / 2.09), 0, objSize);
+                                break;
+                            case Imagem.EnumRegiaoImagem.LADO_DIREITO:
+                                objGraphics.CopyFromScreen((int)(objBitmapTemporaria.Width / 2), 0, (int)(objBitmapTemporaria.Width / 2), 0, objSize);
+                                break;
+                            case Imagem.EnumRegiaoImagem.COMPLETO:
+                            default:
+                                objGraphics.CopyFromScreen(0, 0, 0, 0, objBitmapTemporaria.Size);
+                                break;
+                        }
+                    }
+                    this.objBitmap = objBitmapTemporaria.Clone(new Rectangle(0, 0, bounds.Width, bounds.Height), PixelFormat.Format8bppIndexed);
+                }
+
+                if (this.objBitmap.Width != Proporcao.Width || this.objBitmap.Height != Proporcao.Height)
+                {
+                    this.objBitmap = ImagemTransformacao.obterInstancia().redimensionarImagem(this.objBitmap, Proporcao.Width, Proporcao.Height);
+                }
+            }
+            catch (Exception objException)
             {
-                this.objBitmap = ImagemTransformacao.obterInstancia().redimensionarImagem(this.objBitmap, Proporcao.Width, Proporcao.Height);
             }
 
             return this.objBitmap;
