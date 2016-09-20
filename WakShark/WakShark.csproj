@@ -185,6 +185,7 @@
     <Content Include="assets\imagem\acao\fechar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\imagem\acao\iniciar_batalha.png" />
     <Content Include="assets\imagem\antibot\numero1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
