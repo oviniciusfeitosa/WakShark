@@ -38,6 +38,7 @@ namespace Service
             listaAcoes.Add(new Ceifar());
             listaAcoes.Add(new Cortar());
             listaAcoes.Add(new Fechar());
+            listaAcoes.Add(new IniciarBatalha());
         }
 
         public AAcao obterAcao(string nome)

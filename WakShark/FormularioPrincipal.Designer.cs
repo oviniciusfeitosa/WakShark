@@ -205,6 +205,8 @@
             // checkBoxMovimentarAleatoriamente
             // 
             this.checkBoxMovimentarAleatoriamente.AutoSize = true;
+            this.checkBoxMovimentarAleatoriamente.Checked = true;
+            this.checkBoxMovimentarAleatoriamente.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxMovimentarAleatoriamente.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxMovimentarAleatoriamente.Location = new System.Drawing.Point(23, 306);
             this.checkBoxMovimentarAleatoriamente.Name = "checkBoxMovimentarAleatoriamente";
@@ -294,8 +296,6 @@
             // checkBoxMascaraLuminosidade
             // 
             this.checkBoxMascaraLuminosidade.AutoSize = true;
-            this.checkBoxMascaraLuminosidade.Checked = true;
-            this.checkBoxMascaraLuminosidade.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxMascaraLuminosidade.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxMascaraLuminosidade.Location = new System.Drawing.Point(23, 260);
             this.checkBoxMascaraLuminosidade.Name = "checkBoxMascaraLuminosidade";
