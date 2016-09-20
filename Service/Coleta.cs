@@ -105,9 +105,9 @@ namespace Service
         public void validarInicioBatalha()
         {
             System.Drawing.Bitmap bmpBatalha = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem.COMPLETO, true);
-            if (Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(200, 200)) == "#000000"
-                && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(250, 250)) == "#000000"
-                && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(300, 300)) == "#000000")
+            if (Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(bmpBatalha.Width / 2, 100)) == "#000000"
+                && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(bmpBatalha.Width / 2, 110)) == "#000000"
+                && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(bmpBatalha.Width / 2, 120)) == "#000000")
             {
                 System.Windows.Forms.SendKeys.SendWait(" ");
                 Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
