@@ -104,7 +104,7 @@ namespace Service
 
         public void validarInicioBatalha()
         {
-            Rectangle areaBusca = new Rectangle(80, 80, Proporcao.Width / 2, Proporcao.Height - 50);
+            Rectangle areaBusca = new Rectangle(80, 80, Proporcao.Width / 2, Proporcao.Height - 80);
             Model.Match objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(Acao.obterInstancia().obterAcao("IniciarBatalha").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
             if (objMatch.Semelhanca > 0)
             {
