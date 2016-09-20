@@ -105,8 +105,9 @@ namespace Service
         public void validarInicioBatalha()
         {
             Rectangle areaBusca = new Rectangle(80, 80, Proporcao.Width / 2, Proporcao.Height - 80);
-            Model.Match objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(Acao.obterInstancia().obterAcao("IniciarBatalha").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
-            if (objMatch.Semelhanca > 0)
+            Model.Match objMatchIniciarBatalha = ImagemBusca.obterInstancia().buscarImagemPorTemplate(Acao.obterInstancia().obterAcao("IniciarBatalha").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
+            Model.Match objMatchPassarTurno = ImagemBusca.obterInstancia().buscarImagemPorTemplate(Acao.obterInstancia().obterAcao("PassarTurno").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
+            if (objMatchIniciarBatalha.Semelhanca > 0 || objMatchPassarTurno.Semelhanca > 0)
             {
                 System.Windows.Forms.SendKeys.SendWait(" ");
                 Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);

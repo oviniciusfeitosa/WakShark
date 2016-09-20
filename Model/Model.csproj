@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acao\PassarTurno.cs" />
     <Compile Include="Acao\IniciarBatalha.cs" />
     <Compile Include="Acao\Cortar.cs" />
     <Compile Include="Base\AAcao.cs" />
