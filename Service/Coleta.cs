@@ -104,15 +104,13 @@ namespace Service
 
         public void validarInicioBatalha()
         {
-            System.Drawing.Bitmap bmpBatalha = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem.COMPLETO, true);
-            if (Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(bmpBatalha.Width / 2, 100)) == "#000000"
-                && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(bmpBatalha.Width / 2, 110)) == "#000000"
-                && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(bmpBatalha.Width / 2, 120)) == "#000000")
+            Rectangle areaBusca = new Rectangle(80, 80, Proporcao.Width - 200, Proporcao.Height - 50);
+            Model.Match objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(Acao.obterInstancia().obterAcao("IniciarBatalha").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
+            if (objMatch.Semelhanca > 0)
             {
                 System.Windows.Forms.SendKeys.SendWait(" ");
                 Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
             }
-            bmpBatalha.Dispose();
         }
 
         public void validarFechamentoMensagens()
