@@ -227,6 +227,18 @@
     <Content Include="assets\imagem\recurso\fazendeiro\cevada.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\imagem\recurso\fazendeiro\juta_suarda.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\imagem\recurso\fazendeiro\juta_suarda_verde.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\imagem\recurso\fazendeiro\milho.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\imagem\recurso\fazendeiro\milho_verde.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\imagem\recurso\fazendeiro\trigo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

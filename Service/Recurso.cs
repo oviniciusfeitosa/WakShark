@@ -39,6 +39,10 @@ namespace Service
             listaRecursos.Add(new Cevada());
             listaRecursos.Add(new Aveia());
             listaRecursos.Add(new Centeio());
+            listaRecursos.Add(new JutaSuarda());
+            listaRecursos.Add(new JutaSuardaVerde());
+            listaRecursos.Add(new Milho());
+            listaRecursos.Add(new MilhoVerde());
         }
 
         public ARecurso obterRecurso(string caption)

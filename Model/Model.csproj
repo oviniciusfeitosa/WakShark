@@ -95,6 +95,10 @@
     <Compile Include="Base\IFazendeiro.cs" />
     <Compile Include="Recurso\Centeio.cs" />
     <Compile Include="Recurso\Cevada.cs" />
+    <Compile Include="Recurso\JutaSuardaVerde.cs" />
+    <Compile Include="Recurso\JutaSuarda.cs" />
+    <Compile Include="Recurso\MilhoVerde.cs" />
+    <Compile Include="Recurso\Milho.cs" />
     <Compile Include="Recurso\Trigo.cs" />
     <Compile Include="Tela.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
