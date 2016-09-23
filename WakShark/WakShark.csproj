@@ -59,6 +59,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -70,6 +72,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -81,6 +84,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -92,6 +97,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Gma.System.MouseKeyHook">
@@ -111,15 +117,11 @@
     <Reference Include="Emgu.CV">
       <HintPath>..\_install\Emgu.CV.dll</HintPath>
     </Reference>
-    <Reference Include="Emgu.CV.UI">
-      <HintPath>..\_install\Emgu.CV.UI.dll</HintPath>
-    </Reference>
     <Reference Include="Emgu.Util">
       <HintPath>..\_install\Emgu.Util.dll</HintPath>
     </Reference>
-    <Reference Include="WindowsInput, Version=1.0.4.0, Culture=neutral, PublicKeyToken=9b287f7dc5073cad, processorArchitecture=MSIL">
+    <Reference Include="WindowsInput, Version=1.0.4.0, Culture=neutral, PublicKeyToken=9b287f7dc5073cad">
       <HintPath>..\packages\InputSimulator.1.0.4.0\lib\net20\WindowsInput.dll</HintPath>
-      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -165,13 +167,13 @@
       <Project>{038DDAEE-0D33-4FF4-80F9-582B27ED892B}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Model\Model.csproj">
-      <Project>{A70B2F22-6ADD-430B-B214-BA27EF139F21}</Project>
-      <Name>Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{9D618B89-0CB1-46E8-A99F-37C9771CE8D9}</Project>
       <Name>Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{A70B2F22-6ADD-430B-B214-BA27EF139F21}</Project>
+      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

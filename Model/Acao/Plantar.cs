@@ -2,12 +2,11 @@
 using Common.Lib;
 using System.Threading.Tasks;
 using System.Threading;
-
 namespace Model.Acao
 {
-    public class Fechar : AAcao
-    {
-		public Fechar() : base("Fechar", System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\acao\fechar.png") {}
+	public class Plantar : AAcao
+	{
+		public Plantar() : base("Plantar", System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\acao\xxxxxx.png") {}
 
 		public bool executarAcao(Match objMatch, int Tempo) {
 			Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
@@ -15,5 +14,5 @@ namespace Model.Acao
 			Thread.Sleep(Tempo);
 			return true;
 		}
-    }
+	}
 }

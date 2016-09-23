@@ -4,8 +4,9 @@
     {
         public string Nome { get; set; }
         public string Imagem { get; set; }
+		public abstract bool executarAcao(Match objMatch, int Tempo);
 
-        public AAcao(string nome, string imagem)
+		public AAcao(string nome, string imagem, string tipoAcao)
         {
             this.Nome = nome;
             this.Imagem = imagem;

@@ -137,10 +137,7 @@ namespace Service
                         objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(objAAcao.Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
                         if (objMatch.Semelhanca > 0)
                         {
-                            Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
-                            Thread.Sleep(2000);
-                            Thread.Sleep(objRecurso.Tempo);
-                            return true;
+							return objAAcao.executarAcao(objMatch, objRecurso.Tempo);
                         }
                     }
                 }

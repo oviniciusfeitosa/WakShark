@@ -40,6 +40,7 @@ namespace Service
             listaAcoes.Add(new Fechar());
             listaAcoes.Add(new IniciarBatalha());
             listaAcoes.Add(new PassarTurno());
+			listaAcoes.Add(new Plantar());
         }
 
         public AAcao obterAcao(string nome)
