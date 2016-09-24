@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Model.Recurso.Terreno;
 
 namespace Service
 {
@@ -36,8 +37,9 @@ namespace Service
 
         public void preencherListaRecursosFazendeiro()
         {
-            listaRecursosFazendeiro = new List<ARecurso>();
             listaRecursosFazendeiro.Add(new Agua());
+            listaRecursosFazendeiro.Add(new SoloMundo());
+            listaRecursosFazendeiro.Add(new SoloBolsa());
             listaRecursosFazendeiro.Add(new Trigo());
             listaRecursosFazendeiro.Add(new Cevada());
             listaRecursosFazendeiro.Add(new Aveia());
@@ -50,8 +52,11 @@ namespace Service
 
         public void preencherListaRecursosHerbolista()
         {
-            listaRecursosFazendeiro.Add(new CardoCoroadoTipo1());
-            listaRecursosFazendeiro.Add(new CardoCoroadoTipo2());
+            listaRecursosHerbolista.Add(new Agua());
+            listaRecursosHerbolista.Add(new SoloMundo());
+            listaRecursosHerbolista.Add(new SoloBolsa());
+            listaRecursosHerbolista.Add(new CardoCoroadoTipo1());
+            listaRecursosHerbolista.Add(new CardoCoroadoTipo2());
         }
 
         public ARecurso obterRecurso(string caption, EnumProfissoes objEnumProfissao)
@@ -67,8 +72,9 @@ namespace Service
             return null;
         }
 
-        public List<ARecurso> obterListaCompletaRecursos() {
-            return listaRecursosFazendeiro;
+        public List<ARecurso> obterListaCompletaRecursos(EnumProfissoes objEnumProfissao) {
+            List<ARecurso> objListaRecursos = obterTipoListaRecurso(objEnumProfissao);
+            return objListaRecursos;
         }
 
         public Dictionary<string, string> obterListaSimplificadaRecursos(EnumProfissoes objEnumProfissao)
@@ -83,14 +89,14 @@ namespace Service
             return listaSimplificada;
         }
 
-        private List<ARecurso> obterTipoListaRecurso(EnumProfissoes objEnumProfissoes)
+        private List<ARecurso> obterTipoListaRecurso(EnumProfissoes objEnumProfissao)
         {
             List<ARecurso> objListaRecursos = new List<ARecurso>();
-            if (objEnumProfissoes == EnumProfissoes.Fazendeiro)
+            if (objEnumProfissao == EnumProfissoes.Fazendeiro)
             {
                 objListaRecursos = listaRecursosFazendeiro;
             }
-            else if (objEnumProfissoes == EnumProfissoes.Herbolista)
+            else if (objEnumProfissao == EnumProfissoes.Herbolista)
             {
                 objListaRecursos = listaRecursosHerbolista;
             }

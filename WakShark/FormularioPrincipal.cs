@@ -7,7 +7,7 @@ using CapturadorPixel = Common.CapturadorPixel;
 using Common;
 using ServiceColeta = Service.Coleta;
 using ServiceRecurso = Service.Recurso;
-using ServiceAcao = Service.Acao;
+using ServiceBotaoAcao = Service.BotaoAcao;
 using Service;
 using Gma.System.MouseKeyHook;
 using Common.Lib;
@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
 using Model.Base;
+using Service.Base;
+using Service.Acao;
 
 namespace WakBoy
 {
@@ -68,9 +70,9 @@ namespace WakBoy
                     Camera.obterInstancia().padronizarDistanciaCamera();
 
                     // Modificar esse trecho utilizado para teste, porque está sendo validado somente por 'coleta'. Quem sabe um switch não caia melhor?
-                    if ((EnumTipoBusca)comboBoxTipoBusca.SelectedValue == EnumTipoBusca.Coleta) {
+                    if (EnumUtil.ParseEnum<EnumTipoBusca>(comboBoxTipoBusca.SelectedValue.ToString()) == EnumTipoBusca.Coleta) {
                         ServiceRecurso objRecurso = ServiceRecurso.obterInstancia();
-                        ServiceAcao objAcao = ServiceAcao.obterInstancia();
+                        ServiceBotaoAcao objServiceBotaoAcao = ServiceBotaoAcao.obterInstancia();
                         string nomeRecurso = ((KeyValuePair<string, string>)comboBoxRecurso.SelectedItem).Key;
                         string nomeAcao = ((KeyValuePair<string, string>)comboBoxAcao.SelectedItem).Key;
                         ServiceColeta objServiceColeta = ServiceColeta.obterInstancia();
@@ -96,27 +98,40 @@ namespace WakBoy
                         }
 
                         bool isMovimentarAleatoriamente = checkBoxMovimentarAleatoriamente.Checked;
+                        EnumProfissoes objEnumProfissao = EnumUtil.ParseEnum<EnumProfissoes>(comboBoxProfissao.SelectedValue.ToString());
+
+
+                        //@todo mudar esse trecho para que venha dinamicamente de acordo com 2 radio buttons que terá para cada um das 3 utilizações de recurso(primaria, secundaria, terciaria)
+                        // ao invés de "new Colheita" deve ser um método que compara o que foi selecionado e trás o tipo correto.
+                        AViewModelColeta objAViewModelColeta = new Colheita();
+                        //fim @todo
 
                         // Responsável por permitir que o loop consiga ser encerrado utilizando as hotkeys ou clique no botão.
                         Task.Factory.StartNew(() =>
                         {
                             while (this.checkBoxCacadorPixelsLigado.Checked)
                             {
-                                bool isSucessoNaColeta = objServiceColeta.coletar(objRecurso.obterRecurso(nomeRecurso, (EnumProfissoes)comboBoxProfissao.SelectedValue), objAcao.obterAcao(nomeAcao));
+                                objAViewModelColeta.objRecurso = objRecurso.obterRecurso(nomeRecurso, objEnumProfissao);
+                                objAViewModelColeta.objABotaoAcao = objServiceBotaoAcao.obterBotaoAcao(nomeAcao);
+                                bool isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta);
                                 if (!isSucessoNaColeta) {
                                     if (isUtilizarRecursoSecundario)
                                     {
                                         isSucessoNaColeta = true;
+                                        objAViewModelColeta.objRecurso = objRecurso.obterRecurso(nomeRecurso2, objEnumProfissao);
+                                        objAViewModelColeta.objABotaoAcao = objServiceBotaoAcao.obterBotaoAcao(nomeAcao2);
                                         while (isSucessoNaColeta)
                                         {
-                                            isSucessoNaColeta = objServiceColeta.coletar(objRecurso.obterRecurso(nomeRecurso2, (EnumProfissoes)comboBoxProfissao.SelectedValue), objAcao.obterAcao(nomeAcao2));
+                                            isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta);
                                         }
                                         if (isUtilizarRecursoTerciario)
                                         {
+                                            objAViewModelColeta.objRecurso = objRecurso.obterRecurso(nomeRecurso3, objEnumProfissao);
+                                            objAViewModelColeta.objABotaoAcao = objServiceBotaoAcao.obterBotaoAcao(nomeAcao3);
                                             isSucessoNaColeta = true;
                                             while (isSucessoNaColeta)
                                             {
-                                                isSucessoNaColeta = objServiceColeta.coletar(objRecurso.obterRecurso(nomeRecurso3, (EnumProfissoes)comboBoxProfissao.SelectedValue), objAcao.obterAcao(nomeAcao3));
+                                                isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta);
                                             }
                                         }
                                     }
@@ -298,47 +313,52 @@ namespace WakBoy
             labelHorarioFranca.Text = horarioConvertido.ToString("HH:mm:ss");
         }
         #endregion
-        
+
+        private void comboBoxProfissao_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.popularInformacoesWakshark();
+        }
 
         private void comboBoxTipoBusca_SelectedIndexChanged(object sender, EventArgs e)
         {
+            this.popularInformacoesWakshark();
+        }
+
+        private void popularInformacoesWakshark() {
             comboBoxRecurso.DataSource = null;
             comboBoxAcao.DataSource = null;
-            if (comboBoxTipoBusca.SelectedItem == "Coleta")
+            EnumTipoBusca objEnumTipoBusca = EnumUtil.ParseEnum<EnumTipoBusca>(comboBoxTipoBusca.SelectedItem.ToString());
+            if (objEnumTipoBusca == EnumTipoBusca.Coleta && comboBoxProfissao.SelectedValue != null)
             {
+                EnumProfissoes objEnumProfissao = EnumUtil.ParseEnum<EnumProfissoes>(comboBoxProfissao.SelectedValue.ToString());
                 ServiceRecurso objServiceRecurso = ServiceRecurso.obterInstancia();
-                comboBoxRecurso.DataSource = new BindingSource(objServiceRecurso.obterListaSimplificadaRecursos((EnumProfissoes)comboBoxProfissao.SelectedValue), null);
+                Dictionary<string, string> objListaRecursos = objServiceRecurso.obterListaSimplificadaRecursos(objEnumProfissao);
+
+                comboBoxRecurso.DataSource = new BindingSource(objListaRecursos, null);
                 comboBoxRecurso.ValueMember = "Value";
                 comboBoxRecurso.DisplayMember = "Key";
 
-                comboBoxRecurso2.DataSource = new BindingSource(objServiceRecurso.obterListaSimplificadaRecursos((EnumProfissoes)comboBoxProfissao.SelectedValue), null);
+                comboBoxRecurso2.DataSource = new BindingSource(objListaRecursos, null);
                 comboBoxRecurso2.ValueMember = "Value";
                 comboBoxRecurso2.DisplayMember = "Key";
 
-                comboBoxRecurso3.DataSource = new BindingSource(objServiceRecurso.obterListaSimplificadaRecursos((EnumProfissoes)comboBoxProfissao.SelectedValue), null);
+                comboBoxRecurso3.DataSource = new BindingSource(objListaRecursos, null);
                 comboBoxRecurso3.ValueMember = "Value";
                 comboBoxRecurso3.DisplayMember = "Key";
 
-                ServiceAcao objServiceAcao = ServiceAcao.obterInstancia();
-                comboBoxAcao.DataSource = new BindingSource(objServiceAcao.obterListaSimplificadaAcoes(), null);
+                ServiceBotaoAcao objServiceBotaoAcao = ServiceBotaoAcao.obterInstancia();
+                Dictionary<string, string> objListaAcoes = objServiceBotaoAcao.obterListaSimplificadaAcoes();
+                comboBoxAcao.DataSource = new BindingSource(objListaAcoes, null);
                 comboBoxAcao.ValueMember = "Value";
                 comboBoxAcao.DisplayMember = "Key";
 
-                comboBoxAcao2.DataSource = new BindingSource(objServiceAcao.obterListaSimplificadaAcoes(), null);
+                comboBoxAcao2.DataSource = new BindingSource(objListaAcoes, null);
                 comboBoxAcao2.ValueMember = "Value";
                 comboBoxAcao2.DisplayMember = "Key";
 
-                comboBoxAcao3.DataSource = new BindingSource(objServiceAcao.obterListaSimplificadaAcoes(), null);
+                comboBoxAcao3.DataSource = new BindingSource(objListaAcoes, null);
                 comboBoxAcao3.ValueMember = "Value";
                 comboBoxAcao3.DisplayMember = "Key";
-            }
-        }
-
-        private void comboBoxTipo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBoxRecurso.SelectedValue != null) {
-                string localizacaoImagemTemplate = ((KeyValuePair<string, string>)comboBoxRecurso.SelectedItem).Value;
-                pictureBoxMiniaturaRecurso.Image = Image.FromFile(localizacaoImagemTemplate);
             }
         }
 
@@ -353,6 +373,7 @@ namespace WakBoy
             MessageBox.Show("PrintScreen Rotacionado realizado com sucesso!");
         }
 
+        #region Seleção de quantidades de recursos
         private void checkBoxUtilizarRecursoSecundario_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox objCheckbox = (CheckBox)sender;
@@ -363,13 +384,24 @@ namespace WakBoy
             }
         }
 
-        private void comboBoxAcao_SelectedIndexChanged(object sender, EventArgs e)
+        private void checkBoxUtilizarRecursoTerciario_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox objCheckbox = (CheckBox)sender;
+            groupBoxRecursoTerciario.Visible = false;
+            if (objCheckbox.Checked)
+            {
+                groupBoxRecursoTerciario.Visible = true;
+            }
+        }
+        #endregion
+
+        #region Carregamento de recursos
+        private void comboBoxRecurso_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox objComboBox = (ComboBox)sender;
-            if (objComboBox.SelectedValue != null)
-            {
+            if (objComboBox.SelectedValue != null) {
                 string localizacaoImagemTemplate = ((KeyValuePair<string, string>)objComboBox.SelectedItem).Value;
-                pictureBoxMiniaturaAcao.Image = Image.FromFile(localizacaoImagemTemplate);
+                pictureBoxMiniaturaRecurso.Image = Image.FromFile(localizacaoImagemTemplate);
             }
         }
 
@@ -384,16 +416,6 @@ namespace WakBoy
             }
         }
 
-        private void comboBoxAcao2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ComboBox objComboBox = (ComboBox)sender;
-            if (objComboBox.SelectedValue != null)
-            {
-                string localizacaoImagemTemplate = ((KeyValuePair<string, string>)objComboBox.SelectedItem).Value;
-                pictureBoxMiniaturaAcao2.Image = Image.FromFile(localizacaoImagemTemplate);
-            }
-        }
-
         private void comboBoxRecurso3_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox objComboBox = (ComboBox)sender;
@@ -402,6 +424,28 @@ namespace WakBoy
                 string localizacaoImagemTemplate = ((KeyValuePair<string, string>)objComboBox.SelectedItem).Value;
 
                 pictureBoxMiniaturaRecurso3.Image = Image.FromFile(localizacaoImagemTemplate);
+            }
+        }
+        #endregion
+
+        #region carregamento de ações
+        private void comboBoxAcao_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox objComboBox = (ComboBox)sender;
+            if (objComboBox.SelectedValue != null)
+            {
+                string localizacaoImagemTemplate = ((KeyValuePair<string, string>)objComboBox.SelectedItem).Value;
+                pictureBoxMiniaturaAcao.Image = Image.FromFile(localizacaoImagemTemplate);
+            }
+        }
+
+        private void comboBoxAcao2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox objComboBox = (ComboBox)sender;
+            if (objComboBox.SelectedValue != null)
+            {
+                string localizacaoImagemTemplate = ((KeyValuePair<string, string>)objComboBox.SelectedItem).Value;
+                pictureBoxMiniaturaAcao2.Image = Image.FromFile(localizacaoImagemTemplate);
             }
         }
 
@@ -414,5 +458,8 @@ namespace WakBoy
                 pictureBoxMiniaturaAcao3.Image = Image.FromFile(localizacaoImagemTemplate);
             }
         }
+        #endregion
+
+        
     }
 }

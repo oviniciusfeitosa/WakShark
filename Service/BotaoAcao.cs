@@ -1,32 +1,35 @@
 ﻿using Model.Recurso;
 using Model.Base;
+using Model.Base.Acao;
 using Model.BotaoAcao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
+using Service.Acao;
 
 namespace Service
 {
-    public class Acao
+    public class BotaoAcao
     {
         #region Singleton
-        private static Acao objAcao;
+        private static BotaoAcao objBotaoAcao;
 
-        public static Acao obterInstancia()
+        public static BotaoAcao obterInstancia()
         {
-            if (Acao.objAcao == null)
+            if (BotaoAcao.objBotaoAcao == null)
             {
-                Acao.objAcao = new Acao();
+                BotaoAcao.objBotaoAcao = new BotaoAcao();
             }
-            return Acao.objAcao;
+            return BotaoAcao.objBotaoAcao;
         }
         #endregion
 
         public static List<ABotaoAcao> listaBotoesAcoes = new List<ABotaoAcao>();
         
-        public Acao ()
+        public BotaoAcao ()
         {
             this.preencherListaBotoesAcoes();
         }
@@ -34,16 +37,20 @@ namespace Service
         public void preencherListaBotoesAcoes()
         {
             listaBotoesAcoes = new List<ABotaoAcao>();
-            listaBotoesAcoes.Add(new Colher());
-            listaBotoesAcoes.Add(new Ceifar());
-            listaBotoesAcoes.Add(new Cortar());
-            listaBotoesAcoes.Add(new Fechar());
-            listaBotoesAcoes.Add(new IniciarBatalha());
-            listaBotoesAcoes.Add(new PassarTurno());
-			listaBotoesAcoes.Add(new TerrenoPlantio());
+            
+            //@todo: refatorar esse trenho para que esse método estático receba o nome do namespace e também como propriedade anonima o tipo que deve ser comparado no "is"
+            Type[] typelist = NamespaceUtil.GetTypesInNamespace("Model.BotaoAcao");
+            for (int i = 0; i < typelist.Length; i++)
+            {
+                if (typelist[i] is IColheita) {
+
+                    listaBotoesAcoes.Add((ABotaoAcao)Activator.CreateInstance(typelist[i]));
+                }
+            }
+            //@fim do todo
         }
 
-        public ABotaoAcao obterAcao(string nome)
+        public ABotaoAcao obterBotaoAcao(string nome)
         {
             foreach (ABotaoAcao objAcao in listaBotoesAcoes)
             {

@@ -103,7 +103,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acao.cs" />
+    <Compile Include="BotaoAcao.cs" />
+    <Compile Include="Acao\Colheita.cs" />
+    <Compile Include="Acao\Plantio.cs" />
+    <Compile Include="Base\AViewModelColeta.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Coleta.cs" />
     <Compile Include="Batalha.cs" />

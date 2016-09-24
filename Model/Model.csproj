@@ -82,7 +82,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\Acao\IGlobal.cs" />
+    <Compile Include="Base\Acao\IPlantio.cs" />
+    <Compile Include="Base\Acao\IColheita.cs" />
     <Compile Include="Base\EnumTipoBusca.cs" />
+    <Compile Include="Base\ITerreno.cs" />
+    <Compile Include="BotaoAcao\Plantio.cs" />
     <Compile Include="BotaoAcao\PassarTurno.cs" />
     <Compile Include="BotaoAcao\IniciarBatalha.cs" />
     <Compile Include="BotaoAcao\Cortar.cs" />
@@ -91,12 +96,13 @@
     <Compile Include="BotaoAcao\Colher.cs" />
     <Compile Include="BotaoAcao\Fechar.cs" />
     <Compile Include="AntiBOT.cs" />
+    <Compile Include="Recurso\Terreno\SoloMundo.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="Base\EnumProfissoes.cs" />
     <Compile Include="Proporcao.cs" />
     <Compile Include="Recurso\Herbolista\CardoCoroadoTipo2.cs" />
     <Compile Include="Recurso\Herbolista\CardoCoroadoTipo1.cs" />
-    <Compile Include="Recurso\Agua.cs" />
+    <Compile Include="Recurso\Terreno\Agua.cs" />
     <Compile Include="Base\ARecurso.cs" />
     <Compile Include="Recurso\Fazendeiro\Aveia.cs" />
     <Compile Include="Base\IHerbolista.cs" />
@@ -110,7 +116,7 @@
     <Compile Include="Recurso\Fazendeiro\Trigo.cs" />
     <Compile Include="Tela.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BotaoAcao\TerrenoPlantio.cs" />
+    <Compile Include="Recurso\Terreno\SoloBolsa.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

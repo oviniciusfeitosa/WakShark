@@ -100,6 +100,7 @@
   <ItemGroup>
     <Compile Include="CapturadorPixel.cs" />
     <Compile Include="ColorHelper.cs" />
+    <Compile Include="EnumUtil.cs" />
     <Compile Include="Imagem.cs" />
     <Compile Include="ImagemBusca.cs" />
     <Compile Include="ImagemCaptura.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Lib\LockBitmap.cs" />
     <Compile Include="Lib\VFBitmapLocker.cs" />
     <Compile Include="Lib\Win32.cs" />
+    <Compile Include="NamespaceUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
