@@ -1,6 +1,6 @@
 ﻿using Model.Base;
 
-namespace Model.Recurso
+namespace Model.Recurso.Fazendeiro
 {
     public class Cevada : ARecurso, IFazendeiro
     {

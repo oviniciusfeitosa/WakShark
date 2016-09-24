@@ -1,5 +1,8 @@
-﻿using Model.Recurso;
+﻿using Model;
 using Model.Base;
+using Model.Recurso;
+using Model.Recurso.Herbolista;
+using Model.Recurso.Fazendeiro;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,31 +26,38 @@ namespace Service
         }
         #endregion
 
-        private List<ARecurso> listaRecursos = new List<ARecurso>();
+        private List<ARecurso> listaRecursosFazendeiro = new List<ARecurso>();
+        private List<ARecurso> listaRecursosHerbolista = new List<ARecurso>();
 
         public Recurso() {
-            this.preencherListaRecursos();
+            this.preencherListaRecursosFazendeiro();
+            this.preencherListaRecursosHerbolista();
         }
 
-        public void preencherListaRecursos()
+        public void preencherListaRecursosFazendeiro()
         {
-            listaRecursos = new List<ARecurso>();
-            listaRecursos.Add(new Agua());
-            listaRecursos.Add(new Trigo());
-            listaRecursos.Add(new CardoCoroadoTipo1());
-            listaRecursos.Add(new CardoCoroadoTipo2());
-            listaRecursos.Add(new Cevada());
-            listaRecursos.Add(new Aveia());
-            listaRecursos.Add(new Centeio());
-            listaRecursos.Add(new JutaSuarda());
-            listaRecursos.Add(new JutaSuardaVerde());
-            listaRecursos.Add(new Milho());
-            listaRecursos.Add(new MilhoVerde());
+            listaRecursosFazendeiro = new List<ARecurso>();
+            listaRecursosFazendeiro.Add(new Agua());
+            listaRecursosFazendeiro.Add(new Trigo());
+            listaRecursosFazendeiro.Add(new Cevada());
+            listaRecursosFazendeiro.Add(new Aveia());
+            listaRecursosFazendeiro.Add(new Centeio());
+            listaRecursosFazendeiro.Add(new JutaSuarda());
+            listaRecursosFazendeiro.Add(new JutaSuardaVerde());
+            listaRecursosFazendeiro.Add(new Milho());
+            listaRecursosFazendeiro.Add(new MilhoVerde());
         }
 
-        public ARecurso obterRecurso(string caption)
+        public void preencherListaRecursosHerbolista()
         {
-            foreach (ARecurso objRecurso in listaRecursos)
+            listaRecursosFazendeiro.Add(new CardoCoroadoTipo1());
+            listaRecursosFazendeiro.Add(new CardoCoroadoTipo2());
+        }
+
+        public ARecurso obterRecurso(string caption, EnumProfissoes objEnumProfissao)
+        {
+            List<ARecurso> objListaRecursos = obterTipoListaRecurso(objEnumProfissao);
+            foreach (ARecurso objRecurso in objListaRecursos)
             {
                 if (objRecurso.Caption == caption)
                 {
@@ -58,17 +68,33 @@ namespace Service
         }
 
         public List<ARecurso> obterListaCompletaRecursos() {
-            return listaRecursos;
+            return listaRecursosFazendeiro;
         }
 
-        public Dictionary<string, string> obterListaSimplificadaRecursos()
+        public Dictionary<string, string> obterListaSimplificadaRecursos(EnumProfissoes objEnumProfissao)
         {
             Dictionary<string, string> listaSimplificada = new Dictionary<string, string>();
-            foreach (ARecurso objRecurso in listaRecursos) {
+            List<ARecurso> objListaRecursos = obterTipoListaRecurso(objEnumProfissao);
+
+            foreach (ARecurso objRecurso in objListaRecursos) {
                 listaSimplificada.Add(objRecurso.Caption, objRecurso.Imagem);
             }
         
             return listaSimplificada;
+        }
+
+        private List<ARecurso> obterTipoListaRecurso(EnumProfissoes objEnumProfissoes)
+        {
+            List<ARecurso> objListaRecursos = new List<ARecurso>();
+            if (objEnumProfissoes == EnumProfissoes.Fazendeiro)
+            {
+                objListaRecursos = listaRecursosFazendeiro;
+            }
+            else if (objEnumProfissoes == EnumProfissoes.Herbolista)
+            {
+                objListaRecursos = listaRecursosHerbolista;
+            }
+            return objListaRecursos;
         }
     }
 }

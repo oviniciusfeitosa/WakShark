@@ -53,7 +53,7 @@ namespace Service
         }
 
 
-        public bool coletar(ARecurso objRecurso, AAcao objAAcao)
+        public bool coletar(ARecurso objRecurso, ABotaoAcao objAAcao)
         {
             bool retorno = false;
             this.validarInicioColeta(isAtivarModoBaixoConsumo);
@@ -121,7 +121,7 @@ namespace Service
             if (objMatch.Semelhanca > 0) Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
         }
 
-        private bool executarAcao(Match objMatch, ARecurso objRecurso, AAcao objAAcao)
+        private bool executarAcao(Match objMatch, ARecurso objRecurso, ABotaoAcao objAAcao)
         {
             try
             {
@@ -137,7 +137,10 @@ namespace Service
                         objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(objAAcao.Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
                         if (objMatch.Semelhanca > 0)
                         {
-							return objAAcao.executarAcao(objMatch, objRecurso.Tempo);
+                            Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
+                            Thread.Sleep(2000);
+                            Thread.Sleep(objRecurso.Tempo);
+                            return true;
                         }
                     }
                 }

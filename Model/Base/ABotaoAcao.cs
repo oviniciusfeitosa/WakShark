@@ -1,12 +1,11 @@
 ﻿namespace Model.Base
 {
-    public abstract class AAcao
+    public abstract class ABotaoAcao
     {
         public string Nome { get; set; }
         public string Imagem { get; set; }
-		public abstract bool executarAcao(Match objMatch, int Tempo);
 
-		public AAcao(string nome, string imagem, string tipoAcao)
+		public ABotaoAcao(string nome, string imagem)
         {
             this.Nome = nome;
             this.Imagem = imagem;

@@ -1,6 +1,6 @@
 ﻿using Model.Base;
 
-namespace Model.Recurso
+namespace Model.Recurso.Herbolista
 {
     public class CardoCoroadoTipo2 : ARecurso, IHerbolista
     {

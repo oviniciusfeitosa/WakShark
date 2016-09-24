@@ -82,33 +82,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acao\PassarTurno.cs" />
-    <Compile Include="Acao\IniciarBatalha.cs" />
-    <Compile Include="Acao\Cortar.cs" />
-    <Compile Include="Base\AAcao.cs" />
-    <Compile Include="Acao\Ceifar.cs" />
-    <Compile Include="Acao\Colher.cs" />
-    <Compile Include="Acao\Fechar.cs" />
+    <Compile Include="Base\EnumTipoBusca.cs" />
+    <Compile Include="BotaoAcao\PassarTurno.cs" />
+    <Compile Include="BotaoAcao\IniciarBatalha.cs" />
+    <Compile Include="BotaoAcao\Cortar.cs" />
+    <Compile Include="Base\ABotaoAcao.cs" />
+    <Compile Include="BotaoAcao\Ceifar.cs" />
+    <Compile Include="BotaoAcao\Colher.cs" />
+    <Compile Include="BotaoAcao\Fechar.cs" />
     <Compile Include="AntiBOT.cs" />
     <Compile Include="Match.cs" />
+    <Compile Include="Base\EnumProfissoes.cs" />
     <Compile Include="Proporcao.cs" />
-    <Compile Include="Recurso\CardoCoroadoTipo2.cs" />
-    <Compile Include="Recurso\CardoCoroadoTipo1.cs" />
+    <Compile Include="Recurso\Herbolista\CardoCoroadoTipo2.cs" />
+    <Compile Include="Recurso\Herbolista\CardoCoroadoTipo1.cs" />
     <Compile Include="Recurso\Agua.cs" />
     <Compile Include="Base\ARecurso.cs" />
-    <Compile Include="Recurso\Aveia.cs" />
+    <Compile Include="Recurso\Fazendeiro\Aveia.cs" />
     <Compile Include="Base\IHerbolista.cs" />
     <Compile Include="Base\IFazendeiro.cs" />
-    <Compile Include="Recurso\Centeio.cs" />
-    <Compile Include="Recurso\Cevada.cs" />
-    <Compile Include="Recurso\JutaSuardaVerde.cs" />
-    <Compile Include="Recurso\JutaSuarda.cs" />
-    <Compile Include="Recurso\MilhoVerde.cs" />
-    <Compile Include="Recurso\Milho.cs" />
-    <Compile Include="Recurso\Trigo.cs" />
+    <Compile Include="Recurso\Fazendeiro\Centeio.cs" />
+    <Compile Include="Recurso\Fazendeiro\Cevada.cs" />
+    <Compile Include="Recurso\Fazendeiro\JutaSuardaVerde.cs" />
+    <Compile Include="Recurso\Fazendeiro\JutaSuarda.cs" />
+    <Compile Include="Recurso\Fazendeiro\MilhoVerde.cs" />
+    <Compile Include="Recurso\Fazendeiro\Milho.cs" />
+    <Compile Include="Recurso\Fazendeiro\Trigo.cs" />
     <Compile Include="Tela.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Acao\Plantar.cs" />
+    <Compile Include="BotaoAcao\TerrenoPlantio.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -119,14 +121,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{038DDAEE-0D33-4FF4-80F9-582B27ED892B}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Service\Service.csproj">
-      <Project>{9D618B89-0CB1-46E8-A99F-37C9771CE8D9}</Project>
-      <Name>Service</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

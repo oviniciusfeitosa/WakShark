@@ -26,7 +26,7 @@ namespace Service
         }
         #endregion
 
-        public void movimentarRandomicamente() {
+        public void movimentarAleatoriamente() {
             Random objRandomNumber = new Random();
             /*int eixoHorizontalRandomico = objRandomNumber.Next((int)(Screen.PrimaryScreen.Bounds.Width / 2) - 100, (int)(Screen.PrimaryScreen.Bounds.Width / 2) + 100);
             int eixoVertucalRandomico = objRandomNumber.Next((int)(Screen.PrimaryScreen.Bounds.Height / 2) - 100, (int)(Screen.PrimaryScreen.Bounds.Height / 2) + 100);*/

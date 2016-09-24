@@ -1,6 +1,6 @@
 ﻿using Model.Recurso;
 using Model.Base;
-using Model.Acao;
+using Model.BotaoAcao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,28 +24,28 @@ namespace Service
         }
         #endregion
 
-        public static List<AAcao> listaAcoes = new List<AAcao>();
+        public static List<ABotaoAcao> listaBotoesAcoes = new List<ABotaoAcao>();
         
         public Acao ()
         {
-            this.preencherListaAcoes();
+            this.preencherListaBotoesAcoes();
         }
 
-        public void preencherListaAcoes()
+        public void preencherListaBotoesAcoes()
         {
-            listaAcoes = new List<AAcao>();
-            listaAcoes.Add(new Colher());
-            listaAcoes.Add(new Ceifar());
-            listaAcoes.Add(new Cortar());
-            listaAcoes.Add(new Fechar());
-            listaAcoes.Add(new IniciarBatalha());
-            listaAcoes.Add(new PassarTurno());
-			listaAcoes.Add(new Plantar());
+            listaBotoesAcoes = new List<ABotaoAcao>();
+            listaBotoesAcoes.Add(new Colher());
+            listaBotoesAcoes.Add(new Ceifar());
+            listaBotoesAcoes.Add(new Cortar());
+            listaBotoesAcoes.Add(new Fechar());
+            listaBotoesAcoes.Add(new IniciarBatalha());
+            listaBotoesAcoes.Add(new PassarTurno());
+			listaBotoesAcoes.Add(new TerrenoPlantio());
         }
 
-        public AAcao obterAcao(string nome)
+        public ABotaoAcao obterAcao(string nome)
         {
-            foreach (AAcao objAcao in listaAcoes)
+            foreach (ABotaoAcao objAcao in listaBotoesAcoes)
             {
                 if (objAcao.Nome == nome)
                 {
@@ -55,15 +55,15 @@ namespace Service
             return null;
         }
 
-        public List<AAcao> obterListaCompletaAcoes()
+        public List<ABotaoAcao> obterListaCompletaAcoes()
         {
-            return listaAcoes;
+            return listaBotoesAcoes;
         }
 
         public Dictionary<string, string> obterListaSimplificadaAcoes()
         {
             Dictionary<string, string> listaSimplificada = new Dictionary<string, string>();
-            foreach (AAcao objRecurso in listaAcoes)
+            foreach (ABotaoAcao objRecurso in listaBotoesAcoes)
             {
                 listaSimplificada.Add(objRecurso.Nome, objRecurso.Imagem);
             }
