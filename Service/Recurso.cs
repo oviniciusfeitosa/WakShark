@@ -44,6 +44,7 @@ namespace Service
             listaRecursosFazendeiro.Add(new Cevada());
             listaRecursosFazendeiro.Add(new Aveia());
             listaRecursosFazendeiro.Add(new Centeio());
+            listaRecursosFazendeiro.Add(new CenteioVerde());
             listaRecursosFazendeiro.Add(new JutaSuarda());
             listaRecursosFazendeiro.Add(new JutaSuardaVerde());
             listaRecursosFazendeiro.Add(new Milho());

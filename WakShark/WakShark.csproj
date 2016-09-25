@@ -186,16 +186,27 @@
     <Content Include="assets\imagem\acao\colher.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\imagem\acao\cortar.png" />
+    <Content Include="assets\imagem\acao\cortar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\imagem\acao\fechar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\imagem\acao\iniciar_batalha.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\imagem\acao\plantio.png" />
-    <Content Include="assets\imagem\terreno\terreno_bolsa.png" />
-    <Content Include="assets\imagem\terreno\terreno_mundo.png" />
+    <Content Include="assets\imagem\acao\plantio.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\imagem\recurso\fazendeiro\centeio_verde.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\imagem\terreno\terreno_bolsa.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\imagem\terreno\terreno_mundo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\imagem\antibot\numero1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

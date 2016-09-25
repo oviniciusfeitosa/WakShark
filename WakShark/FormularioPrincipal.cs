@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using Model.Base;
 using Service.Base;
 using Service.Acao;
+using Model.Base.Acao;
 
 namespace WakBoy
 {
@@ -50,7 +51,7 @@ namespace WakBoy
             //this.checkBoxCacadorPixelsLigado_CheckedChanged(this.checkBoxCapturadorLigado, EventArgs.Empty);
         }
 
-        #region Iniciar Caça a Pixels
+        #region Iniciar WakShark
         
         private void checkBoxCacadorPixelsLigado_CheckedChanged(object sender, EventArgs e)
         {
@@ -85,12 +86,12 @@ namespace WakBoy
                         bool isUtilizarRecursoSecundario = checkBoxUtilizarRecursoSecundario.Checked;
                         bool isUtilizarRecursoTerciario = checkBoxUtilizarRecursoTerciario.Checked;
 
-                        if (isUtilizarRecursoSecundario == true)
+                        if (isUtilizarRecursoSecundario == true && comboBoxAcao2.SelectedItem != null && comboBoxRecurso2.SelectedItem != null)
                         {
                             nomeRecurso2 = ((KeyValuePair<string, string>)comboBoxRecurso2.SelectedItem).Key;
                             nomeAcao2 = ((KeyValuePair<string, string>)comboBoxAcao2.SelectedItem).Key;
                             
-                            if (isUtilizarRecursoTerciario == true)
+                            if (isUtilizarRecursoTerciario == true && comboBoxAcao3.SelectedItem != null && comboBoxRecurso3.SelectedItem != null)
                             {
                                 nomeRecurso3 = ((KeyValuePair<string, string>)comboBoxRecurso3.SelectedItem).Key;
                                 nomeAcao3 = ((KeyValuePair<string, string>)comboBoxAcao3.SelectedItem).Key;
@@ -99,39 +100,55 @@ namespace WakBoy
 
                         bool isMovimentarAleatoriamente = checkBoxMovimentarAleatoriamente.Checked;
                         EnumProfissoes objEnumProfissao = EnumUtil.ParseEnum<EnumProfissoes>(comboBoxProfissao.SelectedValue.ToString());
+                        
+                        ABotaoAcao botaAcao1 = objServiceBotaoAcao.obterBotaoAcao(nomeAcao);
+                        AViewModelColeta objAViewModelColeta1 = new Colheita();
+                        ABotaoAcao botaAcao2 = objServiceBotaoAcao.obterBotaoAcao(nomeAcao2);
+                        AViewModelColeta objAViewModelColeta2 = new Colheita();
+                        ABotaoAcao botaAcao3 = objServiceBotaoAcao.obterBotaoAcao(nomeAcao3);
+                        AViewModelColeta objAViewModelColeta3 = new Colheita();
+                        if(botaAcao1 != null && botaAcao1 is IPlantio)
+                        {
+                            objAViewModelColeta1 = new Plantio();
+                        }
+                        if (botaAcao2 != null && botaAcao2 is IPlantio)
+                        {
+                            objAViewModelColeta2 = new Plantio();
+                        }
+                        if (botaAcao3 != null && botaAcao3 is IPlantio)
+                        {
+                            objAViewModelColeta3 = new Plantio();
+                        }
 
-
-                        //@todo mudar esse trecho para que venha dinamicamente de acordo com 2 radio buttons que terá para cada um das 3 utilizações de recurso(primaria, secundaria, terciaria)
-                        // ao invés de "new Colheita" deve ser um método que compara o que foi selecionado e trás o tipo correto.
-                        AViewModelColeta objAViewModelColeta = new Colheita();
-                        //fim @todo
+                        objAViewModelColeta1.objRecurso = objRecurso.obterRecurso(nomeRecurso, objEnumProfissao);
+                        objAViewModelColeta1.objABotaoAcao = botaAcao1;
+                        
 
                         // Responsável por permitir que o loop consiga ser encerrado utilizando as hotkeys ou clique no botão.
                         Task.Factory.StartNew(() =>
                         {
                             while (this.checkBoxCacadorPixelsLigado.Checked)
                             {
-                                objAViewModelColeta.objRecurso = objRecurso.obterRecurso(nomeRecurso, objEnumProfissao);
-                                objAViewModelColeta.objABotaoAcao = objServiceBotaoAcao.obterBotaoAcao(nomeAcao);
-                                bool isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta);
+                                
+                                bool isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta1);
                                 if (!isSucessoNaColeta) {
-                                    if (isUtilizarRecursoSecundario)
+                                    if (isUtilizarRecursoSecundario && botaAcao2 != null)
                                     {
                                         isSucessoNaColeta = true;
-                                        objAViewModelColeta.objRecurso = objRecurso.obterRecurso(nomeRecurso2, objEnumProfissao);
-                                        objAViewModelColeta.objABotaoAcao = objServiceBotaoAcao.obterBotaoAcao(nomeAcao2);
+                                        objAViewModelColeta2.objRecurso = objRecurso.obterRecurso(nomeRecurso2, objEnumProfissao);
+                                        objAViewModelColeta2.objABotaoAcao = botaAcao2;
                                         while (isSucessoNaColeta)
                                         {
-                                            isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta);
+                                            isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta2);
                                         }
-                                        if (isUtilizarRecursoTerciario)
+                                        if (isUtilizarRecursoTerciario && botaAcao3 != null)
                                         {
-                                            objAViewModelColeta.objRecurso = objRecurso.obterRecurso(nomeRecurso3, objEnumProfissao);
-                                            objAViewModelColeta.objABotaoAcao = objServiceBotaoAcao.obterBotaoAcao(nomeAcao3);
+                                            objAViewModelColeta3.objRecurso = objRecurso.obterRecurso(nomeRecurso3, objEnumProfissao);
+                                            objAViewModelColeta3.objABotaoAcao = botaAcao3;
                                             isSucessoNaColeta = true;
                                             while (isSucessoNaColeta)
                                             {
-                                                isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta);
+                                                isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta3);
                                             }
                                         }
                                     }
@@ -431,10 +448,9 @@ namespace WakBoy
         #region carregamento de ações
         private void comboBoxAcao_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ComboBox objComboBox = (ComboBox)sender;
-            if (objComboBox.SelectedValue != null)
+            if (comboBoxAcao.Items.Count > 0 && comboBoxAcao.SelectedItem != null)
             {
-                string localizacaoImagemTemplate = ((KeyValuePair<string, string>)objComboBox.SelectedItem).Value;
+                string localizacaoImagemTemplate = ((KeyValuePair<string, string>)comboBoxAcao.SelectedItem).Value;
                 pictureBoxMiniaturaAcao.Image = Image.FromFile(localizacaoImagemTemplate);
             }
         }

@@ -9,10 +9,17 @@ namespace Common
 {
     public class NamespaceUtil
     {
-        public static Type[] GetTypesInNamespace(string @namespace)
+        public static Type[] obterTiposPorNamespace(Assembly assembly, string @namespace)
+        {
+            //Assembly assembly = Assembly.GetExecutingAssembly();
+            Type[] typelist = assembly.GetTypes().Where(objAssemble => String.Equals(objAssemble.Namespace, @namespace, StringComparison.Ordinal)).ToArray();
+            return typelist;
+        }
+
+        public static Type[] obterTiposPorNamespace<T>(string @namespace)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            Type[] typelist = assembly.GetTypes().Where(objAssemble => String.Equals(objAssemble.Namespace, @namespace, StringComparison.Ordinal)).ToArray();
+            Type[] typelist = assembly.GetTypes().Where(objAssemble => String.Equals(objAssemble.Namespace, @namespace, StringComparison.Ordinal) && objAssemble is T).ToArray();
             return typelist;
         }
     }

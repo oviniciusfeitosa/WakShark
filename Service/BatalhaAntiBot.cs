@@ -43,15 +43,7 @@ namespace Service
         public Bitmap telaRotacionadaLadoEsquerdo { get; set; }
 
         public Bitmap telaRotacionadaLadoDireito { get; set; }
-
-        // @todo Implementar esse método
-        public static bool buscarIconeInicioBatalha(Model.Tela objModelTela)
-        {
-            // Somente se existe o ícone de inicio batalha que a batalha será iniciada
-            return false;
-        }
-
-
+        
         public bool acaoIniciarBatalha()
         {
             System.Threading.Thread.Sleep(1000);
@@ -182,11 +174,7 @@ namespace Service
             telaCheia = ImagemTransformacao.obterInstancia().redimensionarImagem(telaCheia, telaCheia.Width / 2, telaCheia.Height);
             telaCheia = ImagemTransformacao.obterInstancia().rotacionarImagem(telaCheia, anguloRotacao);
             telaCheia = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaCheia, objRegiaoImagem, AreaBusca);
-
-            // @todo terminar de implementar esse método.
-            // Basicamente a idéia dele é que as imagens sejam encontradas dinamicamente e seja utilizado apenas uma imagem já
-            // tratada, redimencionada e girada para o lado esquerdo e direito, encontrando os números por eliminação.
-
+            
             if (objRegiaoImagem == Imagem.EnumRegiaoImagem.LADO_ESQUERDO)
             {
                 this.telaRotacionadaLadoEsquerdo = telaCheia;

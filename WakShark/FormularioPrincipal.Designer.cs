@@ -42,6 +42,7 @@
             this.groupBoxRecursoSecundario = new System.Windows.Forms.GroupBox();
             this.checkBoxUtilizarRecursoTerciario = new System.Windows.Forms.CheckBox();
             this.groupBoxRecursoTerciario = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.pictureBoxMiniaturaAcao3 = new System.Windows.Forms.PictureBox();
             this.comboBoxAcao3 = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -112,11 +113,12 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(636, 587);
+            this.tabControl1.Size = new System.Drawing.Size(620, 413);
             this.tabControl1.TabIndex = 1;
             // 
             // capinacao
             // 
+            this.capinacao.Controls.Add(this.label12);
             this.capinacao.Controls.Add(this.label4);
             this.capinacao.Controls.Add(this.comboBoxProfissao);
             this.capinacao.Controls.Add(this.label9);
@@ -132,7 +134,7 @@
             this.capinacao.Location = new System.Drawing.Point(4, 22);
             this.capinacao.Name = "capinacao";
             this.capinacao.Padding = new System.Windows.Forms.Padding(3);
-            this.capinacao.Size = new System.Drawing.Size(628, 561);
+            this.capinacao.Size = new System.Drawing.Size(612, 387);
             this.capinacao.TabIndex = 0;
             this.capinacao.Text = "WakShark";
             this.capinacao.UseVisualStyleBackColor = true;
@@ -201,7 +203,7 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Location = new System.Drawing.Point(23, 32);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(382, 523);
+            this.groupBox1.Size = new System.Drawing.Size(382, 328);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "[ Recurso Primário ]";
@@ -210,7 +212,7 @@
             // 
             this.checkBoxUtilizarRecursoSecundario.AutoSize = true;
             this.checkBoxUtilizarRecursoSecundario.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxUtilizarRecursoSecundario.Location = new System.Drawing.Point(12, 200);
+            this.checkBoxUtilizarRecursoSecundario.Location = new System.Drawing.Point(12, 81);
             this.checkBoxUtilizarRecursoSecundario.Name = "checkBoxUtilizarRecursoSecundario";
             this.checkBoxUtilizarRecursoSecundario.Size = new System.Drawing.Size(150, 17);
             this.checkBoxUtilizarRecursoSecundario.TabIndex = 26;
@@ -228,9 +230,9 @@
             this.groupBoxRecursoSecundario.Controls.Add(this.pictureBoxMiniaturaRecurso2);
             this.groupBoxRecursoSecundario.Controls.Add(this.comboBoxRecurso2);
             this.groupBoxRecursoSecundario.Controls.Add(this.label8);
-            this.groupBoxRecursoSecundario.Location = new System.Drawing.Point(6, 223);
+            this.groupBoxRecursoSecundario.Location = new System.Drawing.Point(6, 104);
             this.groupBoxRecursoSecundario.Name = "groupBoxRecursoSecundario";
-            this.groupBoxRecursoSecundario.Size = new System.Drawing.Size(370, 226);
+            this.groupBoxRecursoSecundario.Size = new System.Drawing.Size(370, 215);
             this.groupBoxRecursoSecundario.TabIndex = 25;
             this.groupBoxRecursoSecundario.TabStop = false;
             this.groupBoxRecursoSecundario.Text = "[ Recurso Secundário ]";
@@ -258,11 +260,20 @@
             this.groupBoxRecursoTerciario.Controls.Add(this.label11);
             this.groupBoxRecursoTerciario.Location = new System.Drawing.Point(10, 117);
             this.groupBoxRecursoTerciario.Name = "groupBoxRecursoTerciario";
-            this.groupBoxRecursoTerciario.Size = new System.Drawing.Size(351, 94);
+            this.groupBoxRecursoTerciario.Size = new System.Drawing.Size(351, 91);
             this.groupBoxRecursoTerciario.TabIndex = 27;
             this.groupBoxRecursoTerciario.TabStop = false;
             this.groupBoxRecursoTerciario.Text = "[ Recurso Terciário ]";
             this.groupBoxRecursoTerciario.Visible = false;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(46, 363);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(335, 13);
+            this.label12.TabIndex = 28;
+            this.label12.Text = "OBS: Para plantar, o recurso deve estar na tecla de atalho SHIFT + 1";
             // 
             // pictureBoxMiniaturaAcao3
             // 
@@ -507,7 +518,7 @@
             this.abaCapturadorPixels.Location = new System.Drawing.Point(4, 22);
             this.abaCapturadorPixels.Name = "abaCapturadorPixels";
             this.abaCapturadorPixels.Padding = new System.Windows.Forms.Padding(3);
-            this.abaCapturadorPixels.Size = new System.Drawing.Size(594, 392);
+            this.abaCapturadorPixels.Size = new System.Drawing.Size(628, 561);
             this.abaCapturadorPixels.TabIndex = 1;
             this.abaCapturadorPixels.Text = "Ferramentas";
             this.abaCapturadorPixels.UseVisualStyleBackColor = true;
@@ -827,6 +838,7 @@
         private System.Windows.Forms.PictureBox pictureBoxMiniaturaRecurso3;
         private System.Windows.Forms.ComboBox comboBoxRecurso3;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
     }
 }
 

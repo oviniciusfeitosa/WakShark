@@ -87,7 +87,7 @@
     <Compile Include="Base\Acao\IColheita.cs" />
     <Compile Include="Base\EnumTipoBusca.cs" />
     <Compile Include="Base\ITerreno.cs" />
-    <Compile Include="BotaoAcao\Plantio.cs" />
+    <Compile Include="BotaoAcao\Plantar.cs" />
     <Compile Include="BotaoAcao\PassarTurno.cs" />
     <Compile Include="BotaoAcao\IniciarBatalha.cs" />
     <Compile Include="BotaoAcao\Cortar.cs" />
@@ -96,6 +96,7 @@
     <Compile Include="BotaoAcao\Colher.cs" />
     <Compile Include="BotaoAcao\Fechar.cs" />
     <Compile Include="AntiBOT.cs" />
+    <Compile Include="Recurso\Fazendeiro\CenteioVerde.cs" />
     <Compile Include="Recurso\Terreno\SoloMundo.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="Base\EnumProfissoes.cs" />

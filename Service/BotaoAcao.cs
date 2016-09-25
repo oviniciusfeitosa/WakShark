@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Common;
 using Service.Acao;
+using System.Reflection;
 
 namespace Service
 {
@@ -37,17 +38,13 @@ namespace Service
         public void preencherListaBotoesAcoes()
         {
             listaBotoesAcoes = new List<ABotaoAcao>();
-            
-            //@todo: refatorar esse trenho para que esse método estático receba o nome do namespace e também como propriedade anonima o tipo que deve ser comparado no "is"
-            Type[] typelist = NamespaceUtil.GetTypesInNamespace("Model.BotaoAcao");
-            for (int i = 0; i < typelist.Length; i++)
-            {
-                if (typelist[i] is IColheita) {
-
-                    listaBotoesAcoes.Add((ABotaoAcao)Activator.CreateInstance(typelist[i]));
-                }
-            }
-            //@fim do todo
+            listaBotoesAcoes.Add(new Colher());
+            listaBotoesAcoes.Add(new Ceifar());
+            listaBotoesAcoes.Add(new Cortar());
+            listaBotoesAcoes.Add(new Plantar());
+            listaBotoesAcoes.Add(new IniciarBatalha());
+            listaBotoesAcoes.Add(new PassarTurno());
+            listaBotoesAcoes.Add(new Fechar());
         }
 
         public ABotaoAcao obterBotaoAcao(string nome)
