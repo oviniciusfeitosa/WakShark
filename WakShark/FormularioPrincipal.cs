@@ -134,22 +134,14 @@ namespace WakBoy
                                 if (!isSucessoNaColeta) {
                                     if (isUtilizarRecursoSecundario && botaAcao2 != null)
                                     {
-                                        isSucessoNaColeta = true;
                                         objAViewModelColeta2.objRecurso = objRecurso.obterRecurso(nomeRecurso2, objEnumProfissao);
                                         objAViewModelColeta2.objABotaoAcao = botaAcao2;
-                                        while (isSucessoNaColeta)
-                                        {
-                                            isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta2);
-                                        }
-                                        if (isUtilizarRecursoTerciario && botaAcao3 != null)
+                                        isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta2);
+                                        if (!isSucessoNaColeta && isUtilizarRecursoTerciario && botaAcao3 != null)
                                         {
                                             objAViewModelColeta3.objRecurso = objRecurso.obterRecurso(nomeRecurso3, objEnumProfissao);
                                             objAViewModelColeta3.objABotaoAcao = botaAcao3;
-                                            isSucessoNaColeta = true;
-                                            while (isSucessoNaColeta)
-                                            {
-                                                isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta3);
-                                            }
+                                            isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta3);    
                                         }
                                     }
                                     
