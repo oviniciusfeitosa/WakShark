@@ -26,6 +26,7 @@ namespace Service.Acao
                 System.Threading.Thread.Sleep(20);
                 Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
                 System.Threading.Thread.Sleep(4500);
+                objInputSimulator.Keyboard.KeyPress(VirtualKeyCode.VK_1);
                 return true;
             }
             catch (System.Exception objException)
