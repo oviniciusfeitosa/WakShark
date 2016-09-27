@@ -23,12 +23,13 @@ namespace Service.Acao
                 objInputSimulator.Keyboard.KeyDown(VirtualKeyCode.SHIFT);
                 objInputSimulator.Keyboard.KeyPress(VirtualKeyCode.VK_1);
                 objInputSimulator.Keyboard.KeyUp(VirtualKeyCode.SHIFT);
-                System.Threading.Thread.Sleep(20);
+                System.Threading.Thread.Sleep(250);
                 Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
-                System.Threading.Thread.Sleep(4500);
+                System.Threading.Thread.Sleep(250);
                 objInputSimulator.Keyboard.KeyDown(VirtualKeyCode.SHIFT);
                 objInputSimulator.Keyboard.KeyPress(VirtualKeyCode.VK_1);
                 objInputSimulator.Keyboard.KeyUp(VirtualKeyCode.SHIFT);
+                System.Threading.Thread.Sleep(4000);
                 return true;
             }
             catch (System.Exception objException)
