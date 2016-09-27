@@ -204,7 +204,9 @@
     <Content Include="assets\imagem\terreno\terreno_bolsa_tipo-1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\imagem\terreno\terreno_bolsa_tipo-2.png" />
+    <Content Include="assets\imagem\terreno\terreno_bolsa_tipo-2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\imagem\terreno\terreno_mundo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
