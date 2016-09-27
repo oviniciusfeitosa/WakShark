@@ -137,21 +137,13 @@ namespace Service
 
                     System.Windows.Forms.SendKeys.SendWait("1");
                     System.Threading.Thread.Sleep(800);
-                    //Common.Lib.Win32.posicionarMouse(matchClicar.Location.X, matchClicar.Location.Y);
                     Common.Lib.Win32.clicarBotaoEsquerdo(matchClicar.Location.X, matchClicar.Location.Y);
-
-                    /*System.Windows.Forms.SendKeys.SendWait("1");
-                    System.Threading.Thread.Sleep(1000);
-                    Common.Lib.Win32.clicarBotaoEsquerdo(objMatch.Location.X, objMatch.Location.Y);*/
                 }
 
                 Application.DoEvents();
 
                 System.Threading.Thread.Sleep(5000);
-                //System.Windows.Forms.SendKeys.SendWait("{ESC}");
                 Coleta.obterInstancia().validarFechamentoMensagens();
-
-
             }
             catch (Exception objException)
             {

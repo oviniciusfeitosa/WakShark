@@ -101,8 +101,7 @@
     <Compile Include="Match.cs" />
     <Compile Include="Base\EnumProfissoes.cs" />
     <Compile Include="Proporcao.cs" />
-    <Compile Include="Recurso\Herbolista\CardoCoroadoTipo2.cs" />
-    <Compile Include="Recurso\Herbolista\CardoCoroadoTipo1.cs" />
+    <Compile Include="Recurso\Herbolista\CardoCoroado.cs" />
     <Compile Include="Recurso\Terreno\Agua.cs" />
     <Compile Include="Base\ARecurso.cs" />
     <Compile Include="Recurso\Fazendeiro\Aveia.cs" />

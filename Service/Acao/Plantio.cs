@@ -32,6 +32,7 @@ namespace Service.Acao
             {
                 throw new System.Exception(objException.ToString());
             }
+            return false;
         }
     }
 }

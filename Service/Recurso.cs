@@ -56,8 +56,7 @@ namespace Service
             listaRecursosHerbolista.Add(new Agua());
             listaRecursosHerbolista.Add(new SoloMundo());
             listaRecursosHerbolista.Add(new SoloBolsa());
-            listaRecursosHerbolista.Add(new CardoCoroadoTipo1());
-            listaRecursosHerbolista.Add(new CardoCoroadoTipo2());
+            listaRecursosHerbolista.Add(new CardoCoroado());
         }
 
         public ARecurso obterRecurso(string caption, EnumProfissoes objEnumProfissao)
@@ -84,7 +83,7 @@ namespace Service
             List<ARecurso> objListaRecursos = obterTipoListaRecurso(objEnumProfissao);
 
             foreach (ARecurso objRecurso in objListaRecursos) {
-                listaSimplificada.Add(objRecurso.Caption, objRecurso.Imagem);
+                listaSimplificada.Add(objRecurso.Caption, objRecurso.ImagemExibicao);
             }
         
             return listaSimplificada;

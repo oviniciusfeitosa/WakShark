@@ -63,7 +63,12 @@ namespace Service
 
             while (objAViewModelColeta.objMatch.Semelhanca < 0.633d)
             {
-                objAViewModelColeta.objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(objAViewModelColeta.objRecurso.Imagem, Imagem.EnumRegiaoImagem.COMPLETO, obterRetanguloAreaColeta());
+                foreach (string caminhoImagem in objAViewModelColeta.objRecurso.ListaImagens)
+                {
+                    objAViewModelColeta.objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoImagem, Imagem.EnumRegiaoImagem.COMPLETO, obterRetanguloAreaColeta());
+                    if (objAViewModelColeta.objMatch.Semelhanca > 0) break;
+                }
+
 
                 if (objAViewModelColeta.objMatch.Semelhanca >= 0.633d)
                 {
@@ -106,8 +111,16 @@ namespace Service
         {
             Rectangle areaBusca = new Rectangle(80, 80, Proporcao.Width / 2, Proporcao.Height - 80);
             Model.Match objMatchIniciarBatalha = ImagemBusca.obterInstancia().buscarImagemPorTemplate(BotaoAcao.obterInstancia().obterBotaoAcao("IniciarBatalha").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
-            Model.Match objMatchPassarTurno = ImagemBusca.obterInstancia().buscarImagemPorTemplate(BotaoAcao.obterInstancia().obterBotaoAcao("PassarTurno").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
-            if (objMatchIniciarBatalha.Semelhanca > 0 || objMatchPassarTurno.Semelhanca > 0)
+
+
+            bool isIniciarBatalha = false;
+            if (objMatchIniciarBatalha.Semelhanca > 0) isIniciarBatalha = true;
+            else
+            {
+                Model.Match objMatchPassarTurno = ImagemBusca.obterInstancia().buscarImagemPorTemplate(BotaoAcao.obterInstancia().obterBotaoAcao("PassarTurno").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
+                if (objMatchPassarTurno.Semelhanca > 0) isIniciarBatalha = true;
+            }
+            if (isIniciarBatalha)
             {
                 System.Windows.Forms.SendKeys.SendWait(" ");
                 Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
