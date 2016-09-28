@@ -155,7 +155,7 @@ namespace WakBoy
                                     
                                     if (!isSucessoNaColeta && isMovimentarAleatoriamente) {
                                         Personagem.obterInstancia().movimentarAleatoriamente();
-                                        Thread.Sleep(1000);
+                                        Thread.Sleep(800);
                                     }
                                 }
                             }
