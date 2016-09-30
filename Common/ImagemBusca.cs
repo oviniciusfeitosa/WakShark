@@ -252,7 +252,7 @@ namespace Common
             Image<Emgu.CV.Structure.Gray, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Gray, byte>(objBitmapTemplate); // Image A
 
             Model.Tela objModelTela = new Model.Tela();
-            using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCORR_NORMED))
+            using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TemplateMatchingType.CcorrNormed))
             {
                 double[] minValues, maxValues;
                 Point[] minLocations, maxLocations;
@@ -314,7 +314,7 @@ namespace Common
             
             Model.Match matchRetorno = new Model.Match();
 
-            using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED))
+            using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed))
             {
                 double[] minValues, maxValues;
                 Point[] minLocations, maxLocations;
@@ -351,38 +351,38 @@ namespace Common
 
         public Model.Match buscarImagemPorTemplate(string caminhoTemplateImagem, Imagem.EnumRegiaoImagem objRegiaoImagem, Rectangle areaBusca)
         {
-            Bitmap objBitmapTemplate = (Bitmap)Bitmap.FromFile(caminhoTemplateImagem);
-            //PixelFormat.Format32bppRgb
-            ImagemTransformacao objImagemTransformacao = ImagemTransformacao.obterInstancia();
-            Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
-            Image<Emgu.CV.Structure.Rgb, byte> objImagemTemplate = new Image<Emgu.CV.Structure.Rgb, byte>(objBitmapTemplate);
-            Bitmap telaOriginalCortada = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaOriginal, objRegiaoImagem, areaBusca);
-            //telaOriginal.Save(@"C:\Users\Public\1____telaOriginal.bmp");
-            //telaOriginalCortada.Save(@"C:\Users\Public\2____telaOriginalCortada.bmp");
-            Image<Emgu.CV.Structure.Rgb, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Rgb, byte>(telaOriginalCortada);
-            Model.Match matchRetorno = new Model.Match();
+                Bitmap objBitmapTemplate = (Bitmap)Bitmap.FromFile(caminhoTemplateImagem);
+                //PixelFormat.Format32bppRgb
+                ImagemTransformacao objImagemTransformacao = ImagemTransformacao.obterInstancia();
+                Bitmap telaOriginal = (Bitmap)ImagemCaptura.obterInstancia().obterImagemTela(true);
+                Image<Rgb, byte> objImagemTemplate = new Image<Rgb, byte>(objBitmapTemplate);
+                Bitmap telaOriginalCortada = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaOriginal, objRegiaoImagem, areaBusca);
+                //telaOriginal.Save(@"C:\Users\Public\1____telaOriginal.bmp");
+                //telaOriginalCortada.Save(@"C:\Users\Public\2____telaOriginalCortada.bmp");
+                Image<Emgu.CV.Structure.Rgb, byte> objImagemTelaAtual = new Image<Emgu.CV.Structure.Rgb, byte>(telaOriginalCortada);
+                Model.Match matchRetorno = new Model.Match();
 
-            using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED))
-            {
-                double[] minValues, maxValues;
-                Point[] minLocations, maxLocations;
-                result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
-
-                double valorSemelhanca = maxValues[0];
-                matchRetorno.Location = new Point(maxLocations[0].X + areaBusca.X, maxLocations[0].Y + areaBusca.Y);
-
-                if (valorSemelhanca > 0.633d)
+                using (Image<Emgu.CV.Structure.Gray, float> result = objImagemTelaAtual.MatchTemplate(objImagemTemplate, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed))
                 {
-                    matchRetorno.Semelhanca = valorSemelhanca;
+                    double[] minValues, maxValues;
+                    Point[] minLocations, maxLocations;
+                    result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
+
+                    double valorSemelhanca = maxValues[0];
+                    matchRetorno.Location = new Point(maxLocations[0].X + areaBusca.X, maxLocations[0].Y + areaBusca.Y);
+
+                    if (valorSemelhanca > 0.633d)
+                    {
+                        matchRetorno.Semelhanca = valorSemelhanca;
+                    }
                 }
-            }
 
-            objImagemTelaAtual.Dispose();
-            objImagemTemplate.Dispose();
-            telaOriginalCortada.Dispose();
-            objBitmapTemplate.Dispose();
+                objImagemTelaAtual.Dispose();
+                objImagemTemplate.Dispose();
+                telaOriginalCortada.Dispose();
+                objBitmapTemplate.Dispose();
 
-            return matchRetorno;
+                return matchRetorno;
         }
 
     }
