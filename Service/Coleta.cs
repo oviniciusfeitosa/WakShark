@@ -1,16 +1,10 @@
-﻿
-using ModelTela = Model.Tela;
-using Service;
-using Gma.System.MouseKeyHook;
-using System.Windows.Forms;
-using System.Threading;
+﻿using System.Threading;
 using Common.Lib;
 using Common;
 using System.Drawing;
-using System;
 using Model;
-using Model.Recurso.Base;
-using Model.Acao.Base;
+using Model.Base;
+using Service.Base;
 
 namespace Service
 {
@@ -47,7 +41,7 @@ namespace Service
             _areaColetaPercent = 20;
         }
 
-        private Rectangle definirRetanguloAreaColeta()
+        private Rectangle obterRetanguloAreaColeta()
         {
             Size bounds = Proporcao.obterProporcao();
 
@@ -60,21 +54,25 @@ namespace Service
         }
 
 
-        public bool coletar(ARecurso objRecurso, AAcao objAAcao)
+        public bool coletar(AViewModelColeta objAViewModelColeta)
         {
             bool retorno = false;
             this.validarInicioColeta(isAtivarModoBaixoConsumo);
 
-            Model.Match match = new Model.Match();
+            objAViewModelColeta.objMatch = new Model.Match();
 
-            while (match.Semelhanca < 0.633d)
+            while (objAViewModelColeta.objMatch.Semelhanca < 0.633d)
             {
-                match = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(objRecurso.Imagem, Imagem.EnumRegiaoImagem.COMPLETO, definirRetanguloAreaColeta());
-
-                if (match.Semelhanca >= 0.633d)
+                foreach (string caminhoImagem in objAViewModelColeta.objRecurso.ListaImagens)
                 {
-                    executarAcao(match, objRecurso, objAAcao);
-                    retorno = true;
+                    objAViewModelColeta.objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplateRotacionado(caminhoImagem, Imagem.EnumRegiaoImagem.COMPLETO, obterRetanguloAreaColeta());
+                    if (objAViewModelColeta.objMatch.Semelhanca > 0) break;
+                }
+
+
+                if (objAViewModelColeta.objMatch.Semelhanca >= 0.633d)
+                {
+                    retorno = objAViewModelColeta.executarAcao();
                     break;
                 }
                 else if (_areaColetaPercent > 89)
@@ -111,46 +109,29 @@ namespace Service
 
         public void validarInicioBatalha()
         {
-            System.Drawing.Bitmap bmpBatalha = ImagemCaptura.obterInstancia().obterImagemTelaComo8bitesPorPixel(Imagem.EnumRegiaoImagem.COMPLETO, true);
-            if (Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(200, 200)) == "#000000"
-                && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(250, 250)) == "#000000"
-                && Common.ColorHelper.HexConverter(bmpBatalha.GetPixel(300, 300)) == "#000000")
+            Rectangle areaBusca = new Rectangle(200, 200, Proporcao.Width / 2, Proporcao.Height - 200);
+            Model.Match objMatchIniciarBatalha = ImagemBusca.obterInstancia().buscarImagemPorTemplate(BotaoAcao.obterInstancia().obterBotaoAcao("IniciarBatalha").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
+
+
+            bool isIniciarBatalha = false;
+            if (objMatchIniciarBatalha.Semelhanca > 0) isIniciarBatalha = true;
+            else
+            {
+                Model.Match objMatchPassarTurno = ImagemBusca.obterInstancia().buscarImagemPorTemplate(BotaoAcao.obterInstancia().obterBotaoAcao("PassarTurno").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
+                if (objMatchPassarTurno.Semelhanca > 0) isIniciarBatalha = true;
+            }
+            if (isIniciarBatalha)
             {
                 System.Windows.Forms.SendKeys.SendWait(" ");
                 Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
             }
-            bmpBatalha.Dispose();
         }
 
         public void validarFechamentoMensagens()
         {
             Rectangle areaBusca = new Rectangle(50, 50, Proporcao.Width - 50, Proporcao.Height - 50);
-            Model.Match objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(Acao.obterInstancia().obterAcao("Fechar").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
+            Model.Match objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(BotaoAcao.obterInstancia().obterBotaoAcao("Fechar").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
             if (objMatch.Semelhanca > 0) Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
-        }
-
-        private bool executarAcao(Match objMatch, ARecurso objRecurso, AAcao objAAcao)
-        {
-            try
-            {
-                Win32.clicarBotaoDireito(objMatch.Location.X, objMatch.Location.Y);
-                Thread.Sleep(600);
-
-                Rectangle areaBusca = new Rectangle(objMatch.Location.X - 100, objMatch.Location.Y - 60, 200, 200);
-                objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(objAAcao.Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
-                if (objMatch.Semelhanca > 0)
-                {
-                    Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
-                    Thread.Sleep(2000);
-                    Thread.Sleep(objRecurso.Tempo);
-                }
-
-                return true;
-            }
-            catch (System.Exception objException)
-            {
-                throw new System.Exception(objException.ToString());
-            }
         }
     }
 }

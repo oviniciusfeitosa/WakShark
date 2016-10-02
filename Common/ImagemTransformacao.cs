@@ -22,7 +22,7 @@ namespace Common
             return ImagemTransformacao.objImagemTransformacao;
         }
         #endregion
-
+            
 
         public Bitmap redimensionarImagem(Bitmap objImagem, int largura, int altura)
         {

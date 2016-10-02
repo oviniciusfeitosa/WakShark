@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -37,6 +37,8 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -46,6 +48,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -55,6 +58,8 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -64,6 +69,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -76,21 +82,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acao\Base\AAcao.cs" />
-    <Compile Include="Acao\Ceifar.cs" />
-    <Compile Include="Acao\Colher.cs" />
-    <Compile Include="Acao\Fechar.cs" />
+    <Compile Include="Base\Acao\IGlobal.cs" />
+    <Compile Include="Base\Acao\IPlantio.cs" />
+    <Compile Include="Base\Acao\IColheita.cs" />
+    <Compile Include="Base\EnumTipoBusca.cs" />
+    <Compile Include="Base\ITerreno.cs" />
+    <Compile Include="BotaoAcao\Plantar.cs" />
+    <Compile Include="BotaoAcao\PassarTurno.cs" />
+    <Compile Include="BotaoAcao\IniciarBatalha.cs" />
+    <Compile Include="BotaoAcao\Cortar.cs" />
+    <Compile Include="Base\ABotaoAcao.cs" />
+    <Compile Include="BotaoAcao\Ceifar.cs" />
+    <Compile Include="BotaoAcao\Colher.cs" />
+    <Compile Include="BotaoAcao\Fechar.cs" />
     <Compile Include="AntiBOT.cs" />
+    <Compile Include="Recurso\Fazendeiro\CenteioVerde.cs" />
+    <Compile Include="Recurso\Herbolista\CardoCoroadoVerde.cs" />
+    <Compile Include="Recurso\Terreno\SoloMundo.cs" />
     <Compile Include="Match.cs" />
+    <Compile Include="Base\EnumProfissoes.cs" />
     <Compile Include="Proporcao.cs" />
-    <Compile Include="Recurso\Agua.cs" />
-    <Compile Include="Recurso\Base\ARecurso.cs" />
-    <Compile Include="Recurso\Aveia.cs" />
-    <Compile Include="Recurso\Centeio.cs" />
-    <Compile Include="Recurso\Cevada.cs" />
-    <Compile Include="Recurso\Trigo.cs" />
+    <Compile Include="Recurso\Herbolista\CardoCoroado.cs" />
+    <Compile Include="Recurso\Terreno\Agua.cs" />
+    <Compile Include="Base\ARecurso.cs" />
+    <Compile Include="Recurso\Fazendeiro\Aveia.cs" />
+    <Compile Include="Base\IHerbolista.cs" />
+    <Compile Include="Base\IFazendeiro.cs" />
+    <Compile Include="Recurso\Fazendeiro\Centeio.cs" />
+    <Compile Include="Recurso\Fazendeiro\Cevada.cs" />
+    <Compile Include="Recurso\Fazendeiro\JutaSuardaVerde.cs" />
+    <Compile Include="Recurso\Fazendeiro\JutaSuarda.cs" />
+    <Compile Include="Recurso\Fazendeiro\MilhoVerde.cs" />
+    <Compile Include="Recurso\Fazendeiro\Milho.cs" />
+    <Compile Include="Recurso\Fazendeiro\Trigo.cs" />
     <Compile Include="Tela.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recurso\Terreno\SoloBolsa.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
