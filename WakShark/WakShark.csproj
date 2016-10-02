@@ -102,10 +102,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Emgu.CV.UI">
-      <HintPath>..\_install\Emgu.CV.UI.dll</HintPath>
+      <HintPath>..\_install\dll\x64\References\Emgu.CV.UI.dll</HintPath>
     </Reference>
     <Reference Include="Emgu.CV.World">
-      <HintPath>..\_install\Emgu.CV.World.dll</HintPath>
+      <HintPath>..\_install\dll\x64\References\Emgu.CV.World.dll</HintPath>
     </Reference>
     <Reference Include="Gma.System.MouseKeyHook">
       <HintPath>..\packages\MouseKeyHook.5.4.0\lib\net40\Gma.System.MouseKeyHook.dll</HintPath>
@@ -271,7 +271,9 @@
     <Content Include="assets\imagem\recurso\herbolista\cardo_coroado_tipo-2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="cvextern.dll" />
+    <Content Include="cvextern.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Emgu.CV.UI.dll" />
     <Content Include="Emgu.CV.World.dll" />
     <Content Include="opencv_core220.dll">
