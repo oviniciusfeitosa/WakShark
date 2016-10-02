@@ -274,8 +274,6 @@
     <Content Include="cvextern.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Emgu.CV.UI.dll" />
-    <Content Include="Emgu.CV.World.dll" />
     <Content Include="opencv_core220.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
