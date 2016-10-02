@@ -57,6 +57,7 @@ namespace Service
             listaRecursosHerbolista.Add(new SoloMundo());
             listaRecursosHerbolista.Add(new SoloBolsa());
             listaRecursosHerbolista.Add(new CardoCoroado());
+            listaRecursosHerbolista.Add(new CardoCoroadoVerde());
         }
 
         public ARecurso obterRecurso(string caption, EnumProfissoes objEnumProfissao)
