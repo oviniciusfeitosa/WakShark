@@ -202,9 +202,13 @@
     <Content Include="assets\imagem\recurso\fazendeiro\centeio_verde.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\imagem\recurso\fazendeiro\chilli.png" />
+    <Content Include="assets\imagem\recurso\fazendeiro\girassol.png" />
     <Content Include="assets\imagem\recurso\fazendeiro\milho_verde_tipo-2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\imagem\recurso\herbolista\cardo_coroado_verde_tipo-1.png" />
+    <Content Include="assets\imagem\recurso\herbolista\cardo_coroado_verde_tipo-2.png" />
     <Content Include="assets\imagem\terreno\terreno_bolsa_tipo-1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -287,6 +291,10 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="assets\imagem\monstro\morto\" />
+    <Folder Include="assets\imagem\monstro\vivo\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

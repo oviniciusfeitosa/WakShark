@@ -97,6 +97,7 @@
     <Compile Include="BotaoAcao\Fechar.cs" />
     <Compile Include="AntiBOT.cs" />
     <Compile Include="Recurso\Fazendeiro\CenteioVerde.cs" />
+    <Compile Include="Recurso\Herbolista\CardoCoroadoVerde.cs" />
     <Compile Include="Recurso\Terreno\SoloMundo.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="Base\EnumProfissoes.cs" />
