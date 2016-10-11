@@ -32,16 +32,24 @@ namespace WakBoy
 
         private void FormularioPrincipal_Load(object sender, EventArgs e)
         {
-            comboBoxTipoBusca.DataSource = Enum.GetNames(typeof(EnumTipoBusca));
-            comboBoxProfissao.DataSource = Enum.GetNames(typeof(EnumProfissoes));
+            try
+            {
 
-            hook = new KeyboardHook ();
-            hook.KeyPressed += new EventHandler<KeyPressedEventArgs>(gatilhoTeclaPressionadaGlobalmente);
-            // register the control + alt + F12 combination as hot key.
-            // hook.RegisterHotKey(Common.Lib.ModifierKeys.Control | ModifierKeys.Alt, Keys.F12);
-            hook.RegisterHotKey(Common.Lib.ModifierKeys.Shift, Keys.F4);
-            
-            //System.Diagnostics.Debug.WriteLine("taskA Status: {0}", taskA.Status);
+                comboBoxTipoBusca.DataSource = Enum.GetNames(typeof(EnumTipoBusca));
+                comboBoxProfissao.DataSource = Enum.GetNames(typeof(EnumProfissoes));
+
+                hook = new KeyboardHook();
+                hook.KeyPressed += new EventHandler<KeyPressedEventArgs>(gatilhoTeclaPressionadaGlobalmente);
+                // register the control + alt + F12 combination as hot key.
+                // hook.RegisterHotKey(Common.Lib.ModifierKeys.Control | ModifierKeys.Alt, Keys.F12);
+                hook.RegisterHotKey(Common.Lib.ModifierKeys.Shift, Keys.F4);
+
+                //System.Diagnostics.Debug.WriteLine("taskA Status: {0}", taskA.Status);
+            }
+            catch (Exception objException)
+            {
+                MessageBox.Show(objException.Message);
+            }
         }
 
         void gatilhoTeclaPressionadaGlobalmente(object sender, KeyPressedEventArgs e)
@@ -52,124 +60,134 @@ namespace WakBoy
         }
 
         #region Iniciar WakShark
-        
+
         private void checkBoxCacadorPixelsLigado_CheckedChanged(object sender, EventArgs e)
         {
-            
-            if (!String.IsNullOrEmpty(comboBoxTipoBusca.SelectedValue.ToString()))
+            try
             {
-                CheckBox objCheckBox = (CheckBox)sender;
-                this.checkBoxCacadorPixelsLigado.Checked = objCheckBox.Checked;
-                if (objCheckBox.Checked == true)
+
+                if (!String.IsNullOrEmpty(comboBoxTipoBusca.SelectedValue.ToString()))
                 {
-                    this.checkBoxCacadorPixelsLigado.BackColor = Color.Green;
+                    CheckBox objCheckBox = (CheckBox)sender;
+                    this.checkBoxCacadorPixelsLigado.Checked = objCheckBox.Checked;
+                    if (objCheckBox.Checked == true)
+                    {
+                        this.checkBoxCacadorPixelsLigado.BackColor = Color.Green;
 
-                    ImagemCaptura.obterInstancia().isUtilizarMascaraLuminosidade = checkBoxMascaraLuminosidade.Checked;
+                        ImagemCaptura.obterInstancia().isUtilizarMascaraLuminosidade = checkBoxMascaraLuminosidade.Checked;
 
-                    Common.Lib.Win32.clicarBotaoEsquerdo(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
+                        Common.Lib.Win32.clicarBotaoEsquerdo(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
 
-                    Camera.obterInstancia().padronizarDistanciaCamera();
+                        Camera.obterInstancia().padronizarDistanciaCamera();
 
-                    // Modificar esse trecho utilizado para teste, porque está sendo validado somente por 'coleta'. Quem sabe um switch não caia melhor?
-                    if (EnumUtil.ParseEnum<EnumTipoBusca>(comboBoxTipoBusca.SelectedValue.ToString()) == EnumTipoBusca.Coleta) {
-                        ServiceRecurso objRecurso = ServiceRecurso.obterInstancia();
-                        ServiceBotaoAcao objServiceBotaoAcao = ServiceBotaoAcao.obterInstancia();
-                        string nomeRecurso = ((KeyValuePair<string, string>)comboBoxRecurso.SelectedItem).Key;
-                        string nomeAcao = ((KeyValuePair<string, string>)comboBoxAcao.SelectedItem).Key;
-                        ServiceColeta objServiceColeta = ServiceColeta.obterInstancia();
-                        objServiceColeta.isAtivarModoBaixoConsumo = checkBoxAtivarBaixoConsumo.Checked;
-
-                        string nomeRecurso2 = string.Empty;
-                        string nomeAcao2 = string.Empty;
-                        string nomeRecurso3 = string.Empty;
-                        string nomeAcao3 = string.Empty;
-                        bool isUtilizarRecursoSecundario = checkBoxUtilizarRecursoSecundario.Checked;
-                        bool isUtilizarRecursoTerciario = checkBoxUtilizarRecursoTerciario.Checked;
-
-                        if (isUtilizarRecursoSecundario == true && comboBoxAcao2.SelectedItem != null && comboBoxRecurso2.SelectedItem != null)
+                        // Modificar esse trecho utilizado para teste, porque está sendo validado somente por 'coleta'. Quem sabe um switch não caia melhor?
+                        if (EnumUtil.ParseEnum<EnumTipoBusca>(comboBoxTipoBusca.SelectedValue.ToString()) == EnumTipoBusca.Coleta)
                         {
-                            nomeRecurso2 = ((KeyValuePair<string, string>)comboBoxRecurso2.SelectedItem).Key;
-                            nomeAcao2 = ((KeyValuePair<string, string>)comboBoxAcao2.SelectedItem).Key;
-                            
-                            if (isUtilizarRecursoTerciario == true && comboBoxAcao3.SelectedItem != null && comboBoxRecurso3.SelectedItem != null)
+                            ServiceRecurso objRecurso = ServiceRecurso.obterInstancia();
+                            ServiceBotaoAcao objServiceBotaoAcao = ServiceBotaoAcao.obterInstancia();
+                            string nomeRecurso = ((KeyValuePair<string, string>)comboBoxRecurso.SelectedItem).Key;
+                            string nomeAcao = ((KeyValuePair<string, string>)comboBoxAcao.SelectedItem).Key;
+                            ServiceColeta objServiceColeta = ServiceColeta.obterInstancia();
+                            objServiceColeta.isAtivarModoBaixoConsumo = checkBoxAtivarBaixoConsumo.Checked;
+
+                            string nomeRecurso2 = string.Empty;
+                            string nomeAcao2 = string.Empty;
+                            string nomeRecurso3 = string.Empty;
+                            string nomeAcao3 = string.Empty;
+                            bool isUtilizarRecursoSecundario = checkBoxUtilizarRecursoSecundario.Checked;
+                            bool isUtilizarRecursoTerciario = checkBoxUtilizarRecursoTerciario.Checked;
+
+                            if (isUtilizarRecursoSecundario == true && comboBoxAcao2.SelectedItem != null && comboBoxRecurso2.SelectedItem != null)
                             {
-                                nomeRecurso3 = ((KeyValuePair<string, string>)comboBoxRecurso3.SelectedItem).Key;
-                                nomeAcao3 = ((KeyValuePair<string, string>)comboBoxAcao3.SelectedItem).Key;
+                                nomeRecurso2 = ((KeyValuePair<string, string>)comboBoxRecurso2.SelectedItem).Key;
+                                nomeAcao2 = ((KeyValuePair<string, string>)comboBoxAcao2.SelectedItem).Key;
+
+                                if (isUtilizarRecursoTerciario == true && comboBoxAcao3.SelectedItem != null && comboBoxRecurso3.SelectedItem != null)
+                                {
+                                    nomeRecurso3 = ((KeyValuePair<string, string>)comboBoxRecurso3.SelectedItem).Key;
+                                    nomeAcao3 = ((KeyValuePair<string, string>)comboBoxAcao3.SelectedItem).Key;
+                                }
                             }
-                        }
 
-                        bool isMovimentarAleatoriamente = checkBoxMovimentarAleatoriamente.Checked;
-                        EnumProfissoes objEnumProfissao = EnumUtil.ParseEnum<EnumProfissoes>(comboBoxProfissao.SelectedValue.ToString());
-                        
-                        ABotaoAcao botaAcao1 = objServiceBotaoAcao.obterBotaoAcao(nomeAcao);
-                        AViewModelColeta objAViewModelColeta1 = new Colheita();
-                        ABotaoAcao botaAcao2 = objServiceBotaoAcao.obterBotaoAcao(nomeAcao2);
-                        AViewModelColeta objAViewModelColeta2 = new Colheita();
-                        ABotaoAcao botaAcao3 = objServiceBotaoAcao.obterBotaoAcao(nomeAcao3);
-                        AViewModelColeta objAViewModelColeta3 = new Colheita();
-                        if(botaAcao1 != null && botaAcao1 is IPlantio)
-                        {
-                            objAViewModelColeta1 = new Plantio();
-                        }
-                        if (botaAcao2 != null && botaAcao2 is IPlantio)
-                        {
-                            objAViewModelColeta2 = new Plantio();
-                        }
-                        if (botaAcao3 != null && botaAcao3 is IPlantio)
-                        {
-                            objAViewModelColeta3 = new Plantio();
-                        }
+                            bool isMovimentarAleatoriamente = checkBoxMovimentarAleatoriamente.Checked;
+                            EnumProfissoes objEnumProfissao = EnumUtil.ParseEnum<EnumProfissoes>(comboBoxProfissao.SelectedValue.ToString());
 
-                        objAViewModelColeta1.objRecurso = objRecurso.obterRecurso(nomeRecurso, objEnumProfissao);
-                        objAViewModelColeta1.objABotaoAcao = botaAcao1;
-                        
-
-                        // Responsável por permitir que o loop consiga ser encerrado utilizando as hotkeys ou clique no botão.
-                        Task.Factory.StartNew(() =>
-                        {
-                            while (this.checkBoxCacadorPixelsLigado.Checked)
+                            ABotaoAcao botaAcao1 = objServiceBotaoAcao.obterBotaoAcao(nomeAcao);
+                            AViewModelColeta objAViewModelColeta1 = new Colheita();
+                            ABotaoAcao botaAcao2 = objServiceBotaoAcao.obterBotaoAcao(nomeAcao2);
+                            AViewModelColeta objAViewModelColeta2 = new Colheita();
+                            ABotaoAcao botaAcao3 = objServiceBotaoAcao.obterBotaoAcao(nomeAcao3);
+                            AViewModelColeta objAViewModelColeta3 = new Colheita();
+                            if (botaAcao1 != null && botaAcao1 is IPlantio)
                             {
-                                
-                                bool isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta1);
-                                if (!isSucessoNaColeta) {
-                                    if (isUtilizarRecursoSecundario && botaAcao2 != null)
+                                objAViewModelColeta1 = new Plantio();
+                            }
+                            if (botaAcao2 != null && botaAcao2 is IPlantio)
+                            {
+                                objAViewModelColeta2 = new Plantio();
+                            }
+                            if (botaAcao3 != null && botaAcao3 is IPlantio)
+                            {
+                                objAViewModelColeta3 = new Plantio();
+                            }
+
+                            objAViewModelColeta1.objRecurso = objRecurso.obterRecurso(nomeRecurso, objEnumProfissao);
+                            objAViewModelColeta1.objABotaoAcao = botaAcao1;
+
+
+                            // Responsável por permitir que o loop consiga ser encerrado utilizando as hotkeys ou clique no botão.
+                            Task.Factory.StartNew(() =>
+                            {
+                                while (this.checkBoxCacadorPixelsLigado.Checked)
+                                {
+
+                                    bool isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta1);
+                                    if (!isSucessoNaColeta)
                                     {
-                                        objAViewModelColeta2.objRecurso = objRecurso.obterRecurso(nomeRecurso2, objEnumProfissao);
-                                        objAViewModelColeta2.objABotaoAcao = botaAcao2;
-                                        isSucessoNaColeta = true;
-                                        while (isSucessoNaColeta && this.checkBoxCacadorPixelsLigado.Checked)
+                                        if (isUtilizarRecursoSecundario && botaAcao2 != null)
                                         {
-                                            isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta2);
-                                        }
-                                        if (!isSucessoNaColeta && isUtilizarRecursoTerciario && botaAcao3 != null)
-                                        {
-                                            objAViewModelColeta3.objRecurso = objRecurso.obterRecurso(nomeRecurso3, objEnumProfissao);
-                                            objAViewModelColeta3.objABotaoAcao = botaAcao3;
+                                            objAViewModelColeta2.objRecurso = objRecurso.obterRecurso(nomeRecurso2, objEnumProfissao);
+                                            objAViewModelColeta2.objABotaoAcao = botaAcao2;
                                             isSucessoNaColeta = true;
                                             while (isSucessoNaColeta && this.checkBoxCacadorPixelsLigado.Checked)
                                             {
-                                                isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta3);
+                                                isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta2);
+                                            }
+                                            if (!isSucessoNaColeta && isUtilizarRecursoTerciario && botaAcao3 != null)
+                                            {
+                                                objAViewModelColeta3.objRecurso = objRecurso.obterRecurso(nomeRecurso3, objEnumProfissao);
+                                                objAViewModelColeta3.objABotaoAcao = botaAcao3;
+                                                isSucessoNaColeta = true;
+                                                while (isSucessoNaColeta && this.checkBoxCacadorPixelsLigado.Checked)
+                                                {
+                                                    isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta3);
+                                                }
                                             }
                                         }
-                                    }
-                                    
-                                    if (!isSucessoNaColeta && isMovimentarAleatoriamente) {
-                                        Personagem.obterInstancia().movimentarAleatoriamente();
-                                        Thread.Sleep(800);
+
+                                        if (!isSucessoNaColeta && isMovimentarAleatoriamente)
+                                        {
+                                            Personagem.obterInstancia().movimentarAleatoriamente();
+                                            Thread.Sleep(800);
+                                        }
                                     }
                                 }
-                            }
-                        });
+                            });
+                        }
+                    }
+                    else
+                    {
+                        this.checkBoxCacadorPixelsLigado.BackColor = Color.Gray;
                     }
                 }
                 else
                 {
-                    this.checkBoxCacadorPixelsLigado.BackColor = Color.Gray;
+                    MessageBox.Show("Preencha os campos obrigatórios.");
                 }
             }
-            else
+            catch (Exception objException)
             {
-                MessageBox.Show("Preencha os campos obrigatórios.");
+                MessageBox.Show(objException.Message);
             }
 
         }
@@ -292,8 +310,8 @@ namespace WakBoy
             */
             //Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
             //MessageBox.Show(Service.TelaCaptura.obterInstancia().obterValorTransparenciaPorHorario().ToString());
-            
-            
+
+
             CheckBox objComboBox = (CheckBox)sender;
             objComboBox.BackColor = Color.Transparent;
             objComboBox.ForeColor = Color.DimGray;
@@ -341,7 +359,8 @@ namespace WakBoy
             this.popularInformacoesWakshark();
         }
 
-        private void popularInformacoesWakshark() {
+        private void popularInformacoesWakshark()
+        {
             comboBoxRecurso.DataSource = null;
             comboBoxAcao.DataSource = null;
             EnumTipoBusca objEnumTipoBusca = EnumUtil.ParseEnum<EnumTipoBusca>(comboBoxTipoBusca.SelectedItem.ToString());
@@ -416,7 +435,8 @@ namespace WakBoy
         private void comboBoxRecurso_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox objComboBox = (ComboBox)sender;
-            if (objComboBox.SelectedValue != null) {
+            if (objComboBox.SelectedValue != null)
+            {
                 string localizacaoImagemTemplate = ((KeyValuePair<string, string>)objComboBox.SelectedItem).Value;
                 pictureBoxMiniaturaRecurso.Image = Image.FromFile(localizacaoImagemTemplate);
             }
@@ -428,7 +448,7 @@ namespace WakBoy
             if (objComboBox.SelectedValue != null)
             {
                 string localizacaoImagemTemplate = ((KeyValuePair<string, string>)objComboBox.SelectedItem).Value;
-                
+
                 pictureBoxMiniaturaRecurso2.Image = Image.FromFile(localizacaoImagemTemplate);
             }
         }
@@ -476,6 +496,6 @@ namespace WakBoy
         }
         #endregion
 
-        
+
     }
 }

@@ -27,12 +27,32 @@ namespace Service
         }
         #endregion
 
+        private List<ARecurso> listaRecursos = new List<ARecurso>();
         private List<ARecurso> listaRecursosFazendeiro = new List<ARecurso>();
         private List<ARecurso> listaRecursosHerbolista = new List<ARecurso>();
 
         public Recurso() {
+            this.preencherListaRecursos();
             this.preencherListaRecursosFazendeiro();
             this.preencherListaRecursosHerbolista();
+        }
+
+        public void preencherListaRecursos()
+        {
+            listaRecursos.Add(new Agua());
+            listaRecursos.Add(new SoloMundo());
+            listaRecursos.Add(new SoloBolsa());
+            listaRecursos.Add(new CardoCoroado());
+            //listaRecursos.Add(new CardoCoroadoVerde());
+            listaRecursos.Add(new Trigo());
+            listaRecursos.Add(new Cevada());
+            listaRecursos.Add(new Aveia());
+            listaRecursos.Add(new Centeio());
+            listaRecursos.Add(new CenteioVerde());
+            listaRecursos.Add(new JutaSuarda());
+            listaRecursos.Add(new JutaSuardaVerde());
+            listaRecursos.Add(new Milho());
+            listaRecursos.Add(new MilhoVerde());
         }
 
         public void preencherListaRecursosFazendeiro()
@@ -56,8 +76,8 @@ namespace Service
             listaRecursosHerbolista.Add(new Agua());
             listaRecursosHerbolista.Add(new SoloMundo());
             listaRecursosHerbolista.Add(new SoloBolsa());
-            listaRecursosHerbolista.Add(new CardoCoroado());
-            listaRecursosHerbolista.Add(new CardoCoroadoVerde());
+            //listaRecursosHerbolista.Add(new CardoCoroado());
+            //listaRecursosHerbolista.Add(new CardoCoroadoVerde());
         }
 
         public ARecurso obterRecurso(string caption, EnumProfissoes objEnumProfissao)
@@ -100,6 +120,9 @@ namespace Service
             else if (objEnumProfissao == EnumProfissoes.Herbolista)
             {
                 objListaRecursos = listaRecursosHerbolista;
+            } else
+            {
+                objListaRecursos = listaRecursos;
             }
             return objListaRecursos;
         }

@@ -202,13 +202,21 @@
     <Content Include="assets\imagem\recurso\fazendeiro\centeio_verde.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\imagem\recurso\fazendeiro\chilli.png" />
-    <Content Include="assets\imagem\recurso\fazendeiro\girassol.png" />
+    <Content Include="assets\imagem\recurso\fazendeiro\chilli.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\imagem\recurso\fazendeiro\girassol.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\imagem\recurso\fazendeiro\milho_verde_tipo-2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\imagem\recurso\herbolista\cardo_coroado_verde_tipo-1.png" />
-    <Content Include="assets\imagem\recurso\herbolista\cardo_coroado_verde_tipo-2.png" />
+    <Content Include="assets\imagem\recurso\herbolista\cardo_coroado_verde_tipo-1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\imagem\recurso\herbolista\cardo_coroado_verde_tipo-2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\imagem\terreno\terreno_bolsa_tipo-1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

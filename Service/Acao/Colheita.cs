@@ -17,7 +17,7 @@ namespace Service.Acao
         {
             try
             {
-                Win32.clicarBotaoDireito(objMatch.Location.X, objMatch.Location.Y);
+                Win32.clicarBotaoDireito(objMatch.Location.X + 8, objMatch.Location.Y + 8);
                 Thread.Sleep(600);
 
                 if (objMatch.Location.X > 100 && objMatch.Location.Y > 60)
