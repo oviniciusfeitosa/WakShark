@@ -17,7 +17,9 @@ namespace Service.Acao
         {
             try
             {
-                Win32.clicarBotaoDireito(objMatch.Location.X + 8, objMatch.Location.Y + 8);
+
+                Random objRandomNumber = new Random();
+                Win32.clicarBotaoDireito(objMatch.Location.X + objRandomNumber.Next(2, 8), objMatch.Location.Y + objRandomNumber.Next(2, 8));
                 Thread.Sleep(600);
 
                 if (objMatch.Location.X > 100 && objMatch.Location.Y > 60)
