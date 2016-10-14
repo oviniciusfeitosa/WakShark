@@ -22,7 +22,7 @@ namespace Service.Acao
                 this.pressionarTeclaAtalho();
                 Random objRandomNumber = new Random();
                 Win32.clicarBotaoEsquerdo(objMatch.Location.X + objRandomNumber.Next(2, 5), objMatch.Location.Y + objRandomNumber.Next(2, 5));
-                System.Threading.Thread.Sleep(3000);
+                System.Threading.Thread.Sleep(3150);
                 Win32.clicarBotaoDireito(objMatch.Location.X + objRandomNumber.Next(2, 5), objMatch.Location.Y + objRandomNumber.Next(2, 5));
 
                 return true;
