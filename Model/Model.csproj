@@ -96,6 +96,7 @@
     <Compile Include="BotaoAcao\Colher.cs" />
     <Compile Include="BotaoAcao\Fechar.cs" />
     <Compile Include="AntiBOT.cs" />
+    <Compile Include="Recurso\Fazendeiro\MelaoVerde.cs" />
     <Compile Include="Recurso\Fazendeiro\Melao.cs" />
     <Compile Include="Recurso\Fazendeiro\CenteioVerde.cs" />
     <Compile Include="Recurso\Herbolista\CardoCoroadoVerde.cs" />

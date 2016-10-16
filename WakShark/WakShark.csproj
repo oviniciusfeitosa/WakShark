@@ -214,6 +214,10 @@
     <Content Include="assets\imagem\recurso\fazendeiro\melao_maduro_tipo-2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\imagem\recurso\fazendeiro\melao_verde_tipo-1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\imagem\recurso\fazendeiro\melao_verde_tipo-2.png" />
     <Content Include="assets\imagem\recurso\fazendeiro\milho_verde_tipo-2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
