@@ -48,7 +48,8 @@ namespace Service
             listaRecursos.Add(new Milho());
             listaRecursos.Add(new MilhoVerde());
             listaRecursos.Add(new Melao());
-            listaRecursos.Add(new MelaoVerde()); 
+            listaRecursos.Add(new MelaoVerde());
+            listaRecursos.Add(new Girassol());            
 
             return listaRecursos;
         }
