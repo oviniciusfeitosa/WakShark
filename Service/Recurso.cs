@@ -51,7 +51,9 @@ namespace Service
             listaRecursos.Add(new MelaoVerde());
             listaRecursos.Add(new Girassol());
             listaRecursos.Add(new GirassolVerde());
-            
+            listaRecursos.Add(new Chilli());
+            listaRecursos.Add(new ChilliVerde());
+
             return listaRecursos;
         }
 

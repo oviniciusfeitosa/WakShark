@@ -202,7 +202,13 @@
     <Content Include="assets\imagem\recurso\fazendeiro\centeio_verde.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\imagem\recurso\fazendeiro\chilli.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\imagem\recurso\fazendeiro\chilli.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\imagem\recurso\fazendeiro\chilli_verde.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\imagem\recurso\fazendeiro\girassol.png">
