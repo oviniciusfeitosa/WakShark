@@ -25,6 +25,9 @@ namespace WakBoy
     {
         private IKeyboardMouseEvents m_GlobalHook;
         private KeyboardHook hook;
+
+        int IndiceUltimaAcao = 1;
+
         public FormularioPrincipal()
         {
             InitializeComponent();
@@ -85,91 +88,55 @@ namespace WakBoy
                         {
                             ServiceRecurso objRecurso = ServiceRecurso.obterInstancia();
                             ServiceBotaoAcao objServiceBotaoAcao = ServiceBotaoAcao.obterInstancia();
-                            string nomeRecurso = ((KeyValuePair<string, string>)comboBoxRecurso.SelectedItem).Key;
-                            string nomeAcao = ((KeyValuePair<string, string>)comboBoxAcao.SelectedItem).Key;
                             ServiceColeta objServiceColeta = ServiceColeta.obterInstancia();
                             objServiceColeta.isAtivarModoBaixoConsumo = checkBoxAtivarBaixoConsumo.Checked;
-
-                            string nomeRecurso2 = string.Empty;
-                            string nomeAcao2 = string.Empty;
-                            string nomeRecurso3 = string.Empty;
-                            string nomeAcao3 = string.Empty;
-                            bool isUtilizarRecursoSecundario = checkBoxUtilizarRecursoSecundario.Checked;
-                            bool isUtilizarRecursoTerciario = checkBoxUtilizarRecursoTerciario.Checked;
-
-                            if (isUtilizarRecursoSecundario == true && comboBoxAcao2.SelectedItem != null && comboBoxRecurso2.SelectedItem != null)
-                            {
-                                nomeRecurso2 = ((KeyValuePair<string, string>)comboBoxRecurso2.SelectedItem).Key;
-                                nomeAcao2 = ((KeyValuePair<string, string>)comboBoxAcao2.SelectedItem).Key;
-
-                                if (isUtilizarRecursoTerciario == true && comboBoxAcao3.SelectedItem != null && comboBoxRecurso3.SelectedItem != null)
-                                {
-                                    nomeRecurso3 = ((KeyValuePair<string, string>)comboBoxRecurso3.SelectedItem).Key;
-                                    nomeAcao3 = ((KeyValuePair<string, string>)comboBoxAcao3.SelectedItem).Key;
-                                }
-                            }
-
+                            
                             bool isMovimentarAleatoriamente = checkBoxMovimentarAleatoriamente.Checked;
                             EnumProfissoes objEnumProfissao = EnumUtil.ParseEnum<EnumProfissoes>(comboBoxProfissao.SelectedValue.ToString());
 
-                            ABotaoAcao botaAcao1 = objServiceBotaoAcao.obterBotaoAcao(nomeAcao);
-                            AViewModelColeta objAViewModelColeta1 = new Colheita();
-                            ABotaoAcao botaAcao2 = objServiceBotaoAcao.obterBotaoAcao(nomeAcao2);
-                            AViewModelColeta objAViewModelColeta2 = new Colheita();
-                            ABotaoAcao botaAcao3 = objServiceBotaoAcao.obterBotaoAcao(nomeAcao3);
-                            AViewModelColeta objAViewModelColeta3 = new Colheita();
-                            if (botaAcao1 != null && botaAcao1 is IPlantio)
+                            List<AViewModelColeta> listaColetas = new List<AViewModelColeta>();
+                            for (int indice = 0; indice < this.IndiceUltimaAcao; indice++)
                             {
-                                objAViewModelColeta1 = new Plantio();
-                            }
-                            if (botaAcao2 != null && botaAcao2 is IPlantio)
-                            {
-                                objAViewModelColeta2 = new Plantio();
-                            }
-                            if (botaAcao3 != null && botaAcao3 is IPlantio)
-                            {
-                                objAViewModelColeta3 = new Plantio();
-                            }
+                                ComboBox comboboxRecurso = (ComboBox)this.obterControlPorName(this, "comboBoxRecurso_" + indice.ToString());
+                                ComboBox comboboxAcao = (ComboBox)this.obterControlPorName(this, "comboBoxAcao_" + indice.ToString());
 
-                            objAViewModelColeta1.objRecurso = objRecurso.obterRecurso(nomeRecurso, objEnumProfissao);
-                            objAViewModelColeta1.objABotaoAcao = botaAcao1;
+                                string nomeRecurso = ((KeyValuePair<string, string>)comboboxRecurso.SelectedItem).Key;
+                                string nomeAcao = ((KeyValuePair<string, string>)comboboxAcao.SelectedItem).Key;
 
+                                ABotaoAcao botaAcao = objServiceBotaoAcao.obterBotaoAcao(nomeAcao);
+                                AViewModelColeta objAViewModelColeta = new Colheita();
+                            
+                                if (botaAcao != null && botaAcao is IPlantio)
+                                {
+                                    objAViewModelColeta = new Plantio();
+                                }
+
+                                objAViewModelColeta.objRecurso = objRecurso.obterRecurso(nomeRecurso, objEnumProfissao);
+                                objAViewModelColeta.objABotaoAcao = botaAcao;
+                                listaColetas.Add(objAViewModelColeta);
+                            }
 
                             // Responsável por permitir que o loop consiga ser encerrado utilizando as hotkeys ou clique no botão.
                             Task.Factory.StartNew(() =>
                             {
                                 while (this.checkBoxCacadorPixelsLigado.Checked)
                                 {
-
-                                    bool isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta1);
-                                    if (!isSucessoNaColeta)
+                                    bool isSucessoNaColeta = true;
+                                    foreach (AViewModelColeta objAViewModelColeta in listaColetas)
                                     {
-                                        if (isUtilizarRecursoSecundario && botaAcao2 != null)
-                                        {
-                                            objAViewModelColeta2.objRecurso = objRecurso.obterRecurso(nomeRecurso2, objEnumProfissao);
-                                            objAViewModelColeta2.objABotaoAcao = botaAcao2;
-                                            isSucessoNaColeta = true;
-                                            while (isSucessoNaColeta && this.checkBoxCacadorPixelsLigado.Checked)
+                                        isSucessoNaColeta = true;
+                                        while (isSucessoNaColeta) {
+                                            if(this.checkBoxCacadorPixelsLigado.Checked == false)
                                             {
-                                                isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta2);
+                                                break;
                                             }
-                                            if (!isSucessoNaColeta && isUtilizarRecursoTerciario && botaAcao3 != null)
-                                            {
-                                                objAViewModelColeta3.objRecurso = objRecurso.obterRecurso(nomeRecurso3, objEnumProfissao);
-                                                objAViewModelColeta3.objABotaoAcao = botaAcao3;
-                                                isSucessoNaColeta = true;
-                                                while (isSucessoNaColeta && this.checkBoxCacadorPixelsLigado.Checked)
-                                                {
-                                                    isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta3);
-                                                }
-                                            }
+                                            isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta);
                                         }
-
-                                        if (!isSucessoNaColeta && isMovimentarAleatoriamente)
-                                        {
-                                            Personagem.obterInstancia().movimentarAleatoriamente();
-                                            Thread.Sleep(800);
-                                        }
+                                    }
+                                    if (!isSucessoNaColeta && isMovimentarAleatoriamente)
+                                    {
+                                        Personagem.obterInstancia().movimentarAleatoriamente();
+                                        Thread.Sleep(800);
                                     }
                                 }
                             });
@@ -361,41 +328,32 @@ namespace WakBoy
 
         private void popularInformacoesWakshark()
         {
-            comboBoxRecurso.DataSource = null;
-            comboBoxAcao.DataSource = null;
-            EnumTipoBusca objEnumTipoBusca = EnumUtil.ParseEnum<EnumTipoBusca>(comboBoxTipoBusca.SelectedItem.ToString());
-            if (objEnumTipoBusca == EnumTipoBusca.Coleta && comboBoxProfissao.SelectedValue != null)
+            for(int indice = 0; indice < this.IndiceUltimaAcao; indice++)
             {
-                EnumProfissoes objEnumProfissao = EnumUtil.ParseEnum<EnumProfissoes>(comboBoxProfissao.SelectedValue.ToString());
-                ServiceRecurso objServiceRecurso = ServiceRecurso.obterInstancia();
-                Dictionary<string, string> objListaRecursos = objServiceRecurso.obterListaSimplificadaRecursos(objEnumProfissao);
+                ComboBox comboboxRecurso = (ComboBox)this.obterControlPorName(this, "comboBoxRecurso_" + indice.ToString());
+                ComboBox comboboxAcao = (ComboBox)this.obterControlPorName(this, "comboBoxAcao_" + indice.ToString());
 
-                comboBoxRecurso.DataSource = new BindingSource(objListaRecursos, null);
-                comboBoxRecurso.ValueMember = "Value";
-                comboBoxRecurso.DisplayMember = "Key";
+                comboboxRecurso.DataSource = null;
+                comboboxAcao.DataSource = null;
+                EnumTipoBusca objEnumTipoBusca = EnumUtil.ParseEnum<EnumTipoBusca>(comboBoxTipoBusca.SelectedItem.ToString());
+                if (objEnumTipoBusca == EnumTipoBusca.Coleta && comboBoxProfissao.SelectedValue != null)
+                {
+                    EnumProfissoes objEnumProfissao = EnumUtil.ParseEnum<EnumProfissoes>(comboBoxProfissao.SelectedValue.ToString());
+                    ServiceRecurso objServiceRecurso = ServiceRecurso.obterInstancia();
+                    Dictionary<string, string> objListaRecursos = objServiceRecurso.obterListaSimplificadaRecursos(objEnumProfissao);
 
-                comboBoxRecurso2.DataSource = new BindingSource(objListaRecursos, null);
-                comboBoxRecurso2.ValueMember = "Value";
-                comboBoxRecurso2.DisplayMember = "Key";
+                    comboboxRecurso.DataSource = new BindingSource(objListaRecursos, null);
+                    comboboxRecurso.ValueMember = "Value";
+                    comboboxRecurso.DisplayMember = "Key";
 
-                comboBoxRecurso3.DataSource = new BindingSource(objListaRecursos, null);
-                comboBoxRecurso3.ValueMember = "Value";
-                comboBoxRecurso3.DisplayMember = "Key";
-
-                ServiceBotaoAcao objServiceBotaoAcao = ServiceBotaoAcao.obterInstancia();
-                Dictionary<string, string> objListaAcoes = objServiceBotaoAcao.obterListaSimplificadaAcoes();
-                comboBoxAcao.DataSource = new BindingSource(objListaAcoes, null);
-                comboBoxAcao.ValueMember = "Value";
-                comboBoxAcao.DisplayMember = "Key";
-
-                comboBoxAcao2.DataSource = new BindingSource(objListaAcoes, null);
-                comboBoxAcao2.ValueMember = "Value";
-                comboBoxAcao2.DisplayMember = "Key";
-
-                comboBoxAcao3.DataSource = new BindingSource(objListaAcoes, null);
-                comboBoxAcao3.ValueMember = "Value";
-                comboBoxAcao3.DisplayMember = "Key";
+                    ServiceBotaoAcao objServiceBotaoAcao = ServiceBotaoAcao.obterInstancia();
+                    Dictionary<string, string> objListaAcoes = objServiceBotaoAcao.obterListaSimplificadaAcoes();
+                    comboboxAcao.DataSource = new BindingSource(objListaAcoes, null);
+                    comboboxAcao.ValueMember = "Value";
+                    comboboxAcao.DisplayMember = "Key";
+                }
             }
+            
         }
 
         private void botaoScreenshotRotacionado_Click(object sender, EventArgs e)
@@ -409,93 +367,134 @@ namespace WakBoy
             MessageBox.Show("PrintScreen Rotacionado realizado com sucesso!");
         }
 
-        #region Seleção de quantidades de recursos
-        private void checkBoxUtilizarRecursoSecundario_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox objCheckbox = (CheckBox)sender;
-            groupBoxRecursoSecundario.Visible = false;
-            if (objCheckbox.Checked)
-            {
-                groupBoxRecursoSecundario.Visible = true;
-            }
-        }
-
-        private void checkBoxUtilizarRecursoTerciario_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox objCheckbox = (CheckBox)sender;
-            groupBoxRecursoTerciario.Visible = false;
-            if (objCheckbox.Checked)
-            {
-                groupBoxRecursoTerciario.Visible = true;
-            }
-        }
-        #endregion
-
         #region Carregamento de recursos
-        private void comboBoxRecurso_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxAcoes_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox objComboBox = (ComboBox)sender;
             if (objComboBox.SelectedValue != null)
             {
+                PictureBox objPictureBox = (PictureBox)obterControlPorName(this, "pictureBox_" + objComboBox.Name);
                 string localizacaoImagemTemplate = ((KeyValuePair<string, string>)objComboBox.SelectedItem).Value;
-                pictureBoxMiniaturaRecurso.Image = Image.FromFile(localizacaoImagemTemplate);
-            }
-        }
-
-        private void comboBoxRecurso2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ComboBox objComboBox = (ComboBox)sender;
-            if (objComboBox.SelectedValue != null)
-            {
-                string localizacaoImagemTemplate = ((KeyValuePair<string, string>)objComboBox.SelectedItem).Value;
-
-                pictureBoxMiniaturaRecurso2.Image = Image.FromFile(localizacaoImagemTemplate);
-            }
-        }
-
-        private void comboBoxRecurso3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ComboBox objComboBox = (ComboBox)sender;
-            if (objComboBox.SelectedValue != null)
-            {
-                string localizacaoImagemTemplate = ((KeyValuePair<string, string>)objComboBox.SelectedItem).Value;
-
-                pictureBoxMiniaturaRecurso3.Image = Image.FromFile(localizacaoImagemTemplate);
+                objPictureBox.Image = Image.FromFile(localizacaoImagemTemplate);
             }
         }
         #endregion
 
-        #region carregamento de ações
-        private void comboBoxAcao_SelectedIndexChanged(object sender, EventArgs e)
+        #region Obtem um Control de acordo com o nome.
+        public Control obterControlPorName(Control ParentCntl, string NameToSearch)
         {
-            if (comboBoxAcao.Items.Count > 0 && comboBoxAcao.SelectedItem != null)
-            {
-                string localizacaoImagemTemplate = ((KeyValuePair<string, string>)comboBoxAcao.SelectedItem).Value;
-                pictureBoxMiniaturaAcao.Image = Image.FromFile(localizacaoImagemTemplate);
-            }
-        }
+            if (ParentCntl.Name == NameToSearch)
+                return ParentCntl;
 
-        private void comboBoxAcao2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ComboBox objComboBox = (ComboBox)sender;
-            if (objComboBox.SelectedValue != null)
+            foreach (Control ChildCntl in ParentCntl.Controls)
             {
-                string localizacaoImagemTemplate = ((KeyValuePair<string, string>)objComboBox.SelectedItem).Value;
-                pictureBoxMiniaturaAcao2.Image = Image.FromFile(localizacaoImagemTemplate);
+                Control ResultCntl = obterControlPorName(ChildCntl, NameToSearch);
+                if (ResultCntl != null)
+                    return ResultCntl;
             }
-        }
-
-        private void comboBoxAcao3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ComboBox objComboBox = (ComboBox)sender;
-            if (objComboBox.SelectedValue != null)
-            {
-                string localizacaoImagemTemplate = ((KeyValuePair<string, string>)objComboBox.SelectedItem).Value;
-                pictureBoxMiniaturaAcao3.Image = Image.FromFile(localizacaoImagemTemplate);
-            }
+            return null;
         }
         #endregion
 
+        private void buttonAdicionarAcao_Click(object sender, EventArgs e)
+        {
+            GroupBox groupBox = CriarEstruturaAcoes();
+            this.panelAcoes.Controls.Add(groupBox);
+
+            this.popularInformacoesWakshark();
+        }
+
+        public GroupBox CriarEstruturaAcoes()
+        {
+
+            int Top = IndiceUltimaAcao * 78;
+            int Left = 9;
+            
+            Label labelRecurso = new System.Windows.Forms.Label();
+            labelRecurso.AutoSize = true;
+            labelRecurso.Location = this.labelRecurso.Location;
+            labelRecurso.Name = "labelRecurso_" + IndiceUltimaAcao.ToString();
+            labelRecurso.Size = this.labelRecurso.Size;
+            labelRecurso.TabIndex = this.labelRecurso.TabIndex + IndiceUltimaAcao;
+            labelRecurso.Text = this.labelRecurso.Text;
+
+            ComboBox comboRecurso = new System.Windows.Forms.ComboBox();
+            comboRecurso.FormattingEnabled = true;
+            comboRecurso.Location = this.comboBoxRecurso_0.Location;
+            comboRecurso.Name = "comboBoxRecurso_" + IndiceUltimaAcao.ToString();
+            comboRecurso.Size = this.comboBoxRecurso_0.Size;
+            comboRecurso.TabIndex = this.comboBoxRecurso_0.TabIndex + IndiceUltimaAcao;
+            comboRecurso.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcoes_SelectedIndexChanged);
+
+            PictureBox pictureBoxRecurso = new PictureBox(); //pictureBox_comboBoxRecurso_0
+            pictureBoxRecurso.Location = this.pictureBox_comboBoxRecurso_0.Location;
+            pictureBoxRecurso.Name = "pictureBox_comboBoxRecurso_" + IndiceUltimaAcao.ToString();
+            pictureBoxRecurso.Size = this.pictureBox_comboBoxRecurso_0.Size;
+            pictureBoxRecurso.TabIndex = 17;
+            pictureBoxRecurso.TabStop = false;
+
+            Label labelAcao = new System.Windows.Forms.Label();
+            labelAcao.AutoSize = true;
+            labelAcao.Location = this.labelAcao.Location;
+            labelAcao.Name = "labelAcao_" + IndiceUltimaAcao.ToString();
+            labelAcao.Size = this.labelAcao.Size;
+            labelAcao.TabIndex = this.labelAcao.TabIndex + IndiceUltimaAcao;
+            labelAcao.Text = this.labelAcao.Text;
+
+            ComboBox comboBoxAcao = new System.Windows.Forms.ComboBox();
+            comboBoxAcao.FormattingEnabled = true;
+            comboBoxAcao.Location = this.comboBoxAcao_0.Location;
+            comboBoxAcao.Name = "comboBoxAcao_" + IndiceUltimaAcao.ToString();
+            comboBoxAcao.Size = this.comboBoxAcao_0.Size;
+            comboBoxAcao.TabIndex = this.comboBoxAcao_0.TabIndex + IndiceUltimaAcao;
+            comboBoxAcao.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcoes_SelectedIndexChanged);
+
+            PictureBox pictureBoxAcao = new PictureBox(); //pictureBox_comboBoxRecurso_0
+            pictureBoxAcao.Location = this.pictureBox_comboBoxAcao_0.Location;
+            pictureBoxAcao.Name = "pictureBox_comboBoxAcao_" + IndiceUltimaAcao.ToString();
+            pictureBoxAcao.Size = this.pictureBox_comboBoxAcao_0.Size;
+            pictureBoxAcao.TabIndex = 17;
+            pictureBoxAcao.TabStop = false;
+
+            Label labelTempoMaximo = new System.Windows.Forms.Label();
+            labelTempoMaximo.AutoSize = true;
+            labelTempoMaximo.Location = this.labelTempoMaximo.Location;
+            labelTempoMaximo.Name = "labelTempoMaximo_" + IndiceUltimaAcao.ToString();
+            labelTempoMaximo.Size = this.labelTempoMaximo.Size;
+            labelTempoMaximo.TabIndex = 24;
+            labelTempoMaximo.Text = "Tempo Max.\r\n(Min)";
+            labelTempoMaximo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
+            TextBox textBoxTempoMaximo = new TextBox();
+            textBoxTempoMaximo.Location = this.textBoxTempoMaximo_0.Location;
+            textBoxTempoMaximo.Name = "textBoxTempoMaximo_" + IndiceUltimaAcao;
+            textBoxTempoMaximo.ShortcutsEnabled = false;
+            textBoxTempoMaximo.Size = this.textBoxTempoMaximo_0.Size;
+            textBoxTempoMaximo.TabIndex = this.textBoxTempoMaximo_0.TabIndex + IndiceUltimaAcao;
+            textBoxTempoMaximo.Text = this.textBoxTempoMaximo_0.Text;
+            textBoxTempoMaximo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+
+
+            GroupBox groupBox = new System.Windows.Forms.GroupBox();
+            groupBox.Name = "groupBoxAcoes";
+            groupBox.Size = new System.Drawing.Size(423, 68);
+            groupBox.Location = new System.Drawing.Point(Left, Top);
+            groupBox.TabIndex = 29 + IndiceUltimaAcao;
+            groupBox.TabStop = false;
+            groupBox.Text = "Ações";
+            groupBox.Controls.Add(labelRecurso);
+            groupBox.Controls.Add(comboRecurso);
+            groupBox.Controls.Add(pictureBoxRecurso);
+            groupBox.Controls.Add(labelAcao);
+            groupBox.Controls.Add(comboBoxAcao);
+            groupBox.Controls.Add(pictureBoxAcao);
+            groupBox.Controls.Add(labelTempoMaximo);
+            groupBox.Controls.Add(textBoxTempoMaximo);
+
+            IndiceUltimaAcao = IndiceUltimaAcao + 1;
+
+            return groupBox;
+        }
 
     }
 }

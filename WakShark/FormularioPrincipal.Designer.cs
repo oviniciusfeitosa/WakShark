@@ -32,35 +32,23 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormularioPrincipal));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.capinacao = new System.Windows.Forms.TabPage();
+            this.panelAcoes = new System.Windows.Forms.Panel();
+            this.groupBoxAcoes = new System.Windows.Forms.GroupBox();
+            this.textBoxTempoMaximo_0 = new System.Windows.Forms.TextBox();
+            this.labelTempoMaximo = new System.Windows.Forms.Label();
+            this.comboBoxRecurso_0 = new System.Windows.Forms.ComboBox();
+            this.pictureBox_comboBoxAcao_0 = new System.Windows.Forms.PictureBox();
+            this.labelRecurso = new System.Windows.Forms.Label();
+            this.pictureBox_comboBoxRecurso_0 = new System.Windows.Forms.PictureBox();
+            this.comboBoxAcao_0 = new System.Windows.Forms.ComboBox();
+            this.labelAcao = new System.Windows.Forms.Label();
+            this.buttonAdicionarAcao = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxProfissao = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.checkBoxMovimentarAleatoriamente = new System.Windows.Forms.CheckBox();
             this.checkBoxAtivarBaixoConsumo = new System.Windows.Forms.CheckBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkBoxUtilizarRecursoSecundario = new System.Windows.Forms.CheckBox();
-            this.groupBoxRecursoSecundario = new System.Windows.Forms.GroupBox();
-            this.checkBoxUtilizarRecursoTerciario = new System.Windows.Forms.CheckBox();
-            this.groupBoxRecursoTerciario = new System.Windows.Forms.GroupBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.pictureBoxMiniaturaAcao3 = new System.Windows.Forms.PictureBox();
-            this.comboBoxAcao3 = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.pictureBoxMiniaturaRecurso3 = new System.Windows.Forms.PictureBox();
-            this.comboBoxRecurso3 = new System.Windows.Forms.ComboBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.pictureBoxMiniaturaAcao2 = new System.Windows.Forms.PictureBox();
-            this.comboBoxAcao2 = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.pictureBoxMiniaturaRecurso2 = new System.Windows.Forms.PictureBox();
-            this.comboBoxRecurso2 = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.pictureBoxMiniaturaAcao = new System.Windows.Forms.PictureBox();
-            this.comboBoxAcao = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.pictureBoxMiniaturaRecurso = new System.Windows.Forms.PictureBox();
-            this.comboBoxRecurso = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.checkBoxMascaraLuminosidade = new System.Windows.Forms.CheckBox();
             this.labelObrigatorio = new System.Windows.Forms.Label();
             this.comboBoxTipoBusca = new System.Windows.Forms.ComboBox();
@@ -94,15 +82,10 @@
             this.openFileDialogImagemTemplate = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1.SuspendLayout();
             this.capinacao.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBoxRecursoSecundario.SuspendLayout();
-            this.groupBoxRecursoTerciario.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMiniaturaAcao3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMiniaturaRecurso3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMiniaturaAcao2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMiniaturaRecurso2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMiniaturaAcao)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMiniaturaRecurso)).BeginInit();
+            this.panelAcoes.SuspendLayout();
+            this.groupBoxAcoes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_comboBoxAcao_0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_comboBoxRecurso_0)).BeginInit();
             this.abaCapturadorPixels.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -113,18 +96,18 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(620, 413);
+            this.tabControl1.Size = new System.Drawing.Size(566, 414);
             this.tabControl1.TabIndex = 1;
             // 
             // capinacao
             // 
+            this.capinacao.Controls.Add(this.panelAcoes);
             this.capinacao.Controls.Add(this.label12);
             this.capinacao.Controls.Add(this.label4);
             this.capinacao.Controls.Add(this.comboBoxProfissao);
             this.capinacao.Controls.Add(this.label9);
             this.capinacao.Controls.Add(this.checkBoxMovimentarAleatoriamente);
             this.capinacao.Controls.Add(this.checkBoxAtivarBaixoConsumo);
-            this.capinacao.Controls.Add(this.groupBox1);
             this.capinacao.Controls.Add(this.checkBoxMascaraLuminosidade);
             this.capinacao.Controls.Add(this.labelObrigatorio);
             this.capinacao.Controls.Add(this.comboBoxTipoBusca);
@@ -134,10 +117,130 @@
             this.capinacao.Location = new System.Drawing.Point(4, 22);
             this.capinacao.Name = "capinacao";
             this.capinacao.Padding = new System.Windows.Forms.Padding(3);
-            this.capinacao.Size = new System.Drawing.Size(612, 387);
+            this.capinacao.Size = new System.Drawing.Size(558, 388);
             this.capinacao.TabIndex = 0;
             this.capinacao.Text = "WakShark";
             this.capinacao.UseVisualStyleBackColor = true;
+            // 
+            // panelAcoes
+            // 
+            this.panelAcoes.AutoScroll = true;
+            this.panelAcoes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelAcoes.Controls.Add(this.groupBoxAcoes);
+            this.panelAcoes.Controls.Add(this.buttonAdicionarAcao);
+            this.panelAcoes.Location = new System.Drawing.Point(9, 35);
+            this.panelAcoes.Name = "panelAcoes";
+            this.panelAcoes.Size = new System.Drawing.Size(539, 241);
+            this.panelAcoes.TabIndex = 31;
+            // 
+            // groupBoxAcoes
+            // 
+            this.groupBoxAcoes.Controls.Add(this.textBoxTempoMaximo_0);
+            this.groupBoxAcoes.Controls.Add(this.labelTempoMaximo);
+            this.groupBoxAcoes.Controls.Add(this.comboBoxRecurso_0);
+            this.groupBoxAcoes.Controls.Add(this.pictureBox_comboBoxAcao_0);
+            this.groupBoxAcoes.Controls.Add(this.labelRecurso);
+            this.groupBoxAcoes.Controls.Add(this.pictureBox_comboBoxRecurso_0);
+            this.groupBoxAcoes.Controls.Add(this.comboBoxAcao_0);
+            this.groupBoxAcoes.Controls.Add(this.labelAcao);
+            this.groupBoxAcoes.Location = new System.Drawing.Point(9, 3);
+            this.groupBoxAcoes.Name = "groupBoxAcoes";
+            this.groupBoxAcoes.Size = new System.Drawing.Size(423, 68);
+            this.groupBoxAcoes.TabIndex = 29;
+            this.groupBoxAcoes.TabStop = false;
+            this.groupBoxAcoes.Text = "Ações";
+            // 
+            // textBoxTempoMaximo_0
+            // 
+            this.textBoxTempoMaximo_0.Location = new System.Drawing.Point(362, 41);
+            this.textBoxTempoMaximo_0.Name = "textBoxTempoMaximo_0";
+            this.textBoxTempoMaximo_0.ShortcutsEnabled = false;
+            this.textBoxTempoMaximo_0.Size = new System.Drawing.Size(21, 20);
+            this.textBoxTempoMaximo_0.TabIndex = 25;
+            this.textBoxTempoMaximo_0.Text = "0";
+            this.textBoxTempoMaximo_0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // labelTempoMaximo
+            // 
+            this.labelTempoMaximo.AutoSize = true;
+            this.labelTempoMaximo.Location = new System.Drawing.Point(342, 12);
+            this.labelTempoMaximo.Name = "labelTempoMaximo_0";
+            this.labelTempoMaximo.Size = new System.Drawing.Size(66, 26);
+            this.labelTempoMaximo.TabIndex = 24;
+            this.labelTempoMaximo.Text = "Tempo Max.\r\n(Min)";
+            this.labelTempoMaximo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // comboBoxRecurso_0
+            // 
+            this.comboBoxRecurso_0.FormattingEnabled = true;
+            this.comboBoxRecurso_0.Location = new System.Drawing.Point(79, 12);
+            this.comboBoxRecurso_0.Name = "comboBoxRecurso_0";
+            this.comboBoxRecurso_0.Size = new System.Drawing.Size(221, 21);
+            this.comboBoxRecurso_0.TabIndex = 16;
+            this.comboBoxRecurso_0.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcoes_SelectedIndexChanged);
+            // 
+            // pictureBox_comboBoxAcao_0
+            // 
+            this.pictureBox_comboBoxAcao_0.Location = new System.Drawing.Point(306, 41);
+            this.pictureBox_comboBoxAcao_0.Name = "pictureBox_comboBoxAcao_0";
+            this.pictureBox_comboBoxAcao_0.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox_comboBoxAcao_0.TabIndex = 23;
+            this.pictureBox_comboBoxAcao_0.TabStop = false;
+            // 
+            // labelRecurso
+            // 
+            this.labelRecurso.AutoSize = true;
+            this.labelRecurso.Location = new System.Drawing.Point(20, 17);
+            this.labelRecurso.Name = "labelRecurso";
+            this.labelRecurso.Size = new System.Drawing.Size(53, 13);
+            this.labelRecurso.TabIndex = 15;
+            this.labelRecurso.Text = "Recurso :";
+            // 
+            // pictureBox_comboBoxRecurso_0
+            // 
+            this.pictureBox_comboBoxRecurso_0.Location = new System.Drawing.Point(306, 12);
+            this.pictureBox_comboBoxRecurso_0.Name = "pictureBox_comboBoxRecurso_0";
+            this.pictureBox_comboBoxRecurso_0.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox_comboBoxRecurso_0.TabIndex = 17;
+            this.pictureBox_comboBoxRecurso_0.TabStop = false;
+            // 
+            // comboBoxAcao_0
+            // 
+            this.comboBoxAcao_0.FormattingEnabled = true;
+            this.comboBoxAcao_0.Location = new System.Drawing.Point(80, 39);
+            this.comboBoxAcao_0.Name = "comboBoxAcao_0";
+            this.comboBoxAcao_0.Size = new System.Drawing.Size(221, 21);
+            this.comboBoxAcao_0.TabIndex = 22;
+            this.comboBoxAcao_0.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcoes_SelectedIndexChanged);
+            // 
+            // labelAcao
+            // 
+            this.labelAcao.AutoSize = true;
+            this.labelAcao.Location = new System.Drawing.Point(23, 41);
+            this.labelAcao.Name = "labelAcao";
+            this.labelAcao.Size = new System.Drawing.Size(35, 13);
+            this.labelAcao.TabIndex = 21;
+            this.labelAcao.Text = "Ação:";
+            // 
+            // buttonAdicionarAcao
+            // 
+            this.buttonAdicionarAcao.Location = new System.Drawing.Point(448, 18);
+            this.buttonAdicionarAcao.Name = "buttonAdicionarAcao";
+            this.buttonAdicionarAcao.Size = new System.Drawing.Size(60, 23);
+            this.buttonAdicionarAcao.TabIndex = 30;
+            this.buttonAdicionarAcao.Text = "+ Acao";
+            this.buttonAdicionarAcao.UseVisualStyleBackColor = true;
+            this.buttonAdicionarAcao.Click += new System.EventHandler(this.buttonAdicionarAcao_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.ForeColor = System.Drawing.Color.Orange;
+            this.label12.Location = new System.Drawing.Point(16, 306);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(198, 26);
+            this.label12.TabIndex = 28;
+            this.label12.Text = "OBS: Para plantar, o recurso deve estar \r\nna tecla de atalho SHIFT + 1";
             // 
             // label4
             // 
@@ -173,7 +276,7 @@
             this.checkBoxMovimentarAleatoriamente.Checked = true;
             this.checkBoxMovimentarAleatoriamente.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxMovimentarAleatoriamente.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxMovimentarAleatoriamente.Location = new System.Drawing.Point(414, 97);
+            this.checkBoxMovimentarAleatoriamente.Location = new System.Drawing.Point(220, 329);
             this.checkBoxMovimentarAleatoriamente.Name = "checkBoxMovimentarAleatoriamente";
             this.checkBoxMovimentarAleatoriamente.Size = new System.Drawing.Size(152, 17);
             this.checkBoxMovimentarAleatoriamente.TabIndex = 18;
@@ -184,258 +287,18 @@
             // 
             this.checkBoxAtivarBaixoConsumo.AutoSize = true;
             this.checkBoxAtivarBaixoConsumo.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxAtivarBaixoConsumo.Location = new System.Drawing.Point(414, 74);
+            this.checkBoxAtivarBaixoConsumo.Location = new System.Drawing.Point(220, 306);
             this.checkBoxAtivarBaixoConsumo.Name = "checkBoxAtivarBaixoConsumo";
             this.checkBoxAtivarBaixoConsumo.Size = new System.Drawing.Size(159, 17);
             this.checkBoxAtivarBaixoConsumo.TabIndex = 17;
             this.checkBoxAtivarBaixoConsumo.Text = "Ativar Modo Baixo Consumo";
             this.checkBoxAtivarBaixoConsumo.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.checkBoxUtilizarRecursoSecundario);
-            this.groupBox1.Controls.Add(this.groupBoxRecursoSecundario);
-            this.groupBox1.Controls.Add(this.pictureBoxMiniaturaAcao);
-            this.groupBox1.Controls.Add(this.comboBoxAcao);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.pictureBoxMiniaturaRecurso);
-            this.groupBox1.Controls.Add(this.comboBoxRecurso);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Location = new System.Drawing.Point(23, 32);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(382, 328);
-            this.groupBox1.TabIndex = 16;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "[ Recurso Primário ]";
-            // 
-            // checkBoxUtilizarRecursoSecundario
-            // 
-            this.checkBoxUtilizarRecursoSecundario.AutoSize = true;
-            this.checkBoxUtilizarRecursoSecundario.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxUtilizarRecursoSecundario.Location = new System.Drawing.Point(12, 81);
-            this.checkBoxUtilizarRecursoSecundario.Name = "checkBoxUtilizarRecursoSecundario";
-            this.checkBoxUtilizarRecursoSecundario.Size = new System.Drawing.Size(150, 17);
-            this.checkBoxUtilizarRecursoSecundario.TabIndex = 26;
-            this.checkBoxUtilizarRecursoSecundario.Text = "Utilizar recurso secundário";
-            this.checkBoxUtilizarRecursoSecundario.UseVisualStyleBackColor = true;
-            this.checkBoxUtilizarRecursoSecundario.CheckedChanged += new System.EventHandler(this.checkBoxUtilizarRecursoSecundario_CheckedChanged);
-            // 
-            // groupBoxRecursoSecundario
-            // 
-            this.groupBoxRecursoSecundario.Controls.Add(this.checkBoxUtilizarRecursoTerciario);
-            this.groupBoxRecursoSecundario.Controls.Add(this.groupBoxRecursoTerciario);
-            this.groupBoxRecursoSecundario.Controls.Add(this.pictureBoxMiniaturaAcao2);
-            this.groupBoxRecursoSecundario.Controls.Add(this.comboBoxAcao2);
-            this.groupBoxRecursoSecundario.Controls.Add(this.label7);
-            this.groupBoxRecursoSecundario.Controls.Add(this.pictureBoxMiniaturaRecurso2);
-            this.groupBoxRecursoSecundario.Controls.Add(this.comboBoxRecurso2);
-            this.groupBoxRecursoSecundario.Controls.Add(this.label8);
-            this.groupBoxRecursoSecundario.Location = new System.Drawing.Point(6, 104);
-            this.groupBoxRecursoSecundario.Name = "groupBoxRecursoSecundario";
-            this.groupBoxRecursoSecundario.Size = new System.Drawing.Size(370, 215);
-            this.groupBoxRecursoSecundario.TabIndex = 25;
-            this.groupBoxRecursoSecundario.TabStop = false;
-            this.groupBoxRecursoSecundario.Text = "[ Recurso Secundário ]";
-            this.groupBoxRecursoSecundario.Visible = false;
-            // 
-            // checkBoxUtilizarRecursoTerciario
-            // 
-            this.checkBoxUtilizarRecursoTerciario.AutoSize = true;
-            this.checkBoxUtilizarRecursoTerciario.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxUtilizarRecursoTerciario.Location = new System.Drawing.Point(6, 83);
-            this.checkBoxUtilizarRecursoTerciario.Name = "checkBoxUtilizarRecursoTerciario";
-            this.checkBoxUtilizarRecursoTerciario.Size = new System.Drawing.Size(135, 17);
-            this.checkBoxUtilizarRecursoTerciario.TabIndex = 28;
-            this.checkBoxUtilizarRecursoTerciario.Text = "Utilizar recurso terciário";
-            this.checkBoxUtilizarRecursoTerciario.UseVisualStyleBackColor = true;
-            this.checkBoxUtilizarRecursoTerciario.CheckedChanged += new System.EventHandler(this.checkBoxUtilizarRecursoTerciario_CheckedChanged);
-            // 
-            // groupBoxRecursoTerciario
-            // 
-            this.groupBoxRecursoTerciario.Controls.Add(this.pictureBoxMiniaturaAcao3);
-            this.groupBoxRecursoTerciario.Controls.Add(this.comboBoxAcao3);
-            this.groupBoxRecursoTerciario.Controls.Add(this.label10);
-            this.groupBoxRecursoTerciario.Controls.Add(this.pictureBoxMiniaturaRecurso3);
-            this.groupBoxRecursoTerciario.Controls.Add(this.comboBoxRecurso3);
-            this.groupBoxRecursoTerciario.Controls.Add(this.label11);
-            this.groupBoxRecursoTerciario.Location = new System.Drawing.Point(10, 117);
-            this.groupBoxRecursoTerciario.Name = "groupBoxRecursoTerciario";
-            this.groupBoxRecursoTerciario.Size = new System.Drawing.Size(351, 91);
-            this.groupBoxRecursoTerciario.TabIndex = 27;
-            this.groupBoxRecursoTerciario.TabStop = false;
-            this.groupBoxRecursoTerciario.Text = "[ Recurso Terciário ]";
-            this.groupBoxRecursoTerciario.Visible = false;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(46, 363);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(335, 13);
-            this.label12.TabIndex = 28;
-            this.label12.Text = "OBS: Para plantar, o recurso deve estar na tecla de atalho SHIFT + 1";
-            // 
-            // pictureBoxMiniaturaAcao3
-            // 
-            this.pictureBoxMiniaturaAcao3.Location = new System.Drawing.Point(320, 55);
-            this.pictureBoxMiniaturaAcao3.Name = "pictureBoxMiniaturaAcao3";
-            this.pictureBoxMiniaturaAcao3.Size = new System.Drawing.Size(20, 20);
-            this.pictureBoxMiniaturaAcao3.TabIndex = 24;
-            this.pictureBoxMiniaturaAcao3.TabStop = false;
-            // 
-            // comboBoxAcao3
-            // 
-            this.comboBoxAcao3.FormattingEnabled = true;
-            this.comboBoxAcao3.Location = new System.Drawing.Point(93, 54);
-            this.comboBoxAcao3.Name = "comboBoxAcao3";
-            this.comboBoxAcao3.Size = new System.Drawing.Size(221, 21);
-            this.comboBoxAcao3.TabIndex = 22;
-            this.comboBoxAcao3.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcao3_SelectedIndexChanged);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(14, 57);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(66, 13);
-            this.label10.TabIndex = 21;
-            this.label10.Text = "Botão Ação:";
-            // 
-            // pictureBoxMiniaturaRecurso3
-            // 
-            this.pictureBoxMiniaturaRecurso3.Location = new System.Drawing.Point(320, 21);
-            this.pictureBoxMiniaturaRecurso3.Name = "pictureBoxMiniaturaRecurso3";
-            this.pictureBoxMiniaturaRecurso3.Size = new System.Drawing.Size(20, 20);
-            this.pictureBoxMiniaturaRecurso3.TabIndex = 17;
-            this.pictureBoxMiniaturaRecurso3.TabStop = false;
-            // 
-            // comboBoxRecurso3
-            // 
-            this.comboBoxRecurso3.FormattingEnabled = true;
-            this.comboBoxRecurso3.Location = new System.Drawing.Point(93, 20);
-            this.comboBoxRecurso3.Name = "comboBoxRecurso3";
-            this.comboBoxRecurso3.Size = new System.Drawing.Size(221, 21);
-            this.comboBoxRecurso3.TabIndex = 16;
-            this.comboBoxRecurso3.SelectedIndexChanged += new System.EventHandler(this.comboBoxRecurso3_SelectedIndexChanged);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(25, 23);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(53, 13);
-            this.label11.TabIndex = 15;
-            this.label11.Text = "Recurso :";
-            // 
-            // pictureBoxMiniaturaAcao2
-            // 
-            this.pictureBoxMiniaturaAcao2.Location = new System.Drawing.Point(331, 56);
-            this.pictureBoxMiniaturaAcao2.Name = "pictureBoxMiniaturaAcao2";
-            this.pictureBoxMiniaturaAcao2.Size = new System.Drawing.Size(20, 20);
-            this.pictureBoxMiniaturaAcao2.TabIndex = 24;
-            this.pictureBoxMiniaturaAcao2.TabStop = false;
-            // 
-            // comboBoxAcao2
-            // 
-            this.comboBoxAcao2.FormattingEnabled = true;
-            this.comboBoxAcao2.Location = new System.Drawing.Point(104, 55);
-            this.comboBoxAcao2.Name = "comboBoxAcao2";
-            this.comboBoxAcao2.Size = new System.Drawing.Size(221, 21);
-            this.comboBoxAcao2.TabIndex = 22;
-            this.comboBoxAcao2.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcao2_SelectedIndexChanged);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(24, 58);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(66, 13);
-            this.label7.TabIndex = 21;
-            this.label7.Text = "Botão Ação:";
-            // 
-            // pictureBoxMiniaturaRecurso2
-            // 
-            this.pictureBoxMiniaturaRecurso2.Location = new System.Drawing.Point(331, 22);
-            this.pictureBoxMiniaturaRecurso2.Name = "pictureBoxMiniaturaRecurso2";
-            this.pictureBoxMiniaturaRecurso2.Size = new System.Drawing.Size(20, 20);
-            this.pictureBoxMiniaturaRecurso2.TabIndex = 17;
-            this.pictureBoxMiniaturaRecurso2.TabStop = false;
-            // 
-            // comboBoxRecurso2
-            // 
-            this.comboBoxRecurso2.FormattingEnabled = true;
-            this.comboBoxRecurso2.Location = new System.Drawing.Point(104, 21);
-            this.comboBoxRecurso2.Name = "comboBoxRecurso2";
-            this.comboBoxRecurso2.Size = new System.Drawing.Size(221, 21);
-            this.comboBoxRecurso2.TabIndex = 16;
-            this.comboBoxRecurso2.SelectedIndexChanged += new System.EventHandler(this.comboBoxRecurso2_SelectedIndexChanged);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(36, 24);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(53, 13);
-            this.label8.TabIndex = 15;
-            this.label8.Text = "Recurso :";
-            // 
-            // pictureBoxMiniaturaAcao
-            // 
-            this.pictureBoxMiniaturaAcao.Location = new System.Drawing.Point(338, 57);
-            this.pictureBoxMiniaturaAcao.Name = "pictureBoxMiniaturaAcao";
-            this.pictureBoxMiniaturaAcao.Size = new System.Drawing.Size(20, 20);
-            this.pictureBoxMiniaturaAcao.TabIndex = 23;
-            this.pictureBoxMiniaturaAcao.TabStop = false;
-            // 
-            // comboBoxAcao
-            // 
-            this.comboBoxAcao.FormattingEnabled = true;
-            this.comboBoxAcao.Location = new System.Drawing.Point(111, 54);
-            this.comboBoxAcao.Name = "comboBoxAcao";
-            this.comboBoxAcao.Size = new System.Drawing.Size(221, 21);
-            this.comboBoxAcao.TabIndex = 22;
-            this.comboBoxAcao.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcao_SelectedIndexChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(30, 57);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(66, 13);
-            this.label5.TabIndex = 21;
-            this.label5.Text = "Botão Ação:";
-            // 
-            // pictureBoxMiniaturaRecurso
-            // 
-            this.pictureBoxMiniaturaRecurso.Location = new System.Drawing.Point(338, 20);
-            this.pictureBoxMiniaturaRecurso.Name = "pictureBoxMiniaturaRecurso";
-            this.pictureBoxMiniaturaRecurso.Size = new System.Drawing.Size(20, 20);
-            this.pictureBoxMiniaturaRecurso.TabIndex = 17;
-            this.pictureBoxMiniaturaRecurso.TabStop = false;
-            // 
-            // comboBoxRecurso
-            // 
-            this.comboBoxRecurso.FormattingEnabled = true;
-            this.comboBoxRecurso.Location = new System.Drawing.Point(111, 20);
-            this.comboBoxRecurso.Name = "comboBoxRecurso";
-            this.comboBoxRecurso.Size = new System.Drawing.Size(221, 21);
-            this.comboBoxRecurso.TabIndex = 16;
-            this.comboBoxRecurso.SelectedIndexChanged += new System.EventHandler(this.comboBoxRecurso_SelectedIndexChanged);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(43, 23);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 13);
-            this.label6.TabIndex = 15;
-            this.label6.Text = "Recurso :";
-            // 
             // checkBoxMascaraLuminosidade
             // 
             this.checkBoxMascaraLuminosidade.AutoSize = true;
             this.checkBoxMascaraLuminosidade.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxMascaraLuminosidade.Location = new System.Drawing.Point(414, 51);
+            this.checkBoxMascaraLuminosidade.Location = new System.Drawing.Point(222, 282);
             this.checkBoxMascaraLuminosidade.Name = "checkBoxMascaraLuminosidade";
             this.checkBoxMascaraLuminosidade.Size = new System.Drawing.Size(180, 17);
             this.checkBoxMascaraLuminosidade.TabIndex = 15;
@@ -474,7 +337,7 @@
             // 
             this.checkBoxCacadorPixelsLigado.Appearance = System.Windows.Forms.Appearance.Button;
             this.checkBoxCacadorPixelsLigado.AutoSize = true;
-            this.checkBoxCacadorPixelsLigado.Location = new System.Drawing.Point(458, 150);
+            this.checkBoxCacadorPixelsLigado.Location = new System.Drawing.Point(284, 352);
             this.checkBoxCacadorPixelsLigado.Name = "checkBoxCacadorPixelsLigado";
             this.checkBoxCacadorPixelsLigado.Size = new System.Drawing.Size(45, 23);
             this.checkBoxCacadorPixelsLigado.TabIndex = 7;
@@ -485,7 +348,8 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(419, 130);
+            this.label1.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.label1.Location = new System.Drawing.Point(16, 352);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(164, 13);
             this.label1.TabIndex = 2;
@@ -518,7 +382,7 @@
             this.abaCapturadorPixels.Location = new System.Drawing.Point(4, 22);
             this.abaCapturadorPixels.Name = "abaCapturadorPixels";
             this.abaCapturadorPixels.Padding = new System.Windows.Forms.Padding(3);
-            this.abaCapturadorPixels.Size = new System.Drawing.Size(628, 561);
+            this.abaCapturadorPixels.Size = new System.Drawing.Size(558, 388);
             this.abaCapturadorPixels.TabIndex = 1;
             this.abaCapturadorPixels.Text = "Ferramentas";
             this.abaCapturadorPixels.UseVisualStyleBackColor = true;
@@ -748,7 +612,7 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(719, 675);
+            this.ClientSize = new System.Drawing.Size(587, 438);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormularioPrincipal";
@@ -757,18 +621,11 @@
             this.tabControl1.ResumeLayout(false);
             this.capinacao.ResumeLayout(false);
             this.capinacao.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBoxRecursoSecundario.ResumeLayout(false);
-            this.groupBoxRecursoSecundario.PerformLayout();
-            this.groupBoxRecursoTerciario.ResumeLayout(false);
-            this.groupBoxRecursoTerciario.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMiniaturaAcao3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMiniaturaRecurso3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMiniaturaAcao2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMiniaturaRecurso2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMiniaturaAcao)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMiniaturaRecurso)).EndInit();
+            this.panelAcoes.ResumeLayout(false);
+            this.groupBoxAcoes.ResumeLayout(false);
+            this.groupBoxAcoes.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_comboBoxAcao_0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_comboBoxRecurso_0)).EndInit();
             this.abaCapturadorPixels.ResumeLayout(false);
             this.abaCapturadorPixels.PerformLayout();
             this.ResumeLayout(false);
@@ -809,36 +666,24 @@
         private System.Windows.Forms.OpenFileDialog openFileDialogImagemTemplate;
         private System.Windows.Forms.Label labelObrigatorio;
         private System.Windows.Forms.CheckBox checkBoxMascaraLuminosidade;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ComboBox comboBoxRecurso;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox comboBoxRecurso_0;
+        private System.Windows.Forms.Label labelRecurso;
         private System.Windows.Forms.Button botaoScreenshotRotacionado;
         private System.Windows.Forms.CheckBox checkBoxAtivarBaixoConsumo;
-        private System.Windows.Forms.PictureBox pictureBoxMiniaturaRecurso;
+        private System.Windows.Forms.PictureBox pictureBox_comboBoxRecurso_0;
         private System.Windows.Forms.CheckBox checkBoxMovimentarAleatoriamente;
-        private System.Windows.Forms.ComboBox comboBoxAcao;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.PictureBox pictureBoxMiniaturaAcao;
+        private System.Windows.Forms.ComboBox comboBoxAcao_0;
+        private System.Windows.Forms.Label labelAcao;
+        private System.Windows.Forms.PictureBox pictureBox_comboBoxAcao_0;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboBoxProfissao;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.CheckBox checkBoxUtilizarRecursoSecundario;
-        private System.Windows.Forms.GroupBox groupBoxRecursoSecundario;
-        private System.Windows.Forms.PictureBox pictureBoxMiniaturaAcao2;
-        private System.Windows.Forms.ComboBox comboBoxAcao2;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.PictureBox pictureBoxMiniaturaRecurso2;
-        private System.Windows.Forms.ComboBox comboBoxRecurso2;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.CheckBox checkBoxUtilizarRecursoTerciario;
-        private System.Windows.Forms.GroupBox groupBoxRecursoTerciario;
-        private System.Windows.Forms.PictureBox pictureBoxMiniaturaAcao3;
-        private System.Windows.Forms.ComboBox comboBoxAcao3;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.PictureBox pictureBoxMiniaturaRecurso3;
-        private System.Windows.Forms.ComboBox comboBoxRecurso3;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button buttonAdicionarAcao;
+        private System.Windows.Forms.GroupBox groupBoxAcoes;
+        private System.Windows.Forms.Panel panelAcoes;
+        private System.Windows.Forms.TextBox textBoxTempoMaximo_0;
+        private System.Windows.Forms.Label labelTempoMaximo;
     }
 }
 
