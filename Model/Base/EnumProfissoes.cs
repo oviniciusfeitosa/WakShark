@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Model.Base
 {
     public enum EnumProfissoes {
+        Nenhuma,
         Fazendeiro,
         Herbolista
     }

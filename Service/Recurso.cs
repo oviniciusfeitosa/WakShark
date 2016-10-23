@@ -27,42 +27,48 @@ namespace Service
         }
         #endregion
 
-        private List<ARecurso> listaRecursosFazendeiro = new List<ARecurso>();
-        private List<ARecurso> listaRecursosHerbolista = new List<ARecurso>();
+        public List<ARecurso> preencherListaRecursosComuns(List<ARecurso> listaRecursos)
+        {
+            listaRecursos.Add(new Agua());
+            listaRecursos.Add(new SoloMundo());
+            listaRecursos.Add(new SoloBolsa());
 
-        public Recurso() {
-            this.preencherListaRecursosFazendeiro();
-            this.preencherListaRecursosHerbolista();
+            return listaRecursos;
         }
 
-        public void preencherListaRecursosFazendeiro()
+        public List<ARecurso> preencherlistaRecursosFazendeiro(List<ARecurso> listaRecursos)
         {
-            listaRecursosFazendeiro.Add(new Agua());
-            listaRecursosFazendeiro.Add(new SoloMundo());
-            listaRecursosFazendeiro.Add(new SoloBolsa());
-            listaRecursosFazendeiro.Add(new Trigo());
-            listaRecursosFazendeiro.Add(new Cevada());
-            listaRecursosFazendeiro.Add(new Aveia());
-            listaRecursosFazendeiro.Add(new Centeio());
-            listaRecursosFazendeiro.Add(new CenteioVerde());
-            listaRecursosFazendeiro.Add(new JutaSuarda());
-            listaRecursosFazendeiro.Add(new JutaSuardaVerde());
-            listaRecursosFazendeiro.Add(new Milho());
-            listaRecursosFazendeiro.Add(new MilhoVerde());
+            listaRecursos.Add(new Trigo());
+            listaRecursos.Add(new Cevada());
+            listaRecursos.Add(new Aveia());
+            listaRecursos.Add(new Centeio());
+            listaRecursos.Add(new CenteioVerde());
+            listaRecursos.Add(new JutaSuarda());
+            listaRecursos.Add(new JutaSuardaVerde());
+            listaRecursos.Add(new Milho());
+            listaRecursos.Add(new MilhoVerde());
+            listaRecursos.Add(new Melao());
+            listaRecursos.Add(new MelaoVerde());
+            listaRecursos.Add(new Girassol());
+            listaRecursos.Add(new GirassolVerde());
+            listaRecursos.Add(new Chilli());
+            listaRecursos.Add(new ChilliVerde());
+
+            return listaRecursos;
         }
 
-        public void preencherListaRecursosHerbolista()
+        public List<ARecurso> preencherlistaRecursosHerbolista(List<ARecurso> listaRecursos)
         {
-            listaRecursosHerbolista.Add(new Agua());
-            listaRecursosHerbolista.Add(new SoloMundo());
-            listaRecursosHerbolista.Add(new SoloBolsa());
-            listaRecursosHerbolista.Add(new CardoCoroado());
-            listaRecursosHerbolista.Add(new CardoCoroadoVerde());
+            listaRecursos.Add(new CardoCoroado());
+            //listaRecursos.Add(new CardoCoroado());
+            //listaRecursos.Add(new CardoCoroadoVerde());
+
+            return listaRecursos;
         }
 
         public ARecurso obterRecurso(string caption, EnumProfissoes objEnumProfissao)
         {
-            List<ARecurso> objListaRecursos = obterTipoListaRecurso(objEnumProfissao);
+            List<ARecurso> objListaRecursos = obterListaRecursos(objEnumProfissao);
             foreach (ARecurso objRecurso in objListaRecursos)
             {
                 if (objRecurso.Caption == caption)
@@ -74,14 +80,14 @@ namespace Service
         }
 
         public List<ARecurso> obterListaCompletaRecursos(EnumProfissoes objEnumProfissao) {
-            List<ARecurso> objListaRecursos = obterTipoListaRecurso(objEnumProfissao);
+            List<ARecurso> objListaRecursos = obterListaRecursos(objEnumProfissao);
             return objListaRecursos;
         }
 
         public Dictionary<string, string> obterListaSimplificadaRecursos(EnumProfissoes objEnumProfissao)
         {
             Dictionary<string, string> listaSimplificada = new Dictionary<string, string>();
-            List<ARecurso> objListaRecursos = obterTipoListaRecurso(objEnumProfissao);
+            List<ARecurso> objListaRecursos = obterListaRecursos(objEnumProfissao);
 
             foreach (ARecurso objRecurso in objListaRecursos) {
                 listaSimplificada.Add(objRecurso.Caption, objRecurso.ImagemExibicao);
@@ -90,18 +96,19 @@ namespace Service
             return listaSimplificada;
         }
 
-        private List<ARecurso> obterTipoListaRecurso(EnumProfissoes objEnumProfissao)
+        private List<ARecurso> obterListaRecursos(EnumProfissoes objEnumProfissao)
         {
-            List<ARecurso> objListaRecursos = new List<ARecurso>();
+            List<ARecurso> listaRecursos = new List<ARecurso>();
+            this.preencherListaRecursosComuns(listaRecursos);
             if (objEnumProfissao == EnumProfissoes.Fazendeiro)
             {
-                objListaRecursos = listaRecursosFazendeiro;
+                this.preencherlistaRecursosFazendeiro(listaRecursos);
             }
             else if (objEnumProfissao == EnumProfissoes.Herbolista)
             {
-                objListaRecursos = listaRecursosHerbolista;
+                this.preencherlistaRecursosHerbolista(listaRecursos);
             }
-            return objListaRecursos;
+            return listaRecursos;
         }
     }
 }

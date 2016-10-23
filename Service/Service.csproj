@@ -76,14 +76,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Emgu.CV">
-      <HintPath>..\..\..\..\..\Desktop\OPENCV\My Advanced EMGU Program\My EMGU Program\bin\Debug\Emgu.CV.dll</HintPath>
-    </Reference>
     <Reference Include="Emgu.CV.UI">
-      <HintPath>..\..\..\..\..\Desktop\OPENCV\My Advanced EMGU Program\My EMGU Program\bin\Debug\Emgu.CV.UI.dll</HintPath>
+      <HintPath>..\_install\dll\x64\References\Emgu.CV.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Emgu.Util">
-      <HintPath>..\..\..\..\..\Desktop\OPENCV\My Advanced EMGU Program\My EMGU Program\bin\Debug\Emgu.Util.dll</HintPath>
+    <Reference Include="Emgu.CV.World">
+      <HintPath>..\_install\dll\x64\References\Emgu.CV.World.dll</HintPath>
     </Reference>
     <Reference Include="Gma.System.MouseKeyHook">
       <HintPath>..\packages\MouseKeyHook.5.4.0\lib\net40\Gma.System.MouseKeyHook.dll</HintPath>

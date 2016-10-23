@@ -19,17 +19,12 @@ namespace Service.Acao
         {
             try
             {
-                InputSimulator objInputSimulator = new InputSimulator();
-                objInputSimulator.Keyboard.KeyDown(VirtualKeyCode.SHIFT);
-                objInputSimulator.Keyboard.KeyPress(VirtualKeyCode.VK_1);
-                objInputSimulator.Keyboard.KeyUp(VirtualKeyCode.SHIFT);
-                System.Threading.Thread.Sleep(500);
-                Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
-                /*System.Threading.Thread.Sleep(500);
-                objInputSimulator.Keyboard.KeyDown(VirtualKeyCode.SHIFT);
-                objInputSimulator.Keyboard.KeyPress(VirtualKeyCode.VK_1);
-                objInputSimulator.Keyboard.KeyUp(VirtualKeyCode.SHIFT);*/
-                System.Threading.Thread.Sleep(3500);
+                this.pressionarTeclaAtalho();
+                Random objRandomNumber = new Random();
+                Win32.clicarBotaoEsquerdo(objMatch.Location.X + objRandomNumber.Next(2, 5), objMatch.Location.Y + objRandomNumber.Next(2, 5));
+                System.Threading.Thread.Sleep(3350);
+                Win32.clicarBotaoDireito(objMatch.Location.X + objRandomNumber.Next(2, 5), objMatch.Location.Y + objRandomNumber.Next(2, 5));
+
                 return true;
             }
             catch (System.Exception objException)
@@ -37,6 +32,17 @@ namespace Service.Acao
                 throw new System.Exception(objException.ToString());
             }
             return false;
+        }
+
+        private void pressionarTeclaAtalho() {
+            InputSimulator objInputSimulator = new InputSimulator();
+            System.Threading.Thread.Sleep(125);
+            objInputSimulator.Keyboard.KeyDown(VirtualKeyCode.SHIFT);
+            System.Threading.Thread.Sleep(125);
+            objInputSimulator.Keyboard.KeyPress(VirtualKeyCode.VK_1);
+            System.Threading.Thread.Sleep(125);
+            objInputSimulator.Keyboard.KeyUp(VirtualKeyCode.SHIFT);
+            System.Threading.Thread.Sleep(125);
         }
     }
 }

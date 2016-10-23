@@ -3,6 +3,6 @@ namespace Model.Recurso.Fazendeiro
 {
     public class Trigo : ARecurso, IFazendeiro
     {
-        public Trigo() : base("Trigo", 0, 3000, System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\fazendeiro\trigo.png") {}
+        public Trigo() : base("Trigo", 0, 1500, System.IO.Directory.GetCurrentDirectory() + @"\assets\imagem\recurso\fazendeiro\trigo.png") {}
     }
 }
