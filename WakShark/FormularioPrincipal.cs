@@ -125,15 +125,11 @@ namespace WakBoy
                                     foreach (AViewModelColeta objAViewModelColeta in listaColetas)
                                     {
                                         isSucessoNaColeta = true;
-                                        while (isSucessoNaColeta) {
-                                            if(this.checkBoxCacadorPixelsLigado.Checked == false)
-                                            {
-                                                break;
-                                            }
+                                        while (isSucessoNaColeta && this.checkBoxCacadorPixelsLigado.Checked) {
                                             isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta);
                                         }
                                     }
-                                    if (!isSucessoNaColeta && isMovimentarAleatoriamente)
+                                    if (!isSucessoNaColeta && isMovimentarAleatoriamente && this.checkBoxCacadorPixelsLigado.Checked)
                                     {
                                         Personagem.obterInstancia().movimentarAleatoriamente();
                                         Thread.Sleep(800);
