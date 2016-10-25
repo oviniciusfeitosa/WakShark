@@ -5,6 +5,7 @@ using System.Drawing;
 using Model;
 using Model.Base;
 using Service.Base;
+using Model.BotaoAcao;
 
 namespace Service
 {
@@ -132,6 +133,13 @@ namespace Service
             Rectangle areaBusca = new Rectangle(50, 50, Proporcao.Width - 50, Proporcao.Height - 50);
             Model.Match objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(BotaoAcao.obterInstancia().obterBotaoAcao("Fechar").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
             if (objMatch.Semelhanca > 0) Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
+        }
+        
+        public void tratarRecusaDeGrupo()
+        {
+            Rectangle areaBusca = new Rectangle(60, 20, Proporcao.Width - 60, Proporcao.Height - 20);
+            Model.Match objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate((new BotaoNao()).Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
+            if (objMatch.Semelhanca > 0) Win32.clicarBotaoEsquerdo(objMatch.Location.X + 15, objMatch.Location.Y + 5);
         }
     }
 }

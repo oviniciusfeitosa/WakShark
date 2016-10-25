@@ -87,6 +87,7 @@
     <Compile Include="Base\Acao\IColheita.cs" />
     <Compile Include="Base\EnumTipoBusca.cs" />
     <Compile Include="Base\ITerreno.cs" />
+    <Compile Include="BotaoAcao\BotaoNao.cs" />
     <Compile Include="BotaoAcao\Plantar.cs" />
     <Compile Include="BotaoAcao\PassarTurno.cs" />
     <Compile Include="BotaoAcao\IniciarBatalha.cs" />

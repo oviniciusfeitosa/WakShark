@@ -178,6 +178,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\imagem\acao\botao_nao.png" />
     <Content Include="assets\imagem\acao\botao_passar_turno.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
