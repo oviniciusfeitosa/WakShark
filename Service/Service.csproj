@@ -105,7 +105,7 @@
     <Compile Include="Acao\Plantio.cs" />
     <Compile Include="Base\AViewModelColeta.cs" />
     <Compile Include="Camera.cs" />
-    <Compile Include="Coleta.cs" />
+    <Compile Include="Busca.cs" />
     <Compile Include="Batalha.cs" />
     <Compile Include="Personagem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

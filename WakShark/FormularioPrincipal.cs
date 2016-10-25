@@ -5,7 +5,6 @@ using System.Windows.Forms;
 using ModelTela = Model.Tela;
 using CapturadorPixel = Common.CapturadorPixel;
 using Common;
-using ServiceColeta = Service.Coleta;
 using ServiceRecurso = Service.Recurso;
 using ServiceBotaoAcao = Service.BotaoAcao;
 using Service;
@@ -73,6 +72,7 @@ namespace WakBoy
                 {
                     CheckBox objCheckBox = (CheckBox)sender;
                     this.checkBoxCacadorPixelsLigado.Checked = objCheckBox.Checked;
+                    this.checkBoxCacadorPixelsLigado.BackColor = Color.Gray;
                     if (objCheckBox.Checked == true)
                     {
                         this.checkBoxCacadorPixelsLigado.BackColor = Color.Green;
@@ -88,8 +88,8 @@ namespace WakBoy
                         {
                             ServiceRecurso objRecurso = ServiceRecurso.obterInstancia();
                             ServiceBotaoAcao objServiceBotaoAcao = ServiceBotaoAcao.obterInstancia();
-                            ServiceColeta objServiceColeta = ServiceColeta.obterInstancia();
-                            objServiceColeta.isAtivarModoBaixoConsumo = checkBoxAtivarBaixoConsumo.Checked;
+                            Service.Busca objServiceBusca = Service.Busca.obterInstancia();
+                            objServiceBusca.isAtivarModoBaixoConsumo = checkBoxAtivarBaixoConsumo.Checked;
                             
                             bool isMovimentarAleatoriamente = checkBoxMovimentarAleatoriamente.Checked;
                             EnumProfissoes objEnumProfissao = EnumUtil.ParseEnum<EnumProfissoes>(comboBoxProfissao.SelectedValue.ToString());
@@ -126,7 +126,7 @@ namespace WakBoy
                                     {
                                         isSucessoNaColeta = true;
                                         while (isSucessoNaColeta && this.checkBoxCacadorPixelsLigado.Checked) {
-                                            isSucessoNaColeta = objServiceColeta.coletar(objAViewModelColeta);
+                                            isSucessoNaColeta = objServiceBusca.buscar(objAViewModelColeta);
                                         }
                                     }
                                     if (!isSucessoNaColeta && isMovimentarAleatoriamente && this.checkBoxCacadorPixelsLigado.Checked)
@@ -137,10 +137,6 @@ namespace WakBoy
                                 }
                             });
                         }
-                    }
-                    else
-                    {
-                        this.checkBoxCacadorPixelsLigado.BackColor = Color.Gray;
                     }
                 }
                 else
@@ -324,7 +320,12 @@ namespace WakBoy
 
         private void popularInformacoesWakshark()
         {
-            for(int indice = 0; indice < this.IndiceUltimaAcao; indice++)
+            this.popularInformacoesWakshark(0);
+        }
+
+        private void popularInformacoesWakshark(int indiceInicial)
+        {
+            for(int indice = indiceInicial; indice < this.IndiceUltimaAcao; indice++)
             {
                 ComboBox comboboxRecurso = (ComboBox)this.obterControlPorName(this, "comboBoxRecurso_" + indice.ToString());
                 ComboBox comboboxAcao = (ComboBox)this.obterControlPorName(this, "comboBoxAcao_" + indice.ToString());
@@ -396,8 +397,7 @@ namespace WakBoy
         {
             GroupBox groupBox = CriarEstruturaAcoes();
             this.panelAcoes.Controls.Add(groupBox);
-
-            this.popularInformacoesWakshark();
+            this.popularInformacoesWakshark(IndiceUltimaAcao - 1);
         }
 
         public GroupBox CriarEstruturaAcoes()

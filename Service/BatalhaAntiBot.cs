@@ -143,7 +143,7 @@ namespace Service
                 Application.DoEvents();
 
                 System.Threading.Thread.Sleep(5000);
-                Coleta.obterInstancia().validarFechamentoMensagens();
+                Busca.obterInstancia().validarFechamentoMensagens();
             }
             catch (Exception objException)
             {
