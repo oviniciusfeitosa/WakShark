@@ -44,7 +44,8 @@ namespace Service
             listaBotoesAcoes.Add(new Plantar());
             listaBotoesAcoes.Add(new IniciarBatalha());
             listaBotoesAcoes.Add(new PassarTurno());
-            listaBotoesAcoes.Add(new Fechar());
+            listaBotoesAcoes.Add(new BotaoFecharX());
+            listaBotoesAcoes.Add(new BotaoFechar());
         }
 
         public ABotaoAcao obterBotaoAcao(string nome)

@@ -100,12 +100,14 @@ namespace Service
                 if (this._quantidadeColetas % 5 == 0)
                 {
                     this.tratarRecusaDeGrupo();
+                    this.tratarCliqueBotaoFechar();
                     this.validarFechamentoMensagens();
                 }
             }
             else
             {
                 this.tratarRecusaDeGrupo();
+                this.tratarCliqueBotaoFechar();
                 this.validarFechamentoMensagens();
             }
         }
@@ -133,7 +135,7 @@ namespace Service
         public void validarFechamentoMensagens()
         {
             Rectangle areaBusca = new Rectangle(50, 50, Proporcao.Width - 50, Proporcao.Height - 50);
-            Model.Match objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate(BotaoAcao.obterInstancia().obterBotaoAcao("Fechar").Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
+            Model.Match objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate((new BotaoFecharX()).Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
             if (objMatch.Semelhanca > 0) Win32.clicarBotaoEsquerdo(objMatch.Location.X + 5, objMatch.Location.Y + 5);
         }
         
@@ -141,6 +143,13 @@ namespace Service
         {
             Rectangle areaBusca = new Rectangle(60, 20, Proporcao.Width - 60, Proporcao.Height - 20);
             Model.Match objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate((new BotaoNao()).Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
+            if (objMatch.Semelhanca > 0) Win32.clicarBotaoEsquerdo(objMatch.Location.X + 15, objMatch.Location.Y + 5);
+        }
+
+        public void tratarCliqueBotaoFechar()
+        {
+            Rectangle areaBusca = new Rectangle(57, 24, Proporcao.Width - 57, Proporcao.Height - 24);
+            Model.Match objMatch = ImagemBusca.obterInstancia().buscarImagemPorTemplate((new BotaoFechar()).Imagem, Imagem.EnumRegiaoImagem.COMPLETO, areaBusca);
             if (objMatch.Semelhanca > 0) Win32.clicarBotaoEsquerdo(objMatch.Location.X + 15, objMatch.Location.Y + 5);
         }
     }

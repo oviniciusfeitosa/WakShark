@@ -87,6 +87,7 @@
     <Compile Include="Base\Acao\IColheita.cs" />
     <Compile Include="Base\EnumTipoBusca.cs" />
     <Compile Include="Base\ITerreno.cs" />
+    <Compile Include="BotaoAcao\BotaoFechar.cs" />
     <Compile Include="BotaoAcao\BotaoNao.cs" />
     <Compile Include="BotaoAcao\Plantar.cs" />
     <Compile Include="BotaoAcao\PassarTurno.cs" />
@@ -95,7 +96,7 @@
     <Compile Include="Base\ABotaoAcao.cs" />
     <Compile Include="BotaoAcao\Ceifar.cs" />
     <Compile Include="BotaoAcao\Colher.cs" />
-    <Compile Include="BotaoAcao\Fechar.cs" />
+    <Compile Include="BotaoAcao\BotaoFecharX.cs" />
     <Compile Include="AntiBOT.cs" />
     <Compile Include="Recurso\Fazendeiro\ChilliVerde.cs" />
     <Compile Include="Recurso\Fazendeiro\GirassolVerde.cs" />
