@@ -23,17 +23,17 @@ Atualmente o WakShark utiliza o OpenCV através do wrapper EMGU para C#.
 
 A estrutura de pastas do projeto deve ser conforme abaixo:
 
-.../WakShark/Common
-.../WakShark/_install
-.../WakShark/LICENSE
-.../WakShark/Model
-.../WakShark/packages
-.../WakShark/README.md
-.../WakShark/Service
-.../WakShark/WakBoy.userprefs
-.../WakShark/WakShark
-.../WakShark/WakShark.sln
-.../WakShark/WakShark.userprefs
+- .../WakShark/Common
+- .../WakShark/_install
+- .../WakShark/LICENSE
+- .../WakShark/Model
+- .../WakShark/packages
+- .../WakShark/README.md
+- .../WakShark/Service
+- .../WakShark/WakBoy.userprefs
+- .../WakShark/WakShark
+- .../WakShark/WakShark.sln
+- .../WakShark/WakShark.userprefs
 
 ============================================================================================================================
 
@@ -59,14 +59,14 @@ Currently WakShark use OpenCV through EMGU wrapper for C#.
 
 The structure folder needs to be similar as below:
 
-.../WakShark/Common
-.../WakShark/_install
-.../WakShark/LICENSE
-.../WakShark/Model
-.../WakShark/packages
-.../WakShark/README.md
-.../WakShark/Service
-.../WakShark/WakBoy.userprefs
-.../WakShark/WakShark
-.../WakShark/WakShark.sln
-.../WakShark/WakShark.userprefs
+- .../WakShark/Common
+- .../WakShark/_install
+- .../WakShark/LICENSE
+- .../WakShark/Model
+- .../WakShark/packages
+- .../WakShark/README.md
+- .../WakShark/Service
+- .../WakShark/WakBoy.userprefs
+- .../WakShark/WakShark
+- .../WakShark/WakShark.sln
+- .../WakShark/WakShark.userprefs
