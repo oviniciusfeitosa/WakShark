@@ -5,23 +5,18 @@ using System.Windows.Forms;
 using ModelTela = Model.Tela;
 using CapturadorPixel = Common.CapturadorPixel;
 using Common;
-using ServiceColeta = Service.Coleta;
 using ServiceRecurso = Service.Recurso;
-using ServiceAcao = Service.Acao;
+using ServiceBotaoAcao = Service.BotaoAcao;
 using Service;
 using Gma.System.MouseKeyHook;
-using System.Drawing.Imaging;
 using Common.Lib;
-using Emgu.CV;
-using Emgu.CV.Structure;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Linq;
-using Model;
-using WindowsInput;
-using WindowsInput.Native;
-using Model.Recurso.Base;
 using System.Collections.Generic;
+using Model.Base;
+using Service.Base;
+using Service.Acao;
+using Model.Base.Acao;
 
 namespace WakBoy
 {
@@ -29,6 +24,9 @@ namespace WakBoy
     {
         private IKeyboardMouseEvents m_GlobalHook;
         private KeyboardHook hook;
+
+        int IndiceUltimaAcao = 1;
+
         public FormularioPrincipal()
         {
             InitializeComponent();
@@ -36,17 +34,24 @@ namespace WakBoy
 
         private void FormularioPrincipal_Load(object sender, EventArgs e)
         {
-            // @todo : Retirar esses itens que estão definidos manualmente e fazer algo como foi feito para Acoes e Recursos no package "Model".
-            string[] objDataSourceTipoBusca = new[] { "Coleta", "Batalha" };
-            comboBoxTipoBusca.DataSource = objDataSourceTipoBusca;
-            
-            hook = new KeyboardHook ();
-            hook.KeyPressed += new EventHandler<KeyPressedEventArgs>(gatilhoTeclaPressionadaGlobalmente);
-            // register the control + alt + F12 combination as hot key.
-            // hook.RegisterHotKey(Common.Lib.ModifierKeys.Control | ModifierKeys.Alt, Keys.F12);
-            hook.RegisterHotKey(Common.Lib.ModifierKeys.Shift, Keys.F4);
-            
-            //System.Diagnostics.Debug.WriteLine("taskA Status: {0}", taskA.Status);
+            try
+            {
+
+                comboBoxTipoBusca.DataSource = Enum.GetNames(typeof(EnumTipoBusca));
+                comboBoxProfissao.DataSource = Enum.GetNames(typeof(EnumProfissoes));
+
+                hook = new KeyboardHook();
+                hook.KeyPressed += new EventHandler<KeyPressedEventArgs>(gatilhoTeclaPressionadaGlobalmente);
+                // register the control + alt + F12 combination as hot key.
+                // hook.RegisterHotKey(Common.Lib.ModifierKeys.Control | ModifierKeys.Alt, Keys.F12);
+                hook.RegisterHotKey(Common.Lib.ModifierKeys.Shift, Keys.F4);
+
+                //System.Diagnostics.Debug.WriteLine("taskA Status: {0}", taskA.Status);
+            }
+            catch (Exception objException)
+            {
+                MessageBox.Show(objException.Message);
+            }
         }
 
         void gatilhoTeclaPressionadaGlobalmente(object sender, KeyPressedEventArgs e)
@@ -56,63 +61,92 @@ namespace WakBoy
             //this.checkBoxCacadorPixelsLigado_CheckedChanged(this.checkBoxCapturadorLigado, EventArgs.Empty);
         }
 
-        #region Iniciar Caça a Pixels
-
-        private void buttonProcurarTemplate_Click(object sender, EventArgs e)
-        {
-            if (openFileDialogImagemTemplate.ShowDialog() == DialogResult.OK)
-            {
-                textBoxLocalizacaoImagemTemplate.Text = openFileDialogImagemTemplate.FileName;
-            }
-        }
+        #region Iniciar WakShark
 
         private void checkBoxCacadorPixelsLigado_CheckedChanged(object sender, EventArgs e)
         {
-            
-            if (!String.IsNullOrEmpty(textBoxLocalizacaoImagemTemplate.Text) && !String.IsNullOrEmpty(comboBoxTipoBusca.SelectedValue.ToString()))
+            try
             {
-                CheckBox objCheckBox = (CheckBox)sender;
-                this.checkBoxCacadorPixelsLigado.Checked = objCheckBox.Checked;
-                if (objCheckBox.Checked == true)
+
+                if (!String.IsNullOrEmpty(comboBoxTipoBusca.SelectedValue.ToString()))
                 {
-                    this.checkBoxCacadorPixelsLigado.BackColor = Color.Green;
+                    CheckBox objCheckBox = (CheckBox)sender;
+                    this.checkBoxCacadorPixelsLigado.Checked = objCheckBox.Checked;
+                    this.checkBoxCacadorPixelsLigado.BackColor = Color.Gray;
+                    if (objCheckBox.Checked == true)
+                    {
+                        this.checkBoxCacadorPixelsLigado.BackColor = Color.Green;
 
-                    ImagemCaptura.obterInstancia().isUtilizarMascaraLuminosidade = checkBoxMascaraLuminosidade.Checked;
+                        ImagemCaptura.obterInstancia().isUtilizarMascaraLuminosidade = checkBoxMascaraLuminosidade.Checked;
 
-                    Common.Lib.Win32.clicarBotaoEsquerdo(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
+                        Common.Lib.Win32.clicarBotaoEsquerdo(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
 
-                    Camera.obterInstancia().padronizarDistanciaCamera();
+                        Camera.obterInstancia().padronizarDistanciaCamera();
 
-                    // Modificar esse trecho utilizado para teste, porque está sendo validado somente por 'coleta'. Quem sabe um switch não caia melhor?
-                    if (comboBoxTipoBusca.SelectedValue.ToString() == "Coleta") {
-                        ServiceRecurso objRecurso = ServiceRecurso.obterInstancia();
-                        ServiceAcao objAcao = ServiceAcao.obterInstancia();
-                        string nomeRecurso = ((KeyValuePair<string, string>)comboBoxRecurso.SelectedItem).Key;
-                        string nomeAcao = ((KeyValuePair<string, string>)comboBoxAcao.SelectedItem).Key;
-                        ServiceColeta objServiceColeta = ServiceColeta.obterInstancia();
-                        objServiceColeta.isAtivarModoBaixoConsumo = checkBoxAtivarBaixoConsumo.Checked;
-                        // Responsável por permitir que o loop consiga ser encerrado utilizando as hotkeys ou clique no botão.
-                        Task.Factory.StartNew(() =>
+                        // Modificar esse trecho utilizado para teste, porque está sendo validado somente por 'coleta'. Quem sabe um switch não caia melhor?
+                        if (EnumUtil.ParseEnum<EnumTipoBusca>(comboBoxTipoBusca.SelectedValue.ToString()) == EnumTipoBusca.Coleta)
                         {
-                            while (this.checkBoxCacadorPixelsLigado.Checked)
+                            ServiceRecurso objRecurso = ServiceRecurso.obterInstancia();
+                            ServiceBotaoAcao objServiceBotaoAcao = ServiceBotaoAcao.obterInstancia();
+                            Service.Busca objServiceBusca = Service.Busca.obterInstancia();
+                            objServiceBusca.isAtivarModoBaixoConsumo = checkBoxAtivarBaixoConsumo.Checked;
+                            
+                            bool isMovimentarAleatoriamente = checkBoxMovimentarAleatoriamente.Checked;
+                            EnumProfissoes objEnumProfissao = EnumUtil.ParseEnum<EnumProfissoes>(comboBoxProfissao.SelectedValue.ToString());
+
+                            List<AViewModelColeta> listaColetas = new List<AViewModelColeta>();
+                            for (int indice = 0; indice < this.IndiceUltimaAcao; indice++)
                             {
-                                bool isSucessoNaColeta = objServiceColeta.coletar(objRecurso.obterRecurso(nomeRecurso), objAcao.obterAcao(nomeAcao));
-                                if (!isSucessoNaColeta && checkBoxMovimentarAleatoriamente.Checked) {
-                                    Personagem.obterInstancia().movimentarRandomicamente();
-                                    Thread.Sleep(800);
+                                ComboBox comboboxRecurso = (ComboBox)this.obterControlPorName(this, "comboBoxRecurso_" + indice.ToString());
+                                ComboBox comboboxAcao = (ComboBox)this.obterControlPorName(this, "comboBoxAcao_" + indice.ToString());
+
+                                string nomeRecurso = ((KeyValuePair<string, string>)comboboxRecurso.SelectedItem).Key;
+                                string nomeAcao = ((KeyValuePair<string, string>)comboboxAcao.SelectedItem).Key;
+
+                                ABotaoAcao botaAcao = objServiceBotaoAcao.obterBotaoAcao(nomeAcao);
+                                AViewModelColeta objAViewModelColeta = new Colheita();
+                            
+                                if (botaAcao != null && botaAcao is IPlantio)
+                                {
+                                    objAViewModelColeta = new Plantio();
                                 }
+
+                                objAViewModelColeta.objRecurso = objRecurso.obterRecurso(nomeRecurso, objEnumProfissao);
+                                objAViewModelColeta.objABotaoAcao = botaAcao;
+                                listaColetas.Add(objAViewModelColeta);
                             }
-                        });
+
+                            // Responsável por permitir que o loop consiga ser encerrado utilizando as hotkeys ou clique no botão.
+                            Task.Factory.StartNew(() =>
+                            {
+                                while (this.checkBoxCacadorPixelsLigado.Checked)
+                                {
+                                    bool isSucessoNaColeta = true;
+                                    foreach (AViewModelColeta objAViewModelColeta in listaColetas)
+                                    {
+                                        isSucessoNaColeta = true;
+                                        while (isSucessoNaColeta && this.checkBoxCacadorPixelsLigado.Checked) {
+                                            isSucessoNaColeta = objServiceBusca.buscar(objAViewModelColeta);
+                                        }
+                                    }
+                                    if (!isSucessoNaColeta && isMovimentarAleatoriamente && this.checkBoxCacadorPixelsLigado.Checked)
+                                    {
+                                        Personagem.obterInstancia().movimentarAleatoriamente();
+                                        Thread.Sleep(800);
+                                    }
+                                }
+                            });
+                        }
                     }
                 }
                 else
                 {
-                    this.checkBoxCacadorPixelsLigado.BackColor = Color.Gray;
+                    MessageBox.Show("Preencha os campos obrigatórios.");
                 }
             }
-            else
+            catch (Exception objException)
             {
-                MessageBox.Show("Preencha os campos obrigatórios.");
+                MessageBox.Show(objException.Message);
             }
 
         }
@@ -235,8 +269,8 @@ namespace WakBoy
             */
             //Batalha.obterInstancia().iniciar(Batalha.EnumTiposBatalha.AntiBOT);
             //MessageBox.Show(Service.TelaCaptura.obterInstancia().obterValorTransparenciaPorHorario().ToString());
-            
-            
+
+
             CheckBox objComboBox = (CheckBox)sender;
             objComboBox.BackColor = Color.Transparent;
             objComboBox.ForeColor = Color.DimGray;
@@ -273,36 +307,50 @@ namespace WakBoy
             labelHorarioFranca.Text = horarioConvertido.ToString("HH:mm:ss");
         }
         #endregion
-        
+
+        private void comboBoxProfissao_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.popularInformacoesWakshark();
+        }
 
         private void comboBoxTipoBusca_SelectedIndexChanged(object sender, EventArgs e)
         {
-            comboBoxRecurso.DataSource = null;
-            comboBoxAcao.DataSource = null;
-            if (comboBoxTipoBusca.SelectedItem == "Coleta")
-            {
-                ServiceRecurso objServiceRecurso = ServiceRecurso.obterInstancia();
-                comboBoxRecurso.DataSource = new BindingSource(objServiceRecurso.obterListaSimplificadaRecursos(), null);
-                comboBoxRecurso.ValueMember = "Value";
-                comboBoxRecurso.DisplayMember = "Key";
-
-                ServiceAcao objServiceAcao = ServiceAcao.obterInstancia();
-                comboBoxAcao.DataSource = new BindingSource(objServiceAcao.obterListaSimplificadaAcoes(), null);
-                comboBoxAcao.ValueMember = "Value";
-                comboBoxAcao.DisplayMember = "Key";
-                
-            }
+            this.popularInformacoesWakshark();
         }
 
-        private void comboBoxTipo_SelectedIndexChanged(object sender, EventArgs e)
+        private void popularInformacoesWakshark()
         {
-            if (comboBoxRecurso.SelectedValue != null) {
-                string localizacaoImagemTemplate = ((KeyValuePair<string, string>)comboBoxRecurso.SelectedItem).Value;
-                textBoxLocalizacaoImagemTemplate.Text = localizacaoImagemTemplate;
-                pictureBoxMiniaturaRecurso.Image = Image.FromFile(localizacaoImagemTemplate);
-            } else {
-                textBoxLocalizacaoImagemTemplate.Text = "";
+            this.popularInformacoesWakshark(0);
+        }
+
+        private void popularInformacoesWakshark(int indiceInicial)
+        {
+            for(int indice = indiceInicial; indice < this.IndiceUltimaAcao; indice++)
+            {
+                ComboBox comboboxRecurso = (ComboBox)this.obterControlPorName(this, "comboBoxRecurso_" + indice.ToString());
+                ComboBox comboboxAcao = (ComboBox)this.obterControlPorName(this, "comboBoxAcao_" + indice.ToString());
+
+                comboboxRecurso.DataSource = null;
+                comboboxAcao.DataSource = null;
+                EnumTipoBusca objEnumTipoBusca = EnumUtil.ParseEnum<EnumTipoBusca>(comboBoxTipoBusca.SelectedItem.ToString());
+                if (objEnumTipoBusca == EnumTipoBusca.Coleta && comboBoxProfissao.SelectedValue != null)
+                {
+                    EnumProfissoes objEnumProfissao = EnumUtil.ParseEnum<EnumProfissoes>(comboBoxProfissao.SelectedValue.ToString());
+                    ServiceRecurso objServiceRecurso = ServiceRecurso.obterInstancia();
+                    Dictionary<string, string> objListaRecursos = objServiceRecurso.obterListaSimplificadaRecursos(objEnumProfissao);
+
+                    comboboxRecurso.DataSource = new BindingSource(objListaRecursos, null);
+                    comboboxRecurso.ValueMember = "Value";
+                    comboboxRecurso.DisplayMember = "Key";
+
+                    ServiceBotaoAcao objServiceBotaoAcao = ServiceBotaoAcao.obterInstancia();
+                    Dictionary<string, string> objListaAcoes = objServiceBotaoAcao.obterListaSimplificadaAcoes();
+                    comboboxAcao.DataSource = new BindingSource(objListaAcoes, null);
+                    comboboxAcao.ValueMember = "Value";
+                    comboboxAcao.DisplayMember = "Key";
+                }
             }
+            
         }
 
         private void botaoScreenshotRotacionado_Click(object sender, EventArgs e)
@@ -315,16 +363,134 @@ namespace WakBoy
             telaOriginal.Dispose();
             MessageBox.Show("PrintScreen Rotacionado realizado com sucesso!");
         }
-        
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        #region Carregamento de recursos
+        private void comboBoxAcoes_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ComboBox objComboBox = (ComboBox)sender;
+            if (objComboBox.SelectedValue != null)
+            {
+                PictureBox objPictureBox = (PictureBox)obterControlPorName(this, "pictureBox_" + objComboBox.Name);
+                string localizacaoImagemTemplate = ((KeyValuePair<string, string>)objComboBox.SelectedItem).Value;
+                objPictureBox.Image = Image.FromFile(localizacaoImagemTemplate);
+            }
+        }
+        #endregion
 
+        #region Obtem um Control de acordo com o nome.
+        public Control obterControlPorName(Control ParentCntl, string NameToSearch)
+        {
+            if (ParentCntl.Name == NameToSearch)
+                return ParentCntl;
+
+            foreach (Control ChildCntl in ParentCntl.Controls)
+            {
+                Control ResultCntl = obterControlPorName(ChildCntl, NameToSearch);
+                if (ResultCntl != null)
+                    return ResultCntl;
+            }
+            return null;
+        }
+        #endregion
+
+        private void buttonAdicionarAcao_Click(object sender, EventArgs e)
+        {
+            GroupBox groupBox = CriarEstruturaAcoes();
+            this.panelAcoes.Controls.Add(groupBox);
+            this.popularInformacoesWakshark(IndiceUltimaAcao - 1);
         }
 
-        private void label5_Click(object sender, EventArgs e)
+        public GroupBox CriarEstruturaAcoes()
         {
 
+            int Top = IndiceUltimaAcao * 78;
+            int Left = 9;
+            
+            Label labelRecurso = new System.Windows.Forms.Label();
+            labelRecurso.AutoSize = true;
+            labelRecurso.Location = this.labelRecurso.Location;
+            labelRecurso.Name = "labelRecurso_" + IndiceUltimaAcao.ToString();
+            labelRecurso.Size = this.labelRecurso.Size;
+            labelRecurso.TabIndex = this.labelRecurso.TabIndex + IndiceUltimaAcao;
+            labelRecurso.Text = this.labelRecurso.Text;
+
+            ComboBox comboRecurso = new System.Windows.Forms.ComboBox();
+            comboRecurso.FormattingEnabled = true;
+            comboRecurso.Location = this.comboBoxRecurso_0.Location;
+            comboRecurso.Name = "comboBoxRecurso_" + IndiceUltimaAcao.ToString();
+            comboRecurso.Size = this.comboBoxRecurso_0.Size;
+            comboRecurso.TabIndex = this.comboBoxRecurso_0.TabIndex + IndiceUltimaAcao;
+            comboRecurso.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcoes_SelectedIndexChanged);
+
+            PictureBox pictureBoxRecurso = new PictureBox(); //pictureBox_comboBoxRecurso_0
+            pictureBoxRecurso.Location = this.pictureBox_comboBoxRecurso_0.Location;
+            pictureBoxRecurso.Name = "pictureBox_comboBoxRecurso_" + IndiceUltimaAcao.ToString();
+            pictureBoxRecurso.Size = this.pictureBox_comboBoxRecurso_0.Size;
+            pictureBoxRecurso.TabIndex = 17;
+            pictureBoxRecurso.TabStop = false;
+
+            Label labelAcao = new System.Windows.Forms.Label();
+            labelAcao.AutoSize = true;
+            labelAcao.Location = this.labelAcao.Location;
+            labelAcao.Name = "labelAcao_" + IndiceUltimaAcao.ToString();
+            labelAcao.Size = this.labelAcao.Size;
+            labelAcao.TabIndex = this.labelAcao.TabIndex + IndiceUltimaAcao;
+            labelAcao.Text = this.labelAcao.Text;
+
+            ComboBox comboBoxAcao = new System.Windows.Forms.ComboBox();
+            comboBoxAcao.FormattingEnabled = true;
+            comboBoxAcao.Location = this.comboBoxAcao_0.Location;
+            comboBoxAcao.Name = "comboBoxAcao_" + IndiceUltimaAcao.ToString();
+            comboBoxAcao.Size = this.comboBoxAcao_0.Size;
+            comboBoxAcao.TabIndex = this.comboBoxAcao_0.TabIndex + IndiceUltimaAcao;
+            comboBoxAcao.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcoes_SelectedIndexChanged);
+
+            PictureBox pictureBoxAcao = new PictureBox(); //pictureBox_comboBoxRecurso_0
+            pictureBoxAcao.Location = this.pictureBox_comboBoxAcao_0.Location;
+            pictureBoxAcao.Name = "pictureBox_comboBoxAcao_" + IndiceUltimaAcao.ToString();
+            pictureBoxAcao.Size = this.pictureBox_comboBoxAcao_0.Size;
+            pictureBoxAcao.TabIndex = 17;
+            pictureBoxAcao.TabStop = false;
+
+            Label labelTempoMaximo = new System.Windows.Forms.Label();
+            labelTempoMaximo.AutoSize = true;
+            labelTempoMaximo.Location = this.labelTempoMaximo.Location;
+            labelTempoMaximo.Name = "labelTempoMaximo_" + IndiceUltimaAcao.ToString();
+            labelTempoMaximo.Size = this.labelTempoMaximo.Size;
+            labelTempoMaximo.TabIndex = 24;
+            labelTempoMaximo.Text = "Tempo Max.\r\n(Min)";
+            labelTempoMaximo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
+            TextBox textBoxTempoMaximo = new TextBox();
+            textBoxTempoMaximo.Location = this.textBoxTempoMaximo_0.Location;
+            textBoxTempoMaximo.Name = "textBoxTempoMaximo_" + IndiceUltimaAcao;
+            textBoxTempoMaximo.ShortcutsEnabled = false;
+            textBoxTempoMaximo.Size = this.textBoxTempoMaximo_0.Size;
+            textBoxTempoMaximo.TabIndex = this.textBoxTempoMaximo_0.TabIndex + IndiceUltimaAcao;
+            textBoxTempoMaximo.Text = this.textBoxTempoMaximo_0.Text;
+            textBoxTempoMaximo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+
+
+            GroupBox groupBox = new System.Windows.Forms.GroupBox();
+            groupBox.Name = "groupBoxAcoes";
+            groupBox.Size = new System.Drawing.Size(423, 68);
+            groupBox.Location = new System.Drawing.Point(Left, Top);
+            groupBox.TabIndex = 29 + IndiceUltimaAcao;
+            groupBox.TabStop = false;
+            groupBox.Text = "Ações";
+            groupBox.Controls.Add(labelRecurso);
+            groupBox.Controls.Add(comboRecurso);
+            groupBox.Controls.Add(pictureBoxRecurso);
+            groupBox.Controls.Add(labelAcao);
+            groupBox.Controls.Add(comboBoxAcao);
+            groupBox.Controls.Add(pictureBoxAcao);
+            groupBox.Controls.Add(labelTempoMaximo);
+            groupBox.Controls.Add(textBoxTempoMaximo);
+
+            IndiceUltimaAcao = IndiceUltimaAcao + 1;
+
+            return groupBox;
         }
+
     }
 }

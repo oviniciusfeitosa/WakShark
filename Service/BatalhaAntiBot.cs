@@ -43,15 +43,7 @@ namespace Service
         public Bitmap telaRotacionadaLadoEsquerdo { get; set; }
 
         public Bitmap telaRotacionadaLadoDireito { get; set; }
-
-        // @todo Implementar esse método
-        public static bool buscarIconeInicioBatalha(Model.Tela objModelTela)
-        {
-            // Somente se existe o ícone de inicio batalha que a batalha será iniciada
-            return false;
-        }
-
-
+        
         public bool acaoIniciarBatalha()
         {
             System.Threading.Thread.Sleep(1000);
@@ -145,21 +137,13 @@ namespace Service
 
                     System.Windows.Forms.SendKeys.SendWait("1");
                     System.Threading.Thread.Sleep(800);
-                    //Common.Lib.Win32.posicionarMouse(matchClicar.Location.X, matchClicar.Location.Y);
                     Common.Lib.Win32.clicarBotaoEsquerdo(matchClicar.Location.X, matchClicar.Location.Y);
-
-                    /*System.Windows.Forms.SendKeys.SendWait("1");
-                    System.Threading.Thread.Sleep(1000);
-                    Common.Lib.Win32.clicarBotaoEsquerdo(objMatch.Location.X, objMatch.Location.Y);*/
                 }
 
                 Application.DoEvents();
 
                 System.Threading.Thread.Sleep(5000);
-                //System.Windows.Forms.SendKeys.SendWait("{ESC}");
-                Coleta.obterInstancia().validarFechamentoMensagens();
-
-
+                Busca.obterInstancia().validarFechamentoMensagens();
             }
             catch (Exception objException)
             {
@@ -182,11 +166,7 @@ namespace Service
             telaCheia = ImagemTransformacao.obterInstancia().redimensionarImagem(telaCheia, telaCheia.Width / 2, telaCheia.Height);
             telaCheia = ImagemTransformacao.obterInstancia().rotacionarImagem(telaCheia, anguloRotacao);
             telaCheia = ImagemTransformacao.obterInstancia().extrairRegiaoImagem(telaCheia, objRegiaoImagem, AreaBusca);
-
-            // @todo terminar de implementar esse método.
-            // Basicamente a idéia dele é que as imagens sejam encontradas dinamicamente e seja utilizado apenas uma imagem já
-            // tratada, redimencionada e girada para o lado esquerdo e direito, encontrando os números por eliminação.
-
+            
             if (objRegiaoImagem == Imagem.EnumRegiaoImagem.LADO_ESQUERDO)
             {
                 this.telaRotacionadaLadoEsquerdo = telaCheia;
