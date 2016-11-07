@@ -5,6 +5,7 @@
 #### Instalação
 
 Clone o repositorio 'WaksharkCommon' aqui de 'https://gitlab.com/vinnyfs89/WakSharkCommon' como sendo a pasta 'Common';
+
 Clone o repositorio 'WaksharkInstall' aqui de 'https://gitlab.com/vinnyfs89/WakSharkInstall' como sendo a pasta '_install';
 
 #### Sobre
@@ -42,6 +43,8 @@ A estrutura de pastas do projeto deve ser conforme abaixo:
 #### Install
 
 Clone 'WaksharkCommon' Repository here from 'https://gitlab.com/vinnyfs89/WakSharkCommon' as 'Common' folder name ;
+
+Clone 'WaksharkCommon' Repository here from 'https://gitlab.com/vinnyfs89/WakSharkInstall' as '_install' folder name ;
 
 ### About
 
